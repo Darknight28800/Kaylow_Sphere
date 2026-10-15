@@ -28,14 +28,14 @@ export default function ContactPage() {
             <div className="space-y-4 text-sm">
               <a
                 href={`mailto:${site.email}`}
-                className="inline-flex items-center gap-3 text-white/75 hover:text-accent"
+                className="flex w-fit items-center gap-3 break-all text-white/75 hover:text-accent"
               >
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
                   <Icon name="mail" className="h-5 w-5" />
                 </span>
                 {site.email}
               </a>
-              <p className="inline-flex items-center gap-3 text-white/75">
+              <p className="flex items-center gap-3 text-white/75">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
                   <Icon name="map-pin" className="h-5 w-5" />
                 </span>

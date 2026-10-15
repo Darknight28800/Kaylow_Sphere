@@ -71,8 +71,23 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: `Le message n'a pas pu être envoyé pour le moment. Vous pouvez m'écrire directement à ${site.email}.`,
+        // Catégorie grossière, sans détail sensible : permet de diagnostiquer
+        // la prod sans accès aux journaux de l'hébergeur.
+        code: smtpErrorCode(err),
       },
       { status: 502 },
     );
   }
+}
+
+/** Classe une erreur nodemailer en grande famille (aucune valeur de config exposée). */
+function smtpErrorCode(err: unknown): string {
+  const e = err as { code?: string; responseCode?: number; message?: string };
+  if (e?.message?.startsWith('Configuration SMTP incomplète')) return 'smtp_config';
+  if (e?.code === 'EAUTH' || e?.responseCode === 535) return 'smtp_auth';
+  if (['ECONNECTION', 'ETIMEDOUT', 'ECONNREFUSED', 'ESOCKET', 'EDNS'].includes(e?.code ?? ''))
+    return 'smtp_connect';
+  if (e?.code === 'EENVELOPE' || e?.responseCode === 550 || e?.responseCode === 553)
+    return 'smtp_envelope';
+  return 'smtp_other';
 }
