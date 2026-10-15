@@ -155,31 +155,6 @@
     @apply leading-relaxed text-white/75;
   }
 
-  /* Barre de chargement de la démo IA (components/SiteGenerator.tsx) */
-  .beam-loader__fill {
-    display: block;
-    height: 100%;
-    width: 40%;
-    border-radius: 9999px;
-    background: linear-gradient(90deg, transparent, #22d3ee, #5b3df6, transparent);
-    animation: beam-loader-slide 1.4s ease-in-out infinite;
-  }
-  @keyframes beam-loader-slide {
-    0% {
-      transform: translateX(-120%);
-    }
-    100% {
-      transform: translateX(320%);
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .beam-loader__fill {
-      width: 100%;
-      animation: none;
-      opacity: 0.5;
-    }
-  }
-
   .rule {
     @apply border-0 border-t border-white/10;
   }

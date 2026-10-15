@@ -211,5 +211,4 @@ export const nav: NavItem[] = [
   { label: 'Portfolio', to: '/portfolio' },
   { label: 'À propos', to: '/a-propos' },
   { label: 'Contact', to: '/contact' },
-  { label: 'Démo', to: '/demo' },
 ];

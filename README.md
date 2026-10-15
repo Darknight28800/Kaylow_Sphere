@@ -25,7 +25,6 @@ Décisions postérieures à la charte :
 | Polices | `next/font` — Poppins (titres), Inter (texte), JetBrains Mono (code) |
 | SEO | Metadata API, `app/sitemap.ts`, `app/robots.ts` |
 | Formulaire contact | Route Handler `app/api/contact` → nodemailer → SMTP |
-| Démo IA (`/demo`) | Route Handler `app/api/generate` → API Anthropic (Claude Sonnet) → aperçu HTML en iframe sandboxée |
 | Hébergement | Hostinger mutualisé (Business) avec application Node.js — domaine `kaylowsphere.com` |
 
 ## Arborescence
@@ -100,53 +99,6 @@ dans `.next/standalone/`.
 | `SMTP_HOST` `SMTP_PORT` `SMTP_SECURE` | Serveur SMTP de la boîte (`smtp.hostinger.com`, 465, `true` si e-mail Hostinger) |
 | `SMTP_USER` `SMTP_PASS` | Identifiants de la boîte mail |
 | `MAIL_FROM` `MAIL_TO` | Expéditeur / destinataire des messages du formulaire |
-| `ANTHROPIC_API_KEY` | Clé Console API Anthropic pour la démo `/demo` (voir ci-dessous) — vide = démo désactivée |
-
-## Démo IA — génération de maquette (`/demo`)
-
-Outil de lead-gen : le visiteur décrit son projet, l'API Claude renvoie une
-**page d'accueil** HTML/CSS autonome, affichée dans une `<iframe sandbox>`.
-Périmètre volontairement limité (une page, contenu fictif, pas de sous-pages) —
-c'est une illustration de style.
-
-**Fichiers**
-
-| Chemin | Rôle |
-|---|---|
-| `lib/anthropic.ts` | Point de config centralisé : client Anthropic, modèle, garde `isGeneratorConfigured()` |
-| `lib/generator/prompt.ts` | Prompt système strict + extraction/sécurisation du HTML (injection CSP) |
-| `lib/generator/schema.ts` | Validation zod du corps de requête (brief ≤ 600 car., palette 2-4 couleurs hex facultative, honeypot) |
-| `lib/generator/quota.ts` | Quotas en mémoire (3/IP/jour + garde-fou global 150/jour) + journalisation JSON |
-| `app/api/generate/route.ts` | Route Handler : quota → appel Claude en streaming → HTML |
-| `components/SiteGenerator.tsx` | UI : exemples, champ éditable, chargement progressif, iframe, CTA |
-| `components/generator/examples.ts` | 5 prompts d'exemple par secteur (frontend, pas de BDD) |
-
-**Créer la clé API et plafonner les coûts**
-
-1. Console Anthropic → <https://console.anthropic.com> → *Settings → API keys* → **Create key**.
-   C'est une clé `sk-ant-…`, **distincte de l'abonnement claude.ai** (qui ne
-   donne pas accès à l'API) et facturée séparément à l'usage.
-2. Créditer le compte (*Billing*) : l'API fonctionne en prépayé.
-3. **Plafond de dépense** : *Settings → Limits* → définir un *monthly spend limit*
-   (ex. 10–20 $) et une alerte e-mail. C'est le garde-fou ultime en cas d'abus,
-   en plus des quotas applicatifs de `lib/generator/quota.ts`.
-4. Renseigner `ANTHROPIC_API_KEY` dans `.env.local` (dev) et dans
-   hPanel → *Variables d'environnement* (prod). Vide → la démo répond
-   « momentanément indisponible » sans planter.
-
-**Coût indicatif** : modèle `claude-sonnet-5`, effort `low`, ~1 k tokens en
-entrée + ~5–10 k en sortie (raisonnement léger + HTML) par génération
-≈ **1 à 12 centimes** l'aperçu. Garde-fous : 3 essais/IP/jour + plafond global
-150/jour dans `lib/generator/quota.ts`, + le plafond de dépense de la Console.
-
-**Sécurité** : rendu uniquement en `<iframe sandbox="allow-scripts">` (jamais
-injecté dans le DOM du site) ; CSP `default-src 'none'` injectée dans le
-document généré → aucune requête réseau sortante possible depuis la maquette ;
-validation du brief côté serveur ; aucune donnée personnelle transmise au LLM.
-
-**Quotas** : en mémoire (process unique — OK pour Hostinger mono-instance).
-Multi-instances → passer sur un store partagé (Redis / Upstash), même remarque
-que pour `/api/contact`.
 
 ## Icônes de marque
 
@@ -161,7 +113,6 @@ Source : `assets/Logo-sphere.jpg` (PNG transparent 1024²), plus `assets/favicon
 - [ ] **Domaine `kaylowsphere.com`** : achat + DNS pointés vers Hostinger
 - [ ] **Boîte mail `david.antoina@kaylowsphere.com`** à créer côté Hostinger, puis identifiants
       SMTP à jour dans `.env.local` / hPanel
-- [ ] `ANTHROPIC_API_KEY` + plafond de dépense pour la démo `/demo` (cf. § « Démo IA »)
 - [ ] Liens profils Malt / Codeur.com (`lib/site.ts` → `site.profiles`)
 - [ ] Captures d'écran des projets du portfolio (`public/portfolio/<slug>/`, cf. son README)
 - [ ] URL publiques des projets en ligne (`lib/site.ts` → `project.url`)

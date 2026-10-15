@@ -51,15 +51,6 @@ export default function Footer() {
                   {site.email}
                 </a>
               </li>
-              <li>
-                <a
-                  href={`mailto:${partner.emailHref}`}
-                  className="inline-flex items-center gap-2 text-white/60 transition-colors hover:text-accent"
-                >
-                  <Icon name="mail" className="h-4 w-4" />
-                  {partner.email}
-                </a>
-              </li>
               <li className="inline-flex items-center gap-2 text-white/60">
                 <Icon name="map-pin" className="h-4 w-4" />
                 {site.location}

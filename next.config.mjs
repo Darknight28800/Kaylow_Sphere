@@ -5,8 +5,6 @@ const isDev = process.env.NODE_ENV !== 'production';
  * - 'unsafe-inline' sur script-src : requis par les pages statiques de Next
  *   (scripts d'hydratation inline) et par le script anti-flash de l'intro ;
  *   un nonce imposerait le rendu dynamique de toutes les pages.
- * - L'aperçu de la démo IA (iframe srcdoc sandboxée) hérite de cette politique :
- *   il n'utilise que du CSS/JS inline et des images data:.
  * - Aucune ressource tierce : polices auto-hébergées par next/font.
  */
 const csp = [
@@ -17,7 +15,7 @@ const csp = [
   "font-src 'self' data:",
   "connect-src 'self'",
   "worker-src 'self' blob:",
-  "frame-src 'self'",
+  "frame-src 'none'",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -42,7 +40,6 @@ const SERVER_ENV_KEYS = [
   'SMTP_TLS_INSECURE',
   'MAIL_FROM',
   'MAIL_TO',
-  'ANTHROPIC_API_KEY',
   'TRUSTED_PROXY_COUNT',
 ];
 const serverEnv = Object.fromEntries(
@@ -66,6 +63,10 @@ const nextConfig = {
   // pour lancer le site sur l'hébergement Node.js Hostinger (Passenger).
   output: 'standalone',
   env: serverEnv,
+  // La démo IA a été retirée : les anciens liens renvoient vers l'accueil.
+  async redirects() {
+    return [{ source: '/demo', destination: '/', permanent: true }];
+  },
   async headers() {
     return [
       {

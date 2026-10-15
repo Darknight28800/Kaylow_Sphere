@@ -10,12 +10,13 @@ import { site } from './site';
  * réelle du visiteur est donc la N-ième en partant de la droite. Tout ce qui est
  * plus à gauche a pu être forgé par le client.
  *
- * Non défini → repli sur la première adresse (comportement historique, falsifiable) :
- * les plafonds globaux de chaque route restent alors le vrai garde-fou.
- * Pour trouver la bonne valeur : regarder la ligne « Chaîne XFF » d'un e-mail
- * reçu via le formulaire de contact.
+ * Mesuré sur Hostinger le 2026-10-15 : la chaîne reçue vaut « IP, IP, IP » (chaque
+ * couche ré-ajoute l'adresse réelle en fin de chaîne) → la dernière entrée est la
+ * bonne, d'où la valeur par défaut 1. Surcharge possible via la variable
+ * d'environnement si l'architecture change (diagnostic : ligne « Chaîne XFF »
+ * des e-mails du formulaire de contact). 0 = première adresse (falsifiable).
  */
-const TRUSTED_PROXY_COUNT = Number(process.env.TRUSTED_PROXY_COUNT) || 0;
+const TRUSTED_PROXY_COUNT = Number(process.env.TRUSTED_PROXY_COUNT ?? 1);
 
 /** Chaîne `X-Forwarded-For` brute (diagnostic). */
 export function forwardedChain(request: Request): string {
@@ -42,7 +43,7 @@ const ALLOWED_HOSTS = new Set([new URL(site.url).host, `www.${new URL(site.url).
 
 /**
  * Refuse les requêtes envoyées depuis un autre site (formulaire piégé, script
- * tiers qui consommerait la démo IA…). Les navigateurs envoient toujours
+ * tiers qui spammerait le formulaire…). Les navigateurs envoient toujours
  * l'en-tête `Origin` sur un POST ; son absence = client non navigateur, accepté
  * (les quotas s'appliquent quand même). En dev, localhost est autorisé.
  */
