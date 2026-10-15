@@ -77,6 +77,8 @@ export async function sendContactEmail(data: ContactPayload) {
       <tr><td style="padding:4px 12px 4px 0"><strong>E-mail</strong></td><td>${escapeHtml(email)}</td></tr>
       <tr><td style="padding:4px 12px 4px 0"><strong>Type de projet</strong></td><td>${escapeHtml(projectType)}</td></tr>
       <tr><td style="padding:4px 12px 4px 0"><strong>Reçu le</strong></td><td>${escapeHtml(receivedAt)}</td></tr>
+      ${meta.ip ? `<tr><td style="padding:4px 12px 4px 0;color:#6B7280">IP</td><td style="color:#6B7280">${escapeHtml(meta.ip)}</td></tr>` : ''}
+      ${meta.chain ? `<tr><td style="padding:4px 12px 4px 0;color:#6B7280">Chaîne XFF</td><td style="color:#6B7280">${escapeHtml(meta.chain)}</td></tr>` : ''}
     </table>
     <p style="font-family:Arial,sans-serif;font-size:14px;color:#1F2937;white-space:pre-wrap;margin-top:16px">${escapeHtml(
       message,
