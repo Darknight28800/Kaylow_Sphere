@@ -69,7 +69,7 @@ export default function HomePage() {
         {/* Contenu principal */}
         <div className="relative z-10 flex flex-1 items-center">
           <div className="container-page w-full py-16 lg:py-20">
-            <Stagger gap={0.1} className="max-w-5xl">
+            <Stagger gap={0.1} className="max-w-4xl">
               <StaggerItem>
                 <p className="eyebrow mb-8">
                   <span

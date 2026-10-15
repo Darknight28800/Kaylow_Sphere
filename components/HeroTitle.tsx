@@ -20,7 +20,7 @@ export default function HeroTitle() {
   return (
     <motion.h1
       variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12 } } }}
-      className="font-heading text-[clamp(2.6rem,6.4vw,5.75rem)] font-bold leading-[1.02] tracking-[-0.04em]"
+      className="font-heading text-[clamp(2.9rem,7.5vw,6.25rem)] font-bold leading-[1.02] tracking-[-0.04em]"
     >
       <span className="block overflow-hidden pb-[0.06em]">
         <motion.span variants={line} className="block">
