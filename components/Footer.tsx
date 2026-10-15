@@ -4,7 +4,7 @@ import Logo from './Logo';
 import Icon from './Icon';
 import { nav, partner, site } from '@/lib/site';
 
-const colLabel = 'font-mono text-xs uppercase tracking-[0.2em] text-white/40';
+const colLabel = 'font-mono text-xs uppercase tracking-[0.2em] text-white/60';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -16,7 +16,7 @@ export default function Footer() {
           <div>
             <Logo />
             <p className="mt-5 max-w-sm text-sm text-white/60">{site.baseline}</p>
-            <p className="mt-5 font-mono text-xs leading-relaxed text-white/45">
+            <p className="mt-5 font-mono text-xs leading-relaxed text-white/60">
               {site.legalName} — {site.role}
               <br />
               {site.status} · {site.location}
@@ -65,11 +65,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Partenariat — centré, ligne de séparation au-dessus.
-            fond navy opaque (z-31) : les particules passent derrière le logo. */}
+        {/* Partenariat — centré, ligne de séparation au-dessus */}
         <div className="mt-12 border-t border-white/10 pt-10">
-          <div className="relative z-[31] mx-auto flex w-fit flex-wrap items-center justify-center gap-x-6 gap-y-4 bg-navy px-4 text-center">
-            <span className="text-lg text-white/50">En partenariat avec</span>
+          <div className="mx-auto flex w-fit flex-wrap items-center justify-center gap-x-6 gap-y-4 px-4 text-center">
+            <span className="text-lg text-white/60">En partenariat avec</span>
             <a
               href={partner.url}
               target="_blank"
@@ -89,14 +88,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 space-y-3 border-t border-white/10 pt-6 text-xs leading-relaxed text-white/40">
+        <div className="mt-10 space-y-3 border-t border-white/10 pt-6 text-xs leading-relaxed text-white/60">
           <p className="text-center">
             © {year} {site.name} — {site.legalName}. Tous droits réservés. Toute reproduction ou
             copie, même partielle, de ce site (contenus, code, design) est interdite sans
             autorisation écrite.
           </p>
           <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-            <p className="uppercase tracking-[0.15em] text-white/45">
+            <p className="uppercase tracking-[0.15em] text-white/60">
               Création - Développement - Innovation
             </p>
             <div className="flex gap-6">

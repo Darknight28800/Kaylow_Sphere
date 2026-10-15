@@ -25,7 +25,7 @@ const values: [string, string][] = [
 export default function AboutPage() {
   return (
     <>
-      <PageHeader index="01" eyebrow="À propos" title={`${site.legalName}, derrière ${site.name}`} />
+      <PageHeader eyebrow="À propos" title={`${site.legalName}, derrière ${site.name}`} />
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start">
@@ -54,25 +54,25 @@ export default function AboutPage() {
             <h2 className="text-base">En bref</h2>
             <dl className="mt-4 space-y-4 text-sm">
               <div>
-                <dt className="text-white/45">Activité</dt>
+                <dt className="text-white/60">Activité</dt>
                 <dd className="mt-0.5 text-white/85">{site.role}</dd>
               </div>
               <div>
-                <dt className="text-white/45">Statut</dt>
+                <dt className="text-white/60">Statut</dt>
                 <dd className="mt-0.5 text-white/85">{site.status}</dd>
               </div>
               <div>
-                <dt className="text-white/45">Localisation</dt>
+                <dt className="text-white/60">Localisation</dt>
                 <dd className="mt-0.5 text-white/85">{site.location}</dd>
               </div>
               <div>
-                <dt className="text-white/45">Stack principale</dt>
+                <dt className="text-white/60">Stack principale</dt>
                 <dd className="mt-0.5 font-mono text-xs text-white/85">
                   React · Node.js · Express · TypeScript
                 </dd>
               </div>
               <div>
-                <dt className="text-white/45">Contact</dt>
+                <dt className="text-white/60">Contact</dt>
                 <dd className="mt-0.5">
                   <a href={`mailto:${site.email}`} className="link-accent break-all">
                     {site.email}
@@ -86,7 +86,7 @@ export default function AboutPage() {
 
       <Section tone="panel" className="border-y border-white/10">
         <Reveal>
-          <SectionHeading index="02" eyebrow="Méthode" title="Comment je travaille" />
+          <SectionHeading eyebrow="Méthode" title="Comment je travaille" />
         </Reveal>
         <Stagger className="mt-12 grid gap-5 md:grid-cols-3">
           {values.map(([title, desc]) => (

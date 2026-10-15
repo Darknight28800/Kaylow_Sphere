@@ -10,9 +10,20 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
+  /* Fond flouté dès qu'on quitte le haut de page ; la barre se retire quand on
+     descend et revient dès qu'on remonte (plus de place pour le contenu). */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 8);
+      if (Math.abs(y - lastY) > 6) {
+        setHidden(y > lastY && y > 160);
+        lastY = y;
+      }
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -33,11 +44,11 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-colors ${
+      className={`sticky top-0 z-50 border-b transition-[transform,background-color,border-color] duration-300 ease-out ${
         scrolled
-          ? 'border-white/10 bg-navy/70 backdrop-blur-xl'
-          : 'border-transparent bg-navy'
-      }`}
+          ? 'border-white/10 bg-navy/65 backdrop-blur-xl backdrop-saturate-150'
+          : 'border-transparent bg-transparent'
+      } ${hidden && !open ? '-translate-y-full' : 'translate-y-0'}`}
     >
       <a
         href="#contenu"
@@ -56,8 +67,10 @@ export default function Header() {
               key={item.to}
               href={item.to}
               aria-current={isActive(item.to) ? 'page' : undefined}
-              className={`text-sm font-medium tracking-wide transition-colors ${
-                isActive(item.to) ? 'text-accent' : 'text-white/70 hover:text-white'
+              className={`relative text-sm font-medium tracking-wide transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:bg-gradient-to-r after:from-accent after:to-brand after:transition-transform after:duration-300 ${
+                isActive(item.to)
+                  ? 'text-white after:scale-x-100'
+                  : 'text-white/65 after:scale-x-0 hover:text-white hover:after:scale-x-100'
               }`}
             >
               {item.label}

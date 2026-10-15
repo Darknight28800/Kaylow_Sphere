@@ -4,15 +4,16 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import IntroLoader from '@/components/IntroLoader';
-import ParticleField from '@/components/ParticleField';
-import CardBeam from '@/components/CardBeam';
+import ScrollProgress from '@/components/ScrollProgress';
+import Spotlight from '@/components/Spotlight';
 import SmoothScroll from '@/components/animations/SmoothScroll';
+import { structuredData } from '@/lib/seo';
 import { site } from '@/lib/site';
 
 /**
  * Peint un cache noir instantané (avant hydratation) si l'intro n'a pas
  * encore été jouée dans la session. Retiré par IntroLoader à la fin,
- * ou par sécurité après 26 s (durée de la séquence + marge).
+ * ou par sécurité après 12 s (durée de la séquence + marge).
  */
 const introGuard = `try{if(sessionStorage.getItem('sw-intro-played')!=='1'){document.documentElement.setAttribute('data-intro','1');setTimeout(function(){document.documentElement.removeAttribute('data-intro');document.documentElement.removeAttribute('data-intro-reveal')},12000);}}catch(e){}`;
 
@@ -62,9 +63,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: introGuard }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData()) }}
+        />
         <IntroLoader />
-        <ParticleField />
-        <CardBeam />
+        <ScrollProgress />
+        <Spotlight />
         <SmoothScroll>
           <div id="app-shell" className="flex min-h-screen flex-col">
             <Header />

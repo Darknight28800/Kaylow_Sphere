@@ -15,12 +15,11 @@ export default function DemoPage() {
   return (
     <>
       <PageHeader
-        index="00"
         eyebrow="Démo"
         title="Testez votre futur site en 30 secondes"
         intro="Décrivez votre activité et l'ambiance recherchée, choisissez vos couleurs (ou laissez-les au hasard) : en une trentaine de secondes, vous obtenez un aperçu de page d'accueil. C'est une illustration de style — pas un site complet — pour donner une idée de direction."
       >
-        <p className="text-sm text-white/45">
+        <p className="text-sm text-white/60">
           3 essais gratuits. Rendu propulsé par l&apos;IA, sans engagement.{' '}
           <Link href="/contact" className="link-accent">
             Un vrai projet ?

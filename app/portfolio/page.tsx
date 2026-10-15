@@ -1,8 +1,8 @@
+import Link from 'next/link';
 import Icon from '@/components/Icon';
 import CtaBand from '@/components/CtaBand';
 import PageHeader from '@/components/PageHeader';
 import { Stagger, StaggerItem } from '@/components/Stagger';
-import MetalCard from '@/components/animations/MetalCard';
 import { ProjectThumb } from '@/components/ProjectMedia';
 import { Section } from '@/components/Section';
 import { projects, site } from '@/lib/site';
@@ -18,7 +18,6 @@ export default function PortfolioPage() {
   return (
     <>
       <PageHeader
-        index="01"
         eyebrow="Portfolio"
         title="Réalisations"
         intro="Des projets menés pour des clients et des produits que je développe et maintiens moi-même."
@@ -28,15 +27,12 @@ export default function PortfolioPage() {
         <Stagger className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((p) => (
             <StaggerItem key={p.slug} hover className="h-full">
-              <MetalCard
-                href={`/portfolio/${p.slug}`}
-                className="glass-panel flex h-full flex-col"
-              >
+              <Link href={`/portfolio/${p.slug}`} className="glass-panel group flex h-full flex-col">
                 <ProjectThumb project={p} className="mb-5" />
                 <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-xl">{p.name}</h2>
-                  <p className="mt-1 font-mono text-xs uppercase tracking-wider text-white/40">
+                  <h2 className="text-xl transition-colors group-hover:text-accent">{p.name}</h2>
+                  <p className="mt-1 font-mono text-xs uppercase tracking-wider text-white/60">
                     {p.type}
                   </p>
                 </div>
@@ -54,7 +50,7 @@ export default function PortfolioPage() {
                   Détail du projet
                   <Icon name="arrow-right" className="h-3.5 w-3.5" />
                 </span>
-              </MetalCard>
+              </Link>
             </StaggerItem>
           ))}
         </Stagger>

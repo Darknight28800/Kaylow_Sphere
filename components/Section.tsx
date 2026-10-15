@@ -22,8 +22,6 @@ export function Section({ children, className = '', tone = 'navy', id }: Section
 }
 
 interface SectionHeadingProps {
-  /** Index affiché en tête de libellé, ex. "01". */
-  index?: string;
   eyebrow?: string;
   title: string;
   intro?: string;
@@ -31,9 +29,8 @@ interface SectionHeadingProps {
   center?: boolean;
 }
 
-/** En-tête de section : libellé indexé monospace + grand titre + intro. */
+/** En-tête de section : libellé monospace + grand titre + intro. */
 export function SectionHeading({
-  index,
   eyebrow,
   title,
   intro,
@@ -47,7 +44,6 @@ export function SectionHeading({
         <p
           className={`eyebrow mb-5 ${center ? 'justify-center' : ''} ${dark ? '' : 'text-brand'}`}
         >
-          {index && <span className={dark ? 'text-white/30' : 'text-ink/40'}>§&nbsp;{index}</span>}
           <span
             className={`h-px w-10 ${
               dark ? 'bg-gradient-to-r from-accent to-transparent' : 'bg-ink/20'
@@ -65,7 +61,7 @@ export function SectionHeading({
         {title}
       </h2>
       {intro && (
-        <p className={`mt-5 text-lg leading-relaxed ${dark ? 'text-white/65' : 'text-ink/80'}`}>
+        <p className={`mt-5 text-lg leading-relaxed ${dark ? 'text-white/70' : 'text-ink/80'}`}>
           {intro}
         </p>
       )}

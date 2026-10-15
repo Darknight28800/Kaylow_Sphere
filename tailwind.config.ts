@@ -20,7 +20,7 @@ const config: Config = {
           DEFAULT: '#22D3EE', // Cyan électrique — accents, survols, icônes
           600: '#0fb9d4',
         },
-        neutraltxt: '#6B7280', // Gris neutre — sous-titres, légendes
+        neutraltxt: '#8B93A7', // Gris neutre — sous-titres, légendes (contraste AA sur navy)
         mist: '#F4F5F7', // Gris très clair — sections claires, cartes
         ink: '#1F2937', // Texte courant sur fond clair
       },

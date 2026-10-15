@@ -17,8 +17,8 @@ interface StaggerProps {
 }
 
 /**
- * Conteneur qui fait apparaître ses <StaggerItem> en cascade quand il entre
- * dans le viewport — et les fait disparaître quand il en sort.
+ * Conteneur qui fait apparaître ses <StaggerItem> en cascade à sa première
+ * entrée dans le viewport.
  */
 export function Stagger({ children, className, gap = 0.09, as = 'div' }: StaggerProps) {
   const MotionTag = CONTAINER_TAGS[as];
@@ -27,7 +27,7 @@ export function Stagger({ children, className, gap = 0.09, as = 'div' }: Stagger
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ amount: 0.15, margin: '0px 0px -6% 0px' }}
+      viewport={{ once: true, amount: 0.15, margin: '0px 0px -6% 0px' }}
       variants={{
         hidden: {},
         show: { transition: { staggerChildren: gap } },
@@ -52,8 +52,8 @@ export function StaggerItem({ children, className, as = 'div', id, hover = false
   const MotionTag = ITEM_TAGS[as];
 
   const variants: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : 12 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
+    hidden: reduce ? { opacity: 0 } : { opacity: 0, y: 18, filter: 'blur(6px)' },
+    show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.65, ease: EASE } },
   };
 
   return (

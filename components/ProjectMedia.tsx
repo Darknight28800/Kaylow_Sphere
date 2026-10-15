@@ -21,7 +21,7 @@ export function ProjectThumb({ project, className = '' }: { project: Project; cl
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center" style={{ background: HALO }}>
-          <span className="font-heading text-lg font-semibold text-white/25">{project.name}</span>
+          <span className="font-heading text-lg font-semibold text-white/60">{project.name}</span>
         </div>
       )}
     </div>
@@ -40,7 +40,7 @@ export function ProjectGallery({ project }: { project: Project }) {
         aria-label={`Aperçu du projet ${project.name} — captures d'écran à venir`}
       >
         <div className="flex h-full w-full items-center justify-center" style={{ background: HALO }}>
-          <span className="font-mono text-sm text-white/30">Captures d&apos;écran à venir</span>
+          <span className="font-mono text-sm text-white/60">Captures d&apos;écran à venir</span>
         </div>
       </div>
     );

@@ -97,43 +97,26 @@
     z-index: 1;
   }
 
-  /* Jet de lumière global : une seule passe balaie l'écran de gauche à droite
-     (piloté par components/CardBeam.tsx via --beam-x / --beam-o) et n'est
-     visible que sur les panneaux. */
-  .glass-panel::before,
-  .beam-target::before {
+  /* Halo qui suit le curseur sur les panneaux (« spotlight »).
+     Position fournie par components/Spotlight.tsx via --mx / --my. */
+  .glass-panel::before {
     content: '';
     position: absolute;
-    inset-block: -30%;
-    left: 0;
-    width: 190px;
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
-    z-index: 3;
-    background: linear-gradient(
-      100deg,
-      transparent,
-      rgba(255, 255, 255, 0.09) 42%,
-      rgba(255, 255, 255, 0.26) 50%,
-      rgba(255, 255, 255, 0.09) 58%,
-      transparent
+    border-radius: inherit;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, -200px),
+      rgba(123, 98, 248, 0.14),
+      rgba(34, 211, 238, 0.05) 40%,
+      transparent 70%
     );
-    mix-blend-mode: screen;
-    transform: translateX(var(--beam-x, -99999px)) skewX(-20deg);
-    opacity: var(--beam-o, 0);
-    transition: opacity 0.4s ease;
-    will-change: transform, opacity;
-  }
-  /* Le faisceau s'estompe sur le panneau survolé */
-  .glass-panel:hover::before,
-  .beam-target:hover::before {
     opacity: 0;
+    transition: opacity 0.3s ease;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    .glass-panel::before,
-    .beam-target::before {
-      display: none;
-    }
+  .glass-panel:hover::before {
+    opacity: 1;
   }
 
   /* --- Boutons --- */
@@ -161,10 +144,6 @@
   .link-arrow {
     @apply inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em]
       text-accent transition-all hover:gap-3;
-  }
-
-  .glass-tag {
-    @apply absolute right-4 top-4 font-mono text-[10px] tracking-widest text-white/25;
   }
 
   /* Libellé de section : index + filet + intitulé, monospace */
@@ -213,26 +192,6 @@
       radial-gradient(48% 40% at 78% 8%, rgba(91, 61, 246, 0.28), transparent 70%),
       radial-gradient(42% 38% at 6% 92%, rgba(34, 211, 238, 0.14), transparent 70%);
   }
-
-  /* Champ de particules (components/ParticleField.tsx) */
-  .particle-field {
-    position: fixed;
-    inset: 0;
-    z-index: 30;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-  :root[data-intro='1'] .particle-field,
-  :root[data-intro-reveal='1'] .particle-field {
-    display: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .particle-field {
-      display: none;
-    }
-  }
-
 }
 
 
@@ -403,150 +362,5 @@
   }
   .intro {
     transition: opacity 0.4s ease;
-  }
-}
-
-/* ======================================================================
-   Effets décoratifs — bordure LED tournante, shine métallisé, bande LED.
-   CSS pur (compatible Tailwind). Respecte prefers-reduced-motion.
-   Composants associés : components/animations/{LedBorderCard,MetalCard}.tsx
-   ====================================================================== */
-
-/* Angle animable pour le conic-gradient (Chrome 85+, FF 128+, Safari 16.4+).
-   Sans @property, la bordure reste visible mais figée. */
-@property --led-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
-
-@keyframes led-spin {
-  to {
-    --led-angle: 360deg;
-  }
-}
-
-/* --- Bordure lumineuse tournante (effet LED / glow) autour d'une card --- */
-.led-border {
-  position: relative;
-  border-radius: 1rem;
-  isolation: isolate;
-}
-
-/* Le trait lumineux (masqué pour ne garder que le contour) */
-.led-border::before {
-  content: '';
-  position: absolute;
-  inset: -1.5px;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: conic-gradient(
-    from var(--led-angle),
-    transparent 0%,
-    #5b3df6 14%,
-    #22d3ee 32%,
-    transparent 48%,
-    transparent 100%
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: led-spin 4.5s linear infinite;
-}
-
-/* Le halo diffus derrière la card */
-.led-border::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  z-index: -1;
-  border-radius: inherit;
-  background: conic-gradient(
-    from var(--led-angle),
-    transparent 0%,
-    #5b3df6 14%,
-    #22d3ee 32%,
-    transparent 48%,
-    transparent 100%
-  );
-  filter: blur(11px);
-  opacity: 0.55;
-  animation: led-spin 4.5s linear infinite;
-}
-
-/* --- Shine métallisé au survol (cards portfolio) --- */
-.metal-glare {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  border-radius: inherit;
-  overflow: hidden;
-}
-.metal-glare::before {
-  content: '';
-  position: absolute;
-  inset-block: -20%;
-  left: -60%;
-  width: 45%;
-  transform: skewX(-18deg);
-  background: linear-gradient(
-    100deg,
-    transparent,
-    rgba(255, 255, 255, 0.08) 40%,
-    rgba(255, 255, 255, 0.35) 50%,
-    rgba(255, 255, 255, 0.08) 60%,
-    transparent
-  );
-  transition: left 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.group:hover .metal-glare::before,
-.metal-card:hover .metal-glare::before {
-  left: 130%;
-}
-
-/* --- Bande LED animée (accent de section / bouton CTA) --- */
-.led-band {
-  height: 2px;
-  width: 100%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #5b3df6 0%, #22d3ee 50%, #5b3df6 100%);
-  background-size: 200% 100%;
-  box-shadow: 0 0 14px rgba(34, 211, 238, 0.45);
-  animation: led-band-flow 3s linear infinite;
-}
-@keyframes led-band-flow {
-  to {
-    background-position: -200% 0;
-  }
-}
-
-/* Variante : liseré LED animé au bas d'un bouton (ex. CTA « Demander un devis ») */
-.led-cta {
-  position: relative;
-  overflow: hidden;
-}
-.led-cta::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #22d3ee, #5b3df6, transparent);
-  background-size: 200% 100%;
-  animation: led-band-flow 2.4s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .led-border::before,
-  .led-border::after,
-  .led-band,
-  .led-cta::after {
-    animation: none;
-  }
-  .metal-glare::before {
-    transition: none;
   }
 }

@@ -46,7 +46,7 @@ export default async function ProjectDetailPage({
       <Section className="aura">
         <Link
           href="/portfolio"
-          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-white/50 transition-all hover:gap-3 hover:text-accent"
+          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-white/60 transition-all hover:gap-3 hover:text-accent"
         >
           <Icon name="arrow-right" className="h-3.5 w-3.5 rotate-180" />
           Portfolio

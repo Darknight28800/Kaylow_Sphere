@@ -16,7 +16,7 @@ export function LegalDoc({
   return (
     <article className="mx-auto max-w-3xl">
       <p className="eyebrow mb-6">
-        <span className="text-white/30">§</span>
+        <span className="text-white/60">§</span>
         <span
           className="h-px w-10 bg-gradient-to-r from-accent to-transparent"
           aria-hidden="true"
@@ -26,7 +26,7 @@ export function LegalDoc({
       <h1 className="font-heading text-[clamp(2.2rem,4.5vw,3.4rem)] font-bold leading-[1.05] tracking-[-0.035em]">
         {title}
       </h1>
-      <p className="mt-3 font-mono text-xs uppercase tracking-widest text-white/35">
+      <p className="mt-3 font-mono text-xs uppercase tracking-widest text-white/60">
         Dernière mise à jour&nbsp;: {updated}
       </p>
       <div

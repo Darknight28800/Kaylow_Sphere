@@ -158,9 +158,9 @@ export default function SiteGenerator() {
             onChange={(e) => setPrompt(e.target.value.slice(0, MAX_LEN))}
             rows={5}
             placeholder="Secteur, ambiance recherchée, couleurs, ce qu'il faut mettre en avant…"
-            className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-accent"
+            className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-white/45 focus:border-accent"
           />
-          <div className="mt-1 flex justify-between text-xs text-white/40">
+          <div className="mt-1 flex justify-between text-xs text-white/60">
             <span>Un aperçu = une page d&apos;accueil (header, palette, 3-4 blocs).</span>
             <span>
               {prompt.length}/{MAX_LEN}
@@ -181,7 +181,7 @@ export default function SiteGenerator() {
           </label>
 
           {!useCustomColors ? (
-            <p className="mt-1.5 text-xs text-white/40">
+            <p className="mt-1.5 text-xs text-white/60">
               Sinon, la palette est choisie selon le secteur et l&apos;ambiance décrits.
             </p>
           ) : (
@@ -205,7 +205,7 @@ export default function SiteGenerator() {
                         type="button"
                         onClick={() => removeColor(i)}
                         aria-label={`Retirer la couleur ${i + 1}`}
-                        className="text-base leading-none text-white/30 hover:text-white/80"
+                        className="text-base leading-none text-white/60 hover:text-white/80"
                       >
                         &times;
                       </button>
@@ -216,13 +216,13 @@ export default function SiteGenerator() {
                   <button
                     type="button"
                     onClick={addColor}
-                    className="inline-flex items-center rounded-lg border border-dashed border-white/20 px-2.5 py-1.5 font-mono text-xs uppercase tracking-wider text-white/50 hover:border-accent/50 hover:text-accent"
+                    className="inline-flex items-center rounded-lg border border-dashed border-white/20 px-2.5 py-1.5 font-mono text-xs uppercase tracking-wider text-white/60 hover:border-accent/50 hover:text-accent"
                   >
                     + Couleur
                   </button>
                 )}
               </div>
-              <p className="text-xs text-white/40">
+              <p className="text-xs text-white/60">
                 2 à 4 couleurs — elles priment sur toute couleur écrite dans le brief.
               </p>
             </div>
@@ -259,7 +259,7 @@ export default function SiteGenerator() {
           </button>
 
           {remaining !== null && (
-            <span className="font-mono text-xs text-white/45">
+            <span className="font-mono text-xs text-white/60">
               {outOfCredits
                 ? 'Essais gratuits épuisés'
                 : `${remaining} essai${remaining > 1 ? 's' : ''} restant${remaining > 1 ? 's' : ''}`}
@@ -275,7 +275,7 @@ export default function SiteGenerator() {
             <span className="beam-loader__fill" />
           </div>
           <p className="font-mono text-sm text-accent">{LOADING_STEPS[step]}</p>
-          <p className="mt-1 text-xs text-white/40">
+          <p className="mt-1 text-xs text-white/60">
             Comptez une trentaine de secondes : le HTML est écrit ligne à ligne.
           </p>
         </div>
@@ -306,7 +306,7 @@ export default function SiteGenerator() {
               <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
               <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
               <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-              <span className="ml-2 font-mono text-[10px] text-white/30">aperçu.html</span>
+              <span className="ml-2 font-mono text-[10px] text-white/60">aperçu.html</span>
             </div>
             <iframe
               title="Aperçu de maquette généré"
@@ -318,13 +318,13 @@ export default function SiteGenerator() {
             />
           </div>
 
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-white/60">
             Maquette générée automatiquement à titre d&apos;illustration : une seule page, contenu
             fictif, pas de sous-pages ni de fonctionnalités. Un vrai projet est conçu sur mesure.
           </p>
 
           {/* CTA final */}
-          <div className="beam-target glass glass-sheen relative overflow-hidden p-6 sm:p-8">
+          <div className="glass glass-sheen relative overflow-hidden p-6 sm:p-8">
             <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="max-w-lg">
                 <h3 className="text-xl">Envie d&apos;aller plus loin ?</h3>

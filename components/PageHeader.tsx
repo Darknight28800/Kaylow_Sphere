@@ -1,10 +1,7 @@
 import type { ReactNode } from 'react';
 import Reveal from './Reveal';
-import { site } from '@/lib/site';
 
 interface PageHeaderProps {
-  /** Index de la page, ex. "01". */
-  index: string;
   eyebrow: string;
   title: ReactNode;
   intro?: string;
@@ -13,27 +10,18 @@ interface PageHeaderProps {
 }
 
 /**
- * En-tête de page — cadrage éditorial premium, pleine largeur : barre méta
- * monospace, libellé indexé, grand titre display, intro. Utilisé en tête des
+ * En-tête de page — cadrage éditorial pleine largeur : libellé monospace,
+ * grand titre display, intro. Utilisé en tête des
  * pages internes (Services, Portfolio, À propos, Contact, pages légales…).
  */
-export default function PageHeader({ index, eyebrow, title, intro, children }: PageHeaderProps) {
+export default function PageHeader({ eyebrow, title, intro, children }: PageHeaderProps) {
   return (
     <header className="relative overflow-hidden border-b border-white/10 bg-navy">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 aura opacity-80" />
 
-      <div className="relative z-10 border-b border-white/[0.07]">
-        <div className="container-page flex items-center justify-between py-4 font-mono text-[11px] uppercase tracking-[0.28em] text-white/35">
-          <span className="text-white/55">{site.name}</span>
-          <span className="hidden sm:block">{eyebrow}</span>
-          <span>§&nbsp;{index}</span>
-        </div>
-      </div>
-
       <div className="container-page relative z-10 py-20 sm:py-28 lg:py-32">
         <Reveal>
           <p className="eyebrow mb-6">
-            <span className="text-white/30">§&nbsp;{index}</span>
             <span
               className="h-px w-12 bg-gradient-to-r from-accent to-transparent"
               aria-hidden="true"
@@ -44,7 +32,7 @@ export default function PageHeader({ index, eyebrow, title, intro, children }: P
             {title}
           </h1>
           {intro && (
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/65">{intro}</p>
+            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/70">{intro}</p>
           )}
           {children && (
             <div className="mt-10 flex flex-wrap items-center gap-4">{children}</div>

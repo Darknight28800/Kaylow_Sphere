@@ -127,7 +127,7 @@ export default function ContactForm() {
             rows={6}
             minLength={10}
             placeholder="Votre activité, l'objectif du projet, un délai éventuel, un lien de référence…"
-            className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-accent"
+            className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-white/45 focus:border-accent"
           />
         </div>
 
@@ -189,7 +189,7 @@ function Field({ label, name, type = 'text', required, autoComplete, inputMode }
         required={required}
         autoComplete={autoComplete}
         inputMode={inputMode}
-        className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-accent"
+        className="w-full rounded-xl border border-white/15 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder:text-white/45 focus:border-accent"
       />
     </div>
   );

@@ -17,7 +17,6 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader
-        index="00"
         eyebrow="Contact"
         title="Parlons de votre projet"
         intro="Quelques lignes sur votre besoin suffisent pour démarrer. Je vous réponds sous 48 h ouvrées avec un premier avis, les questions utiles et les prochaines étapes."
@@ -44,7 +43,7 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <p className="mt-8 text-xs text-white/45">
+          <p className="mt-8 text-xs text-white/60">
             Les informations transmises servent uniquement à traiter votre demande. Voir la{' '}
             <Link href="/confidentialite" className="link-accent">
               politique de confidentialité

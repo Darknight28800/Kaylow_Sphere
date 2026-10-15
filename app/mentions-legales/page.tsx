@@ -33,7 +33,7 @@ export default function LegalNoticePage() {
           </li>
           <li>Directeur de la publication : {site.legalName}</li>
         </ul>
-        <p className="text-sm text-white/45">
+        <p className="text-sm text-white/60">
           Conformément à l&apos;article R.123-237 du Code de commerce, l&apos;adresse postale du siège
           est fournie à toute personne qui en fait la demande.
         </p>

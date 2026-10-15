@@ -18,7 +18,6 @@ export default function ServicesPage() {
   return (
     <>
       <PageHeader
-        index="01"
         eyebrow="Services"
         title="Sites, applications et suivi technique"
         intro="Je présente mes services sans grille tarifaire : chaque projet est différent, chaque devis l'est aussi. Vous m'exposez votre besoin, je vous réponds avec une proposition claire."
@@ -38,8 +37,8 @@ export default function ServicesPage() {
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
                     <Icon name={s.icon} className="h-5 w-5" />
                   </span>
-                  <span className="font-mono text-xs tracking-widest text-white/30">
-                    {String(i + 1).padStart(2, '0')} / 03
+                  <span className="font-mono text-xs tracking-widest text-white/55">
+                    {String(i + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}
                   </span>
                 </div>
                 <h2 className="mt-5 text-2xl">{s.title}</h2>

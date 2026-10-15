@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { site } from './site';
+import { services, site } from './site';
 
 const BASE_URL = site.url;
 
@@ -37,5 +37,68 @@ export function pageMetadata(options: {
       description,
       images: [`${BASE_URL}/og-image.png`],
     },
+  };
+}
+
+/**
+ * Données structurées Schema.org (JSON-LD) injectées dans le layout :
+ * activité locale (zone desservie, services) + site web. Aide Google à
+ * comprendre qui est derrière le site et où il intervient.
+ */
+export function structuredData() {
+  const id = (frag: string) => `${BASE_URL}/#${frag}`;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'ProfessionalService',
+        '@id': id('business'),
+        name: site.name,
+        slogan: site.baseline,
+        url: BASE_URL,
+        email: site.email,
+        logo: `${BASE_URL}/icon-512.png`,
+        image: `${BASE_URL}/og-image.png`,
+        founder: { '@id': id('founder') },
+        address: {
+          '@type': 'PostalAddress',
+          addressRegion: 'Eure-et-Loir',
+          addressCountry: 'FR',
+        },
+        areaServed: [
+          { '@type': 'AdministrativeArea', name: 'Eure-et-Loir' },
+          { '@type': 'AdministrativeArea', name: 'Centre-Val de Loire' },
+          { '@type': 'Country', name: 'France' },
+        ],
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'Services',
+          itemListElement: services.map((s) => ({
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: s.title,
+              description: s.short,
+              url: `${BASE_URL}/services#${s.key}`,
+            },
+          })),
+        },
+      },
+      {
+        '@type': 'Person',
+        '@id': id('founder'),
+        name: site.legalName,
+        jobTitle: site.role,
+        worksFor: { '@id': id('business') },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': id('website'),
+        url: BASE_URL,
+        name: site.name,
+        inLanguage: 'fr-FR',
+        publisher: { '@id': id('business') },
+      },
+    ],
   };
 }
