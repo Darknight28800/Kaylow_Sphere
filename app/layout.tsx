@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Poppins, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -17,20 +17,33 @@ import { site } from '@/lib/site';
  */
 const introGuard = `try{if(sessionStorage.getItem('sw-intro-played')!=='1'){document.documentElement.setAttribute('data-intro','1');setTimeout(function(){document.documentElement.removeAttribute('data-intro');document.documentElement.removeAttribute('data-intro-reveal')},12000);}}catch(e){}`;
 
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+/* Polices auto-hébergées (app/fonts, licence OFL) : aucun téléchargement
+   Google au build — un échec réseau faisait échouer le déploiement. */
+const inter = localFont({
+  src: [
+    { path: './fonts/inter-latin-400-normal.woff2', weight: '400' },
+    { path: './fonts/inter-latin-500-normal.woff2', weight: '500' },
+    { path: './fonts/inter-latin-600-normal.woff2', weight: '600' },
+  ],
   variable: '--font-inter',
+  display: 'swap',
 });
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
+const poppins = localFont({
+  src: [
+    { path: './fonts/poppins-latin-500-normal.woff2', weight: '500' },
+    { path: './fonts/poppins-latin-600-normal.woff2', weight: '600' },
+    { path: './fonts/poppins-latin-700-normal.woff2', weight: '700' },
+  ],
   variable: '--font-poppins',
+  display: 'swap',
 });
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const jetbrainsMono = localFont({
+  src: [
+    { path: './fonts/jetbrains-mono-latin-400-normal.woff2', weight: '400' },
+    { path: './fonts/jetbrains-mono-latin-500-normal.woff2', weight: '500' },
+  ],
   variable: '--font-jetbrains-mono',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
