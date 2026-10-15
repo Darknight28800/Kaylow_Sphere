@@ -8,7 +8,7 @@ export interface ContactPayload {
   email: string;
   projectType?: string;
   message: string;
-  meta?: { ip?: string | null };
+  meta?: { ip?: string | null; chain?: string };
 }
 
 let transporter: nodemailer.Transporter | null = null;
@@ -63,6 +63,8 @@ export async function sendContactEmail(data: ContactPayload) {
     `Type projet  : ${projectType}`,
     `Reçu le      : ${receivedAt}`,
     meta.ip ? `IP           : ${meta.ip}` : null,
+    // Diagnostic de TRUSTED_PROXY_COUNT (cf. lib/http.ts)
+    meta.chain ? `Chaîne XFF   : ${meta.chain}` : null,
     '',
     'Message :',
     message,

@@ -14,24 +14,20 @@ import {
 } from '@/lib/generator/prompt';
 import { generateSchema } from '@/lib/generator/schema';
 import { consumeQuota, logGeneration, refundQuota } from '@/lib/generator/quota';
+import { clientIp, isAllowedOrigin } from '@/lib/http';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-
-function clientIp(request: Request): string {
-  return (
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'unknown'
-  );
-}
 
 function minutes(ms: number): number {
   return Math.max(1, Math.ceil(ms / 60_000));
 }
 
 export async function POST(request: Request) {
+  if (!isAllowedOrigin(request)) {
+    return NextResponse.json({ error: 'Origine non autorisée.' }, { status: 403 });
+  }
   const ip = clientIp(request);
 
   if (!isGeneratorConfigured()) {

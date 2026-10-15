@@ -6,28 +6,14 @@
  * — même remarque que pour `app/api/contact/route.ts`.
  */
 
-// --- Quota par visiteur (IP) ---------------------------------------------
-const PER_IP_WINDOW_MS = 24 * 60 * 60 * 1000; // 24 h
-const PER_IP_MAX = 3; // 3 générations gratuites / IP / jour
+import { createRateLimiter } from '../rate-limit';
 
-// --- Garde-fou global (coûts) ------------------------------------------
-const GLOBAL_WINDOW_MS = 24 * 60 * 60 * 1000;
-const GLOBAL_MAX = 150; // plafond dur toutes IP confondues / jour
-
-interface Bucket {
-  count: number;
-  resetAt: number;
-}
-
-const perIp = new Map<string, Bucket>();
-let global: Bucket = { count: 0, resetAt: Date.now() + GLOBAL_WINDOW_MS };
-
-function tick(bucket: Bucket, windowMs: number): Bucket {
-  if (Date.now() > bucket.resetAt) {
-    return { count: 0, resetAt: Date.now() + windowMs };
-  }
-  return bucket;
-}
+// 3 générations gratuites / IP / jour, et un plafond dur toutes IP confondues
+// (borne les coûts API même si l'IP est falsifiée).
+const PER_IP_MAX = 3;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const perIp = createRateLimiter({ windowMs: DAY_MS, max: PER_IP_MAX });
+const global = createRateLimiter({ windowMs: DAY_MS, max: 150 });
 
 export type QuotaResult =
   | { ok: true; remaining: number }
@@ -35,29 +21,21 @@ export type QuotaResult =
 
 /** Vérifie ET consomme un crédit si disponible. */
 export function consumeQuota(ip: string): QuotaResult {
-  global = tick(global, GLOBAL_WINDOW_MS);
-  if (global.count >= GLOBAL_MAX) {
-    return { ok: false, reason: 'global', retryAfterMs: global.resetAt - Date.now() };
-  }
+  const g = global.hit('all');
+  if (!g.ok) return { ok: false, reason: 'global', retryAfterMs: g.retryAfterMs };
 
-  const current = tick(perIp.get(ip) ?? { count: 0, resetAt: Date.now() + PER_IP_WINDOW_MS },
-    PER_IP_WINDOW_MS);
-  if (current.count >= PER_IP_MAX) {
-    perIp.set(ip, current);
-    return { ok: false, reason: 'ip', retryAfterMs: current.resetAt - Date.now() };
+  const r = perIp.hit(ip);
+  if (!r.ok) {
+    global.refund('all');
+    return { ok: false, reason: 'ip', retryAfterMs: r.retryAfterMs };
   }
-
-  current.count += 1;
-  global.count += 1;
-  perIp.set(ip, current);
-  return { ok: true, remaining: PER_IP_MAX - current.count };
+  return { ok: true, remaining: r.remaining };
 }
 
 /** Rend un crédit (appel après un échec côté modèle : on ne facture pas l'erreur). */
 export function refundQuota(ip: string): void {
-  const bucket = perIp.get(ip);
-  if (bucket && bucket.count > 0) bucket.count -= 1;
-  if (global.count > 0) global.count -= 1;
+  perIp.refund(ip);
+  global.refund('all');
 }
 
 export const QUOTA_PER_IP = PER_IP_MAX;

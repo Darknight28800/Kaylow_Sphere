@@ -1,47 +1,46 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { clientIp, forwardedChain, isAllowedOrigin } from '@/lib/http';
 import { sendContactEmail } from '@/lib/mailer';
+import { createRateLimiter } from '@/lib/rate-limit';
 import { site } from '@/lib/site';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+const required = (msg: string) => ({ required_error: msg, invalid_type_error: msg });
+
 const schema = z.object({
-  name: z.string().trim().min(2, 'Nom trop court').max(120),
-  email: z.string().trim().email('Adresse e-mail invalide').max(180),
+  name: z.string(required('Indiquez votre nom')).trim().min(2, 'Nom trop court').max(120),
+  email: z
+    .string(required('Indiquez votre adresse e-mail'))
+    .trim()
+    .email('Adresse e-mail invalide')
+    .max(180),
   projectType: z.string().trim().max(80).optional(),
-  message: z.string().trim().min(10, 'Message trop court').max(5000),
+  message: z
+    .string(required('Écrivez votre message'))
+    .trim()
+    .min(10, 'Message trop court')
+    .max(5000),
   company: z.string().max(0).optional(), // honeypot : doit rester vide
 });
 
-// Limitation basique en mémoire : 5 envois / 15 min / IP.
-// Pour un déploiement multi-instances, remplacer par un store partagé (Redis, Upstash…).
-const WINDOW_MS = 15 * 60 * 1000;
-const MAX_HITS = 5;
-const hits = new Map<string, { count: number; resetAt: number }>();
+// 5 envois / 15 min / visiteur, et un plafond global (toutes IP confondues)
+// qui borne le spam même si l'IP est falsifiée (cf. lib/http.ts).
+const perIp = createRateLimiter({ windowMs: 15 * 60_000, max: 5 });
+const global = createRateLimiter({ windowMs: 60 * 60_000, max: 30 });
 
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = hits.get(ip);
-  if (!entry || now > entry.resetAt) {
-    hits.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
-  }
-  entry.count += 1;
-  return entry.count > MAX_HITS;
-}
+const TOO_MANY = 'Trop de demandes envoyées. Merci de réessayer dans quelques minutes.';
 
 export async function POST(request: Request) {
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'unknown';
+  if (!isAllowedOrigin(request)) {
+    return NextResponse.json({ error: 'Origine non autorisée.' }, { status: 403 });
+  }
 
-  if (rateLimited(ip)) {
-    return NextResponse.json(
-      { error: 'Trop de demandes envoyées. Merci de réessayer dans quelques minutes.' },
-      { status: 429 },
-    );
+  const ip = clientIp(request);
+  if (!perIp.hit(ip).ok || !global.hit('all').ok) {
+    return NextResponse.json({ error: TOO_MANY }, { status: 429 });
   }
 
   let body: unknown;
@@ -65,7 +64,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    await sendContactEmail({ ...parsed.data, meta: { ip } });
+    await sendContactEmail({ ...parsed.data, meta: { ip, chain: forwardedChain(request) } });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('[api/contact] Échec de l’envoi :', err);
