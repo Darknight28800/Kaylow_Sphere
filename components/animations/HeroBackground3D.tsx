@@ -6,6 +6,8 @@
  *   hors du bundle initial et ne s'exécutent jamais côté serveur.
  * - Ne se monte pas sur mobile ni si `prefers-reduced-motion` : dans ces cas
  *   c'est un simple bloc absent, aucune ressource chargée.
+ * - Rendu en pause (frameloop « never ») pendant l'intro et quand le hero
+ *   est hors écran.
  *
  * Exemple (dans le hero, en couche de fond) :
  *
@@ -16,7 +18,7 @@
  */
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const HeroScene = dynamic(() => import('./HeroScene'), {
   ssr: false,
@@ -25,6 +27,9 @@ const HeroScene = dynamic(() => import('./HeroScene'), {
 
 export default function HeroBackground3D({ className }: { className?: string }) {
   const [enabled, setEnabled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [intro, setIntro] = useState(true);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)');
@@ -36,11 +41,30 @@ export default function HeroBackground3D({ className }: { className?: string }) 
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
+  /* Pause pendant l'intro (attribut data-intro sur <html>) */
+  useEffect(() => {
+    const root = document.documentElement;
+    const sync = () => setIntro(root.hasAttribute('data-intro'));
+    sync();
+    const mo = new MutationObserver(sync);
+    mo.observe(root, { attributes: true, attributeFilter: ['data-intro'] });
+    return () => mo.disconnect();
+  }, []);
+
+  /* Pause quand le hero sort de l'écran */
+  useEffect(() => {
+    const el = ref.current;
+    if (!enabled || !el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [enabled]);
+
   if (!enabled) return null;
 
   return (
-    <div aria-hidden="true" className={className}>
-      <HeroScene />
+    <div ref={ref} aria-hidden="true" className={className}>
+      <HeroScene paused={intro || !visible} />
     </div>
   );
 }

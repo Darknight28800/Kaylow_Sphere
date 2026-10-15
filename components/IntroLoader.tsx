@@ -5,17 +5,17 @@ import Image from 'next/image';
 
 const KEY = 'sw-intro-played';
 
-/* Durées des phases en millisecondes — ajustables librement (total ≈ 12,5 s) */
+/* Durées des phases en millisecondes — ajustables librement (total ≈ 5 s).
+   La page est révélée dès que la sphère a disparu (fin de l'accélération). */
 const PHASE = {
-  cruise: 2_800, // 1. en hyper-espace
-  decelerate: 2_000, // 2. décélération — la sphère se rapproche
-  hold: 3_000, // 3. sphère au centre (rotation 35 s, zoom/dézoom 3 s) + barre
-  accelerate: 2_000, // 4. ré-accélération — les étoiles s'étirent
-  rehyperspace: 1_300, // 5. hyper-espace ; les traits s'estompent sur la fin
+  cruise: 1_100, // 1. en hyper-espace
+  decelerate: 1_200, // 2. décélération — la sphère se rapproche
+  hold: 1_600, // 3. sphère au centre + barre
+  accelerate: 1_200, // 4. ré-accélération — la sphère zoome et s'efface
 } as const;
 
-type Phase = 'cruise' | 'decelerate' | 'hold' | 'accelerate' | 'rehyperspace' | 'reveal';
-const SEQ = ['cruise', 'decelerate', 'hold', 'accelerate', 'rehyperspace'] as const;
+type Phase = 'cruise' | 'decelerate' | 'hold' | 'accelerate' | 'reveal';
+const SEQ = ['cruise', 'decelerate', 'hold', 'accelerate'] as const;
 
 /* Bornes cumulées [début, fin] de chaque phase */
 const BOUND: Record<string, [number, number]> = (() => {
@@ -28,8 +28,7 @@ const BOUND: Record<string, [number, number]> = (() => {
   return b;
 })();
 const SPEED = 0.7; // vitesse de croisière (unités de profondeur / s)
-const REHYPER_FADE = 1000; // ms de fondu des traits en fin d'hyper-espace
-const REVEAL_MS = 1400; // durée d'apparition de la page
+const REVEAL_MS = 600; // durée d'apparition de la page
 const SPHERE_ZOOM = 55; // facteur d'agrandissement de la sphère pendant l'accélération
 
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
@@ -182,11 +181,6 @@ export default function IntroLoader() {
         if (hudShown && hudOnRef.current) {
           setHudOn(false);
         }
-      } else if (phase === 'rehyperspace') {
-        speed = SPEED * 1.2;
-        setSphere(0, 0);
-        const rem = PHASE.rehyperspace - (t - BOUND.rehyperspace[0]);
-        if (rem < REHYPER_FADE) alpha = clamp01(rem / REHYPER_FADE);
       } else {
         // reveal
         alpha = 0;

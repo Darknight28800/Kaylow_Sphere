@@ -14,7 +14,7 @@ import { site } from '@/lib/site';
  * encore été jouée dans la session. Retiré par IntroLoader à la fin,
  * ou par sécurité après 26 s (durée de la séquence + marge).
  */
-const introGuard = `try{if(sessionStorage.getItem('sw-intro-played')!=='1'){document.documentElement.setAttribute('data-intro','1');setTimeout(function(){document.documentElement.removeAttribute('data-intro');document.documentElement.removeAttribute('data-intro-reveal')},26000);}}catch(e){}`;
+const introGuard = `try{if(sessionStorage.getItem('sw-intro-played')!=='1'){document.documentElement.setAttribute('data-intro','1');setTimeout(function(){document.documentElement.removeAttribute('data-intro');document.documentElement.removeAttribute('data-intro-reveal')},12000);}}catch(e){}`;
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter' });
 const poppins = Poppins({

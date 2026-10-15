@@ -68,6 +68,11 @@ export default function ParticleField() {
     const loop = (now: number) => {
       const dt = Math.min(2.5, (now - last) / 16.67);
       last = now;
+      /* Masqué par CSS pendant l'intro : inutile de dessiner */
+      if (document.documentElement.hasAttribute('data-intro')) {
+        raf = requestAnimationFrame(loop);
+        return;
+      }
       ctx.clearRect(0, 0, w, h);
 
       for (const p of parts) {

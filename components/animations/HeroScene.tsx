@@ -121,9 +121,10 @@ function GeoSphere() {
   );
 }
 
-export default function HeroScene() {
+export default function HeroScene({ paused = false }: { paused?: boolean }) {
   return (
     <Canvas
+      frameloop={paused ? 'never' : 'always'}
       dpr={[1, 1.75]}
       gl={{ antialias: true, alpha: true, powerPreference: 'low-power' }}
       camera={{ position: [0, 0, 8.5], fov: 40 }}
