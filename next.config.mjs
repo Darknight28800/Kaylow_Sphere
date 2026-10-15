@@ -52,6 +52,12 @@ const serverEnv = Object.fromEntries(
   ]),
 );
 
+// Diagnostic dans le journal de build Hostinger : présence des variables
+// (noms seulement, jamais les valeurs).
+console.log(
+  '[env] ' + SERVER_ENV_KEYS.map((k) => `${k}=${k in serverEnv ? 'OK' : 'ABSENT'}`).join(' '),
+);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
