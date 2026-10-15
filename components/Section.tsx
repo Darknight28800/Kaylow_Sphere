@@ -41,9 +41,7 @@ export function SectionHeading({
   return (
     <div className={`${center ? 'mx-auto text-center' : ''} max-w-3xl`}>
       {eyebrow && (
-        <p
-          className={`eyebrow mb-5 ${center ? 'justify-center' : ''} ${dark ? '' : 'text-brand'}`}
-        >
+        <p className={`eyebrow mb-5 ${center ? 'justify-center' : ''} ${dark ? '' : 'text-brand'}`}>
           <span
             className={`h-px w-10 ${
               dark ? 'bg-gradient-to-r from-accent to-transparent' : 'bg-ink/20'

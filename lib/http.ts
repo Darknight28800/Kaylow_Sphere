@@ -52,7 +52,10 @@ export function isAllowedOrigin(request: Request): boolean {
   try {
     const { host, hostname } = new URL(origin);
     if (ALLOWED_HOSTS.has(host)) return true;
-    return process.env.NODE_ENV !== 'production' && (hostname === 'localhost' || hostname === '127.0.0.1');
+    return (
+      process.env.NODE_ENV !== 'production' &&
+      (hostname === 'localhost' || hostname === '127.0.0.1')
+    );
   } catch {
     return false;
   }

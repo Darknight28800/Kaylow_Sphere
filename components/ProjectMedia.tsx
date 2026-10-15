@@ -5,7 +5,13 @@ const HALO =
   'radial-gradient(50% 50% at 50% 40%, rgba(91,61,246,0.28), transparent 70%), radial-gradient(40% 40% at 80% 90%, rgba(34,211,238,0.14), transparent 70%)';
 
 /** Vignette pour les cartes de la liste portfolio et de l'accueil. */
-export function ProjectThumb({ project, className = '' }: { project: Project; className?: string }) {
+export function ProjectThumb({
+  project,
+  className = '',
+}: {
+  project: Project;
+  className?: string;
+}) {
   const cover = project.images?.[0];
   return (
     <div
@@ -20,7 +26,10 @@ export function ProjectThumb({ project, className = '' }: { project: Project; cl
           className="object-cover"
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center" style={{ background: HALO }}>
+        <div
+          className="flex h-full w-full items-center justify-center"
+          style={{ background: HALO }}
+        >
           <span className="font-heading text-lg font-semibold text-white/60">{project.name}</span>
         </div>
       )}
@@ -39,7 +48,10 @@ export function ProjectGallery({ project }: { project: Project }) {
         role="img"
         aria-label={`Aperçu du projet ${project.name} — captures d'écran à venir`}
       >
-        <div className="flex h-full w-full items-center justify-center" style={{ background: HALO }}>
+        <div
+          className="flex h-full w-full items-center justify-center"
+          style={{ background: HALO }}
+        >
           <span className="font-mono text-sm text-white/60">Captures d&apos;écran à venir</span>
         </div>
       </div>

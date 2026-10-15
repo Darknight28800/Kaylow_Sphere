@@ -87,7 +87,7 @@ export const services: Service[] = [
     short:
       'Suivi technique après la mise en ligne : corrections, mises à jour de sécurité, ajout de fonctionnalités.',
     description:
-      "Un site ou une application, ça vit. Je reste disponible après la livraison pour corriger, mettre à jour et faire évoluer votre outil au rythme de votre activité — sans que vous ayez à devenir technique.",
+      'Un site ou une application, ça vit. Je reste disponible après la livraison pour corriger, mettre à jour et faire évoluer votre outil au rythme de votre activité — sans que vous ayez à devenir technique.',
     points: [
       'Corrections de bugs et ajustements',
       'Mises à jour de sécurité et de dépendances',
@@ -137,7 +137,7 @@ export const projects: Project[] = [
     context:
       "Mettre en relation des particuliers et des artisans d'une région à travers un annuaire consultable et filtrable par métier et par secteur.",
     solution:
-      "Application React côté public, API Node.js/Express côté serveur, avec fiches artisans détaillées, recherche multi-critères et formulaire de mise en relation.",
+      'Application React côté public, API Node.js/Express côté serveur, avec fiches artisans détaillées, recherche multi-critères et formulaire de mise en relation.',
     highlights: [
       'Recherche et filtres par métier et par secteur géographique',
       'Fiches artisans détaillées',
@@ -158,7 +158,7 @@ export const projects: Project[] = [
     context:
       'Proposer une application de covoiturage : publication de trajets, recherche par itinéraire et réservation de places.',
     solution:
-      "Application développée en PHP suivant une architecture MVC : gestion des comptes, publication et recherche de trajets, réservation et historique.",
+      'Application développée en PHP suivant une architecture MVC : gestion des comptes, publication et recherche de trajets, réservation et historique.',
     highlights: [
       'Architecture MVC structurée',
       'Publication et recherche de trajets',
@@ -168,14 +168,15 @@ export const projects: Project[] = [
   {
     slug: 'gdf',
     name: 'FacturePro',
-    tagline: 'SaaS gestion de devis et de facturation et de gestion financière pour freelances, PME et Grande Entreprise.',
+    tagline:
+      'SaaS gestion de devis et de facturation et de gestion financière pour freelances, PME et Grande Entreprise.',
     stack: ['TypeScript', 'Express', 'Sequelize'],
     type: 'SaaS de facturation',
     status: 'produit personnel',
     context:
-      "Outil personnel devenu produit : aider les freelances à gérer devis, factures et suivi financier au même endroit, sans tableur.",
+      'Outil personnel devenu produit : aider les freelances à gérer devis, factures et suivi financier au même endroit, sans tableur.',
     solution:
-      "Back-end TypeScript / Express avec Sequelize pour la persistance, génération de devis et factures, suivi des encaissements et tableau de bord financier.",
+      'Back-end TypeScript / Express avec Sequelize pour la persistance, génération de devis et factures, suivi des encaissements et tableau de bord financier.',
     highlights: [
       'Devis et factures conformes',
       'Suivi des encaissements et des impayés',

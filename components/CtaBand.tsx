@@ -9,7 +9,7 @@ interface CtaBandProps {
 
 export default function CtaBand({
   title = 'Un projet en tête ?',
-  text = "Parlons-en. Décrivez-moi votre besoin en quelques lignes, je vous réponds sous 48 h ouvrées avec un premier avis et les prochaines étapes.",
+  text = 'Parlons-en. Décrivez-moi votre besoin en quelques lignes, je vous réponds sous 48 h ouvrées avec un premier avis et les prochaines étapes.',
 }: CtaBandProps) {
   return (
     <section className="relative overflow-hidden border-t border-white/10 bg-navy py-20 sm:py-28">

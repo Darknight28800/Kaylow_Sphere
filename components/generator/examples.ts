@@ -54,6 +54,6 @@ export const EXAMPLES: PromptExample[] = [
     swatches: ['#2e2117', '#a9742f', '#efe7db'],
     vibe: 'Authentique, robuste, naturel',
     prompt:
-      "Site pour un artisan menuisier-ébéniste : agencement sur mesure, mobilier, pose. Ambiance authentique et robuste, matière bois. Palette : brun foncé, ocre/bois, sable. Titres solides. Mettre en avant le savoir-faire, les types de réalisations et le devis.",
+      'Site pour un artisan menuisier-ébéniste : agencement sur mesure, mobilier, pose. Ambiance authentique et robuste, matière bois. Palette : brun foncé, ocre/bois, sable. Titres solides. Mettre en avant le savoir-faire, les types de réalisations et le devis.',
   },
 ];

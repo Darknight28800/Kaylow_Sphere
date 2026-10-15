@@ -82,9 +82,9 @@ export default function HomePage() {
               <HeroTitle />
               <StaggerItem>
                 <p className="mt-9 max-w-xl text-lg leading-relaxed text-white/70">
-                  Je suis {site.legalName}, {site.role.toLowerCase()}. J&apos;accompagne indépendants,
-                  artisans et petites structures dans la conception de leur site ou de leur
-                  application — de la première maquette à la mise en production.
+                  Je suis {site.legalName}, {site.role.toLowerCase()}. J&apos;accompagne
+                  indépendants, artisans et petites structures dans la conception de leur site ou de
+                  leur application — de la première maquette à la mise en production.
                 </p>
               </StaggerItem>
               <StaggerItem>
@@ -169,7 +169,7 @@ export default function HomePage() {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
-                eyebrow="Portfolio"
+              eyebrow="Portfolio"
               title="Quelques réalisations"
               intro="Des projets clients et des produits que je développe et maintiens moi-même."
             />
@@ -182,7 +182,10 @@ export default function HomePage() {
         <Stagger className="mt-16 grid gap-6 md:grid-cols-3">
           {featured.map((p) => (
             <StaggerItem key={p.slug} hover className="h-full">
-              <Link href={`/portfolio/${p.slug}`} className="glass-panel group flex h-full flex-col">
+              <Link
+                href={`/portfolio/${p.slug}`}
+                className="glass-panel group flex h-full flex-col"
+              >
                 <ProjectThumb project={p} className="mb-5" />
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-lg transition-colors group-hover:text-accent">{p.name}</h3>

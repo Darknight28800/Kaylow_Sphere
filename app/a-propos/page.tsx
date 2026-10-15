@@ -38,9 +38,10 @@ export default function AboutPage() {
               </p>
               <p>
                 Aujourd&apos;hui développeur freelance fullstack, j&apos;accompagne indépendants,
-                artisans et petites structures dans la conception de leur site ou de leur application,
-                de la première maquette à la mise en production — avec la même exigence que celle qui
-                m&apos;a poussé à changer de voie : faire un travail qui a du sens, et le faire bien.
+                artisans et petites structures dans la conception de leur site ou de leur
+                application, de la première maquette à la mise en production — avec la même exigence
+                que celle qui m&apos;a poussé à changer de voie : faire un travail qui a du sens, et
+                le faire bien.
               </p>
               <p>
                 {site.name} est la marque sous laquelle j&apos;exerce cette activité, en

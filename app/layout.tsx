@@ -17,7 +17,11 @@ import { site } from '@/lib/site';
  */
 const introGuard = `try{if(sessionStorage.getItem('sw-intro-played')!=='1'){document.documentElement.setAttribute('data-intro','1');setTimeout(function(){document.documentElement.removeAttribute('data-intro');document.documentElement.removeAttribute('data-intro-reveal')},12000);}}catch(e){}`;
 
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-inter' });
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter',
+});
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['500', '600', '700'],

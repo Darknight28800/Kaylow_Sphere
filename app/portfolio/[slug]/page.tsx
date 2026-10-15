@@ -19,7 +19,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  if (!project) return pageMetadata({ title: 'Projet introuvable', description: '', path: `/portfolio/${slug}`, noindex: true });
+  if (!project)
+    return pageMetadata({
+      title: 'Projet introuvable',
+      description: '',
+      path: `/portfolio/${slug}`,
+      noindex: true,
+    });
 
   return pageMetadata({
     title: `${project.name} — Réalisation`,
@@ -29,11 +35,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function ProjectDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const index = projects.findIndex((p) => p.slug === slug);
   const project = projects[index];
@@ -80,12 +82,7 @@ export default async function ProjectDetailPage({
             )}
           </div>
           {project.url && (
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noreferrer"
-              className="link-arrow mt-6"
-            >
+            <a href={project.url} target="_blank" rel="noreferrer" className="link-arrow mt-6">
               Voir le projet en ligne
               <Icon name="external" className="h-3.5 w-3.5" />
             </a>

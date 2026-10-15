@@ -234,12 +234,23 @@ export default function IntroLoader() {
   if (!active) return null;
 
   return (
-    <div className={`intro ${revealing ? 'intro--reveal' : ''}`} role="presentation" aria-hidden="true">
+    <div
+      className={`intro ${revealing ? 'intro--reveal' : ''}`}
+      role="presentation"
+      aria-hidden="true"
+    >
       <canvas ref={canvasRef} className="intro__canvas" />
 
       <div ref={sphereRef} className="intro__sphere-wrap">
         <div className="intro__sphere-spin">
-          <Image src="/logo-sphere.png" alt="" fill sizes="280px" priority className="intro__sphere-img" />
+          <Image
+            src="/logo-sphere.png"
+            alt=""
+            fill
+            sizes="280px"
+            priority
+            className="intro__sphere-img"
+          />
         </div>
       </div>
 

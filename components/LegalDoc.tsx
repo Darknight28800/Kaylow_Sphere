@@ -44,6 +44,8 @@ export function LegalDoc({
 /** Marque un contenu à compléter avant mise en production. */
 export function Placeholder({ children }: { children: ReactNode }) {
   return (
-    <mark className="rounded bg-amber-300/20 px-1.5 py-0.5 text-amber-200">[À compléter — {children}]</mark>
+    <mark className="rounded bg-amber-300/20 px-1.5 py-0.5 text-amber-200">
+      [À compléter — {children}]
+    </mark>
   );
 }

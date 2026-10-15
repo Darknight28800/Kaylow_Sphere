@@ -71,8 +71,8 @@ export default function ServicesPage() {
               Pas de devis ? Pas de projet.
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-white/65">
-              Le premier échange et le devis sont gratuits et sans engagement. Je ne démarre rien tant
-              que le périmètre, le calendrier et le budget ne sont pas validés par écrit.
+              Le premier échange et le devis sont gratuits et sans engagement. Je ne démarre rien
+              tant que le périmètre, le calendrier et le budget ne sont pas validés par écrit.
             </p>
           </div>
           <Link href="/contact" className="btn-primary justify-self-start lg:justify-self-end">

@@ -31,12 +31,8 @@ export default function PageHeader({ eyebrow, title, intro, children }: PageHead
           <h1 className="font-heading text-[clamp(2.6rem,6vw,4.75rem)] font-bold leading-[1.0] tracking-[-0.04em]">
             {title}
           </h1>
-          {intro && (
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/70">{intro}</p>
-          )}
-          {children && (
-            <div className="mt-10 flex flex-wrap items-center gap-4">{children}</div>
-          )}
+          {intro && <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/70">{intro}</p>}
+          {children && <div className="mt-10 flex flex-wrap items-center gap-4">{children}</div>}
         </Reveal>
       </div>
     </header>

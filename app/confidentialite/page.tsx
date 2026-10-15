@@ -36,11 +36,11 @@ export default function PrivacyPage() {
         <p>
           <strong>Finalité :</strong> répondre à votre demande et, le cas échéant, établir un devis.
           <br />
-          <strong>Base légale :</strong> votre consentement (case à cocher) et l&apos;intérêt légitime
-          à répondre à une sollicitation commerciale.
+          <strong>Base légale :</strong> votre consentement (case à cocher) et l&apos;intérêt
+          légitime à répondre à une sollicitation commerciale.
           <br />
-          <strong>Durée de conservation :</strong> les messages sont conservés {site.contactRetention},
-          puis supprimés.
+          <strong>Durée de conservation :</strong> les messages sont conservés{' '}
+          {site.contactRetention}, puis supprimés.
         </p>
 
         <h2>3. Destinataires</h2>
@@ -57,8 +57,8 @@ export default function PrivacyPage() {
           bannière de consentement n&apos;est donc nécessaire.
         </p>
         <p>
-          Si un outil de statistiques respectueux de la vie privée était ajouté à l&apos;avenir
-          (par exemple Plausible ou Matomo, sans cookie et avec anonymisation des adresses IP), cette
+          Si un outil de statistiques respectueux de la vie privée était ajouté à l&apos;avenir (par
+          exemple Plausible ou Matomo, sans cookie et avec anonymisation des adresses IP), cette
           politique serait mise à jour en conséquence et, le cas échéant, votre consentement serait
           recueilli au préalable.
         </p>

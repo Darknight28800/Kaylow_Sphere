@@ -16,8 +16,7 @@ const perIp = createRateLimiter({ windowMs: DAY_MS, max: PER_IP_MAX });
 const global = createRateLimiter({ windowMs: DAY_MS, max: 150 });
 
 export type QuotaResult =
-  | { ok: true; remaining: number }
-  | { ok: false; reason: 'ip' | 'global'; retryAfterMs: number };
+  { ok: true; remaining: number } | { ok: false; reason: 'ip' | 'global'; retryAfterMs: number };
 
 /** Vérifie ET consomme un crédit si disponible. */
 export function consumeQuota(ip: string): QuotaResult {

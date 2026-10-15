@@ -19,7 +19,13 @@ export interface RateLimiter {
   refund(key: string): void;
 }
 
-export function createRateLimiter({ windowMs, max }: { windowMs: number; max: number }): RateLimiter {
+export function createRateLimiter({
+  windowMs,
+  max,
+}: {
+  windowMs: number;
+  max: number;
+}): RateLimiter {
   const buckets = new Map<string, Bucket>();
 
   return {

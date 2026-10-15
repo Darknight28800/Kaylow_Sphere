@@ -47,7 +47,13 @@ interface StaggerItemProps {
   hover?: boolean;
 }
 
-export function StaggerItem({ children, className, as = 'div', id, hover = false }: StaggerItemProps) {
+export function StaggerItem({
+  children,
+  className,
+  as = 'div',
+  id,
+  hover = false,
+}: StaggerItemProps) {
   const reduce = useReducedMotion();
   const MotionTag = ITEM_TAGS[as];
 

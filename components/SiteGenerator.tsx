@@ -91,9 +91,11 @@ export default function SiteGenerator() {
           ...(useCustomColors ? { colors } : {}),
         }),
       });
-      const body = (await res.json().catch(() => null)) as
-        | { html?: string; remaining?: number; error?: string }
-        | null;
+      const body = (await res.json().catch(() => null)) as {
+        html?: string;
+        remaining?: number;
+        error?: string;
+      } | null;
 
       if (!res.ok || !body?.html) {
         throw new Error(body?.error ?? 'La génération a échoué. Réessayez dans un instant.');

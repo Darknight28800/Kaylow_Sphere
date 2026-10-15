@@ -27,21 +27,24 @@ export default function PortfolioPage() {
         <Stagger className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((p) => (
             <StaggerItem key={p.slug} hover className="h-full">
-              <Link href={`/portfolio/${p.slug}`} className="glass-panel group flex h-full flex-col">
+              <Link
+                href={`/portfolio/${p.slug}`}
+                className="glass-panel group flex h-full flex-col"
+              >
                 <ProjectThumb project={p} className="mb-5" />
                 <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h2 className="text-xl transition-colors group-hover:text-accent">{p.name}</h2>
-                  <p className="mt-1 font-mono text-xs uppercase tracking-wider text-white/60">
-                    {p.type}
-                  </p>
+                  <div>
+                    <h2 className="text-xl transition-colors group-hover:text-accent">{p.name}</h2>
+                    <p className="mt-1 font-mono text-xs uppercase tracking-wider text-white/60">
+                      {p.type}
+                    </p>
+                  </div>
+                  {p.status && (
+                    <span className="shrink-0 rounded-md border border-white/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/55">
+                      {p.status}
+                    </span>
+                  )}
                 </div>
-                {p.status && (
-                  <span className="shrink-0 rounded-md border border-white/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/55">
-                    {p.status}
-                  </span>
-                )}
-              </div>
                 <p className="mt-4 text-sm text-white/70">{p.tagline}</p>
                 <p className="mt-auto pt-5 font-mono text-xs text-neutraltxt">
                   {p.stack.join(' · ')}

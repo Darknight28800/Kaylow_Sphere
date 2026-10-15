@@ -81,9 +81,7 @@ export async function POST(request: Request) {
       max_tokens: GENERATION_MAX_TOKENS,
       thinking: { type: 'adaptive' },
       output_config: { effort: 'low' },
-      system: [
-        { type: 'text', text: buildSystemPrompt(), cache_control: { type: 'ephemeral' } },
-      ],
+      system: [{ type: 'text', text: buildSystemPrompt(), cache_control: { type: 'ephemeral' } }],
       messages: [
         { role: 'user', content: buildUserPrompt({ prompt, colors: parsed.data.colors }) },
       ],
@@ -94,8 +92,13 @@ export async function POST(request: Request) {
     if (message.stop_reason === 'refusal') {
       refundQuota(ip);
       logGeneration({
-        ip, prompt, promptLength: prompt.length, status: 'error',
-        durationMs: Date.now() - startedAt, model: GENERATION_MODEL, error: 'refusal',
+        ip,
+        prompt,
+        promptLength: prompt.length,
+        status: 'error',
+        durationMs: Date.now() - startedAt,
+        model: GENERATION_MODEL,
+        error: 'refusal',
       });
       return NextResponse.json(
         { error: 'Je ne peux pas générer d’aperçu pour cette demande. Reformulez votre projet.' },
@@ -111,8 +114,12 @@ export async function POST(request: Request) {
     const html = extractHtmlDocument(text);
 
     logGeneration({
-      ip, prompt, promptLength: prompt.length, status: 'ok',
-      durationMs: Date.now() - startedAt, model: GENERATION_MODEL,
+      ip,
+      prompt,
+      promptLength: prompt.length,
+      status: 'ok',
+      durationMs: Date.now() - startedAt,
+      model: GENERATION_MODEL,
       inputTokens: message.usage.input_tokens,
       outputTokens: message.usage.output_tokens,
     });
@@ -121,8 +128,12 @@ export async function POST(request: Request) {
   } catch (err) {
     refundQuota(ip);
     logGeneration({
-      ip, prompt, promptLength: prompt.length, status: 'error',
-      durationMs: Date.now() - startedAt, model: GENERATION_MODEL,
+      ip,
+      prompt,
+      promptLength: prompt.length,
+      status: 'error',
+      durationMs: Date.now() - startedAt,
+      model: GENERATION_MODEL,
       error: err instanceof Error ? err.message : String(err),
     });
 

@@ -16,7 +16,10 @@ async function iconOnNavy(size, pad = Math.round(size * 0.16)) {
     `<svg width="${size}" height="${size}"><rect width="${size}" height="${size}" rx="${radius}" ry="${radius}"/></svg>`,
   );
   const logo = await sharp(SRC)
-    .resize(size - pad * 2, size - pad * 2, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .resize(size - pad * 2, size - pad * 2, {
+      fit: 'contain',
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
     .toBuffer();
 
   return sharp({ create: { width: size, height: size, channels: 4, background: NAVY } })

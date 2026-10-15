@@ -75,8 +75,8 @@ export default function ContactForm() {
           </span>
           <h2 className="text-xl">Message envoyé, merci.</h2>
           <p className="prose-light">
-            Votre demande est bien arrivée. Je reviens vers vous sous 48 h ouvrées. Pensez à vérifier
-            vos spams si vous ne recevez rien.
+            Votre demande est bien arrivée. Je reviens vers vous sous 48 h ouvrées. Pensez à
+            vérifier vos spams si vous ne recevez rien.
           </p>
         </div>
       </div>
