@@ -24,6 +24,34 @@ const csp = [
   "frame-ancestors 'self'",
 ].join('; ');
 
+/**
+ * Variables serveur figées au moment du build.
+ * Hostinger charge les variables de hPanel (fichier .env) pendant `next build`,
+ * mais le serveur standalone ne les voit plus à l'exécution → le formulaire
+ * de contact échouait en « Configuration SMTP incomplète ». On les inline donc
+ * au build. Elles ne sont lues que dans app/api et lib (code serveur) : elles
+ * n'apparaissent jamais dans le JavaScript envoyé au navigateur.
+ * Conséquence : après un changement de variable dans hPanel, il faut REDÉPLOYER.
+ */
+const SERVER_ENV_KEYS = [
+  'SMTP_HOST',
+  'SMTP_PORT',
+  'SMTP_SECURE',
+  'SMTP_USER',
+  'SMTP_PASS',
+  'SMTP_TLS_INSECURE',
+  'MAIL_FROM',
+  'MAIL_TO',
+  'ANTHROPIC_API_KEY',
+  'TRUSTED_PROXY_COUNT',
+];
+const serverEnv = Object.fromEntries(
+  SERVER_ENV_KEYS.filter((k) => process.env[k] !== undefined && process.env[k] !== '').map((k) => [
+    k,
+    process.env[k],
+  ]),
+);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -31,6 +59,7 @@ const nextConfig = {
   // Build autonome : .next/standalone/server.js contient tout le nécessaire
   // pour lancer le site sur l'hébergement Node.js Hostinger (Passenger).
   output: 'standalone',
+  env: serverEnv,
   async headers() {
     return [
       {
