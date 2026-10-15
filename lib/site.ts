@@ -208,7 +208,7 @@ export const nav: NavItem[] = [
   // `to`    = URL de la page — NE PAS toucher sauf si le dossier de `app/` est renommé.
   { label: 'Accueil', to: '/' },
   { label: 'Services', to: '/services' },
-  { label: 'Portfolio', to: '/portfolio' },
+  { label: 'Site web', to: '/portfolio' },
   { label: 'À propos', to: '/a-propos' },
   { label: 'Contact', to: '/contact' },
 ];
