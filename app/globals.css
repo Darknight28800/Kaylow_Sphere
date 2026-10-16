@@ -180,6 +180,12 @@
 }
 
 @layer utilities {
+  /* Pages internes : galaxie en fond (components/SiteGalaxy.tsx), les
+     sections navy deviennent transparentes pour la laisser voir */
+  :root[data-galaxy='1'] .section-navy {
+    background-color: transparent;
+  }
+
   /* Hero : halo d'une géante bleue cachée derrière le trou noir — sa lumière
      remonte de derrière l'horizon et éclaire légèrement le bloc texte */
   .giant-light {

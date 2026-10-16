@@ -17,6 +17,9 @@ import { createPortal } from 'react-dom';
  * Les positions sont calculées dans le vertex shader à partir de la
  * progression : aucune mise à jour CPU par étoile.
  *
+ * Mode `galaxy` (pages internes) : pas de zone ni d'explosion, la galaxie
+ * formée est en fond dès l'arrivée sur la page.
+ *
  * Performance : boucle arrêtée tant que la zone n'est pas atteinte, onglet
  * masqué ou intro en cours ; moins d'étoiles sur mobile. Animations réduites :
  * galaxie fixe, sans explosion.
@@ -238,7 +241,16 @@ function buildStars(count: number) {
   return { gal, dir, rnd };
 }
 
-export default function BigBang({ className = '' }: { className?: string }) {
+interface BigBangProps {
+  className?: string;
+  /**
+   * `bigbang` (accueil) : séquence pilotée par la traversée de la zone.
+   * `galaxy` (autres pages) : galaxie déjà formée, en fond dès l'arrivée.
+   */
+  mode?: 'bigbang' | 'galaxy';
+}
+
+export default function BigBang({ className = '', mode = 'bigbang' }: BigBangProps) {
   const zoneRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mounted, setMounted] = useState(false);
@@ -248,7 +260,8 @@ export default function BigBang({ className = '' }: { className?: string }) {
   useEffect(() => {
     const zone = zoneRef.current;
     const canvas = canvasRef.current;
-    if (!mounted || !zone || !canvas) return;
+    const galaxyOnly = mode === 'galaxy';
+    if (!mounted || !canvas || (!galaxyOnly && !zone)) return;
 
     const gl = canvas.getContext('webgl', {
       alpha: true,
@@ -324,14 +337,21 @@ export default function BigBang({ className = '' }: { className?: string }) {
       scale = Math.max(aspect * 0.75, 0.75);
       // Taille des étoiles proportionnelle à la hauteur d'écran
       px = dpr * Math.min(1.8, Math.max(0.9, h / 800));
-      const rect = zone.getBoundingClientRect();
-      zoneTop = rect.top + window.scrollY;
-      zoneH = Math.max(1, rect.height);
+      if (zone) {
+        const rect = zone.getBoundingClientRect();
+        zoneTop = rect.top + window.scrollY;
+        zoneH = Math.max(1, rect.height);
+      }
     };
 
     // Lecture de layout uniquement au redimensionnement ; ici, de l'arithmétique
     const progress = () =>
-      Math.min(1, Math.max(0, (window.scrollY + window.innerHeight * TRIGGER - zoneTop) / zoneH));
+      galaxyOnly
+        ? 1
+        : Math.min(
+            1,
+            Math.max(0, (window.scrollY + window.innerHeight * TRIGGER - zoneTop) / zoneH),
+          );
 
     const draw = (p: number, time: number) => {
       gl.clearColor(0, 0, 0, 0);
@@ -425,11 +445,11 @@ export default function BigBang({ className = '' }: { className?: string }) {
       mo.disconnect();
       ro.disconnect();
     };
-  }, [mounted]);
+  }, [mounted, mode]);
 
   return (
     <>
-      <div ref={zoneRef} aria-hidden="true" className={className} />
+      {mode === 'bigbang' && <div ref={zoneRef} aria-hidden="true" className={className} />}
       {mounted &&
         createPortal(
           <canvas

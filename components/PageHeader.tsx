@@ -16,7 +16,7 @@ interface PageHeaderProps {
  */
 export default function PageHeader({ eyebrow, title, intro, children }: PageHeaderProps) {
   return (
-    <header className="relative overflow-hidden border-b border-white/10 bg-navy">
+    <header className="section-navy relative overflow-hidden border-b border-white/10 bg-navy">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 aura opacity-80" />
 
       <div className="container-page relative z-10 py-20 sm:py-28 lg:py-32">

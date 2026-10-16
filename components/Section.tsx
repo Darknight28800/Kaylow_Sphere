@@ -9,7 +9,8 @@ interface SectionProps {
 }
 
 const toneMap: Record<NonNullable<SectionProps['tone']>, string> = {
-  navy: 'bg-navy',
+  // `section-navy` : transparent sur les pages avec galaxie (globals.css)
+  navy: 'bg-navy section-navy',
   panel: 'bg-navy-800/40',
   mist: 'bg-mist text-ink',
   clear: '',

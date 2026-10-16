@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import IntroLoader from '@/components/IntroLoader';
 import ScrollProgress from '@/components/ScrollProgress';
+import SiteGalaxy from '@/components/SiteGalaxy';
 import Spotlight from '@/components/Spotlight';
 import SmoothScroll from '@/components/animations/SmoothScroll';
 import { structuredData } from '@/lib/seo';
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <IntroLoader />
         <ScrollProgress />
+        <SiteGalaxy />
         <Spotlight />
         <SmoothScroll>
           <div id="app-shell" className="flex min-h-screen flex-col">
