@@ -144,10 +144,12 @@ export const projects: Project[] = [
       'Formulaire de contact vers l’artisan',
     ],
     // url: 'https://…',
-    // images: [
-    //   { src: '/portfolio/trouve-ton-artisan/01.png', alt: 'Page d’accueil de Trouve Ton Artisan' },
-    //   { src: '/portfolio/trouve-ton-artisan/02.png', alt: 'Résultats de recherche filtrés' },
-    // ],
+    images: [
+      {
+        src: '/portfolio/trouve-ton-artisan/01.jpg',
+        alt: "Page d'accueil de Trouve Ton Artisan : recherche, chiffres clés et artisans populaires",
+      },
+    ],
   },
   {
     slug: 'maintenance-ramonage-services',
