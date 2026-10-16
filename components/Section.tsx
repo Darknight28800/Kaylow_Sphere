@@ -3,7 +3,8 @@ import type { ReactNode } from 'react';
 interface SectionProps {
   children: ReactNode;
   className?: string;
-  tone?: 'navy' | 'panel' | 'mist';
+  /** `clear` : fond transparent (laisse voir la galaxie du Big Bang). */
+  tone?: 'navy' | 'panel' | 'mist' | 'clear';
   id?: string;
 }
 
@@ -11,6 +12,7 @@ const toneMap: Record<NonNullable<SectionProps['tone']>, string> = {
   navy: 'bg-navy',
   panel: 'bg-navy-800/40',
   mist: 'bg-mist text-ink',
+  clear: '',
 };
 
 export function Section({ children, className = '', tone = 'navy', id }: SectionProps) {

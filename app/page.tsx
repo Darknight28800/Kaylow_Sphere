@@ -6,6 +6,7 @@ import { Stagger, StaggerItem } from '@/components/Stagger';
 import ScrollParallax from '@/components/animations/ScrollParallax';
 import HeroTitle from '@/components/HeroTitle';
 import { BlackHoleHero, BlackHoleLayer, GravityPull } from '@/components/BlackHoleHero';
+import BigBang from '@/components/BigBang';
 import ProcessSteps, { type ProcessStep } from '@/components/ProcessSteps';
 import { ProjectThumb } from '@/components/ProjectMedia';
 import { Section, SectionHeading } from '@/components/Section';
@@ -207,8 +208,11 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Méthode */}
-      <Section>
+      {/* Big Bang : zone de scroll vide, la galaxie reste ensuite en fond jusqu'en bas */}
+      <BigBang className="h-[110vh] motion-reduce:h-[30vh]" />
+
+      {/* Méthode — fond transparent : la galaxie passe dessous */}
+      <Section tone="clear">
         <Reveal>
           <SectionHeading
             eyebrow="Méthode"

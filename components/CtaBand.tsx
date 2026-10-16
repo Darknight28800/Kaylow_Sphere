@@ -12,7 +12,7 @@ export default function CtaBand({
   text = 'Parlons-en. Décrivez-moi votre besoin en quelques lignes, je vous réponds sous 48 h ouvrées avec un premier avis et les prochaines étapes.',
 }: CtaBandProps) {
   return (
-    <section className="relative overflow-hidden border-t border-white/10 bg-navy py-20 sm:py-28">
+    <section className="relative overflow-hidden border-t border-white/10 py-20 sm:py-28">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 aura" />
       <div className="container-page relative">
         <div className="glass-panel glass-sheen p-8 sm:p-14">
