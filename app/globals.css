@@ -180,17 +180,15 @@
 }
 
 @layer utilities {
-  /* Hero : lumière d'une géante bleue lointaine, placée derrière le trou noir
-     (en bas à droite du bloc texte), qui éclaire légèrement le texte */
+  /* Hero : halo d'une géante bleue cachée derrière le trou noir — sa lumière
+     remonte de derrière l'horizon et éclaire légèrement le bloc texte */
   .giant-light {
     background:
-      radial-gradient(34% 38% at 60% 62%, rgba(91, 140, 255, 0.15), transparent 70%),
-      radial-gradient(55% 45% at 58% 70%, rgba(61, 107, 245, 0.08), transparent 70%);
+      radial-gradient(40% 36% at 50% 66%, rgba(91, 140, 255, 0.11), transparent 70%),
+      radial-gradient(60% 46% at 50% 74%, rgba(61, 107, 245, 0.06), transparent 70%);
   }
   .giant-lit {
-    text-shadow:
-      2px 4px 18px rgba(91, 140, 255, 0.28),
-      0 1px 1px rgba(150, 180, 255, 0.18);
+    text-shadow: 0 4px 22px rgba(91, 140, 255, 0.2);
   }
 
   /* Halo de fond diffus (donne de la matière au verre) */

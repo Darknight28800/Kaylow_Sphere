@@ -55,7 +55,7 @@ export default function HomePage() {
 
         {/* Contenu principal : aspiré vers le trou noir au scroll */}
         <div className="relative z-10">
-          {/* Lumière d'une géante bleue lointaine, derrière le trou noir */}
+          {/* Halo d'une géante bleue cachée derrière le trou noir */}
           <div
             aria-hidden="true"
             className="giant-light pointer-events-none absolute inset-x-0 -bottom-[30vh] top-0"

@@ -113,24 +113,6 @@ vec3 stars(vec3 d) {
   return c;
 }
 
-// Géante bleue lointaine, derrière le trou noir (en haut à droite). Placée
-// à sa position apparente (rayon non dévié) : la lentille la repousserait
-// sur l'anneau d'Einstein, au bord du cadre. Masquée par l'ombre et le disque.
-vec3 blueGiant(vec3 d, vec3 g, vec3 rt, vec3 up) {
-  float a = max(0.0, 1.0 - dot(d, g)); // ~ angle² / 2
-  float core = exp(-a / 3.0e-6);
-  float glare = exp(-sqrt(a) * 30.0);
-  float wide = exp(-sqrt(a) * 8.0);
-  // Aigrettes de diffraction (croix fine)
-  vec3 dd = d - g;
-  float sx = abs(dot(dd, rt));
-  float sy = abs(dot(dd, up));
-  float spikes = exp(-sx * 900.0) * exp(-sy * 22.0) + exp(-sy * 900.0) * exp(-sx * 22.0);
-  return vec3(0.88, 0.92, 1.0) * (core * 4.0 + spikes * 0.7)
-       + C_LIGHT * glare * 0.8
-       + C_BLUE * wide * 0.12;
-}
-
 // Étoiles en orbite autour du trou noir, dans le plan du disque (vu de
 // biais) : anneaux concentriques, rotation képlérienne (plus rapide près
 // de l'horizon). Chaque anneau tourne d'un bloc : pas de cisaillement.
@@ -181,7 +163,6 @@ void main() {
   vec3 rt = normalize(cross(vec3(0.0, 1.0, 0.0), fw));
   vec3 up = cross(fw, rt);
   vec3 v = normalize(fw + (uv.x * rt + uv.y * up) * 1.25);
-  vec3 rd0 = v; // direction de visée avant déviation
   vec3 p = ro;
 
   vec3 hv = cross(p, v);
@@ -247,8 +228,7 @@ void main() {
     vec3 d = normalize(v);
     float ra = uTime * 0.02;
     d = d * cos(ra) + cross(fw, d) * sin(ra) + fw * dot(fw, d) * (1.0 - cos(ra));
-    vec3 giantDir = normalize(fw + (0.21 * rt + 0.1 * up) * 1.25);
-    vec3 bg = stars(d) + orbitStars(uv * dist / 17.0, uTime) + blueGiant(rd0, giantDir, rt, up);
+    vec3 bg = stars(d) + orbitStars(uv * dist / 17.0, uTime);
     col += (1.0 - alpha) * bg;
     alpha += (1.0 - alpha) * clamp(max(bg.r, max(bg.g, bg.b)), 0.0, 1.0);
   }
