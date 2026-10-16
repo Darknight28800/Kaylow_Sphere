@@ -186,6 +186,22 @@
       radial-gradient(48% 40% at 78% 8%, rgba(91, 61, 246, 0.28), transparent 70%),
       radial-gradient(42% 38% at 6% 92%, rgba(34, 211, 238, 0.14), transparent 70%);
   }
+
+  /* Repli sans WebGL du trou noir (components/BlackHole.tsx) */
+  .blackhole-fallback {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(28vh, 50%);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    background: radial-gradient(circle, #000 52%, transparent 56%);
+    box-shadow:
+      0 0 0 2px rgba(214, 233, 255, 0.55),
+      0 0 40px 8px rgba(41, 143, 247, 0.45),
+      0 0 120px 30px rgba(91, 61, 246, 0.35);
+  }
 }
 
 /* ======================================================================

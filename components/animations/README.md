@@ -11,7 +11,6 @@ uniquement via `transform` / `opacity` / `filter` (pas de lecture de layout en b
 | `SmoothScroll.tsx` | Défilement fluide global (inertie) + synchro ScrollTrigger | lenis + gsap |
 | `useGsapScope.ts` | Hook : animations GSAP scopées, nettoyage auto | gsap |
 | `ScrollParallax.tsx` | Parallaxe d'une couche au scroll (halo du hero) | gsap/ScrollTrigger |
-| `HeroBackground3D.tsx` + `HeroScene.tsx` | Sphère 3D du hero (lazy, desktop uniquement, en pause pendant l'intro et hors écran) | three + r3f + drei |
 
 ## Ailleurs dans `components/`
 
@@ -20,6 +19,8 @@ uniquement via `transform` / `opacity` / `filter` (pas de lecture de layout en b
 | `Reveal.tsx` | Apparition unique au scroll : fondu + montée + flou qui se dissipe |
 | `Stagger.tsx` | Même effet, en cascade sur les enfants `<StaggerItem>` (+ soulèvement au survol) |
 | `HeroTitle.tsx` | Titre du hero révélé ligne par ligne (masque) |
+| `BlackHole.tsx` | Trou noir du hero : shader WebGL maison (lentille gravitationnelle, disque bleu-violet), qualité adaptative, en pause hors écran / pendant l'intro |
+| `BlackHoleHero.tsx` | `BlackHoleHero` / `BlackHoleLayer` / `GravityPull` : aspiration du contenu du hero vers le trou noir au scroll |
 | `ProcessSteps.tsx` | Récit au défilement de la méthode : colonne sticky + étape active |
 | `ScrollProgress.tsx` | Barre de progression de lecture (scaleX) |
 | `Spotlight.tsx` | Halo qui suit la souris sur les `.glass-panel` (souris uniquement) |

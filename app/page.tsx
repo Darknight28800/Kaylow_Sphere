@@ -3,9 +3,9 @@ import Icon from '@/components/Icon';
 import CtaBand from '@/components/CtaBand';
 import Reveal from '@/components/Reveal';
 import { Stagger, StaggerItem } from '@/components/Stagger';
-import HeroBackground3D from '@/components/animations/HeroBackground3D';
 import ScrollParallax from '@/components/animations/ScrollParallax';
 import HeroTitle from '@/components/HeroTitle';
+import { BlackHoleHero, BlackHoleLayer, GravityPull } from '@/components/BlackHoleHero';
 import ProcessSteps, { type ProcessStep } from '@/components/ProcessSteps';
 import { ProjectThumb } from '@/components/ProjectMedia';
 import { Section, SectionHeading } from '@/components/Section';
@@ -46,19 +46,14 @@ export default function HomePage() {
   return (
     <>
       {/* Hero — pleine largeur, cadrage éditorial premium */}
-      <section className="relative flex min-h-[94vh] flex-col overflow-hidden bg-navy">
+      <BlackHoleHero className="relative flex min-h-[94vh] flex-col overflow-hidden bg-navy">
         {/* Halo de fond parallaxé */}
         <ScrollParallax speed={0.28} className="pointer-events-none absolute inset-0 h-[150%]">
           <div aria-hidden="true" className="absolute inset-0 aura" />
         </ScrollParallax>
 
-        {/* Sphère 3D — à droite, entièrement visible, sans halo circulaire */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 w-full sm:w-[62%] lg:w-[56%]"
-        >
-          <HeroBackground3D className="absolute inset-0" />
-        </div>
+        {/* Trou noir — à droite ; atténué sur mobile, où il passe sous le texte */}
+        <BlackHoleLayer className="pointer-events-none absolute inset-y-0 right-0 w-full opacity-50 sm:w-[62%] sm:opacity-100 lg:w-[56%]" />
 
         {/* Voile dégradé, ancré à gauche */}
         <div
@@ -69,51 +64,53 @@ export default function HomePage() {
         {/* Contenu principal */}
         <div className="relative z-10 flex flex-1 items-center">
           <div className="container-page w-full py-16 lg:py-20">
-            <Stagger gap={0.1} className="max-w-4xl">
-              <StaggerItem>
-                <p className="eyebrow mb-8">
-                  <span
-                    className="h-px w-12 bg-gradient-to-r from-accent to-transparent"
-                    aria-hidden="true"
-                  />
-                  <span>{site.role}</span>
-                </p>
-              </StaggerItem>
-              <HeroTitle />
-              <StaggerItem>
-                <p className="mt-9 max-w-xl text-lg leading-relaxed text-white/70">
-                  Je suis {site.legalName}, {site.role.toLowerCase()}. J&apos;accompagne
-                  indépendants, artisans et petites structures dans la conception de leur site ou de
-                  leur application — de la première maquette à la mise en production.
-                </p>
-              </StaggerItem>
-              <StaggerItem>
-                <div className="mt-11 flex flex-wrap items-center gap-4">
-                  <Link href="/contact" className="btn-primary">
-                    Demander un devis
-                    <Icon name="arrow-right" className="h-4 w-4" />
-                  </Link>
-                  <Link href="/services" className="btn-outline">
-                    Voir les services
-                  </Link>
-                </div>
-              </StaggerItem>
-              <StaggerItem>
-                <dl className="mt-16 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
-                  {proof.map(([term, desc], i) => (
-                    <div
-                      key={term}
-                      className={i > 0 ? 'sm:border-l sm:border-white/10 sm:pl-12' : undefined}
-                    >
-                      <dt className="font-mono text-sm font-semibold uppercase tracking-wider text-accent">
-                        {term}
-                      </dt>
-                      <dd className="mt-1.5 max-w-[20ch] text-sm text-white/60">{desc}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </StaggerItem>
-            </Stagger>
+            <GravityPull>
+              <Stagger gap={0.1} className="max-w-4xl">
+                <StaggerItem>
+                  <p className="eyebrow mb-8">
+                    <span
+                      className="h-px w-12 bg-gradient-to-r from-accent to-transparent"
+                      aria-hidden="true"
+                    />
+                    <span>{site.role}</span>
+                  </p>
+                </StaggerItem>
+                <HeroTitle />
+                <StaggerItem>
+                  <p className="mt-9 max-w-xl text-lg leading-relaxed text-white/70">
+                    Je suis {site.legalName}, {site.role.toLowerCase()}. J&apos;accompagne
+                    indépendants, artisans et petites structures dans la conception de leur site ou
+                    de leur application — de la première maquette à la mise en production.
+                  </p>
+                </StaggerItem>
+                <StaggerItem>
+                  <div className="mt-11 flex flex-wrap items-center gap-4">
+                    <Link href="/contact" className="btn-primary">
+                      Demander un devis
+                      <Icon name="arrow-right" className="h-4 w-4" />
+                    </Link>
+                    <Link href="/services" className="btn-outline">
+                      Voir les services
+                    </Link>
+                  </div>
+                </StaggerItem>
+                <StaggerItem>
+                  <dl className="mt-16 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+                    {proof.map(([term, desc], i) => (
+                      <div
+                        key={term}
+                        className={i > 0 ? 'sm:border-l sm:border-white/10 sm:pl-12' : undefined}
+                      >
+                        <dt className="font-mono text-sm font-semibold uppercase tracking-wider text-accent">
+                          {term}
+                        </dt>
+                        <dd className="mt-1.5 max-w-[20ch] text-sm text-white/60">{desc}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </StaggerItem>
+              </Stagger>
+            </GravityPull>
           </div>
         </div>
 
@@ -131,7 +128,7 @@ export default function HomePage() {
             </span>
           </div>
         </div>
-      </section>
+      </BlackHoleHero>
 
       {/* Services */}
       <Section>
