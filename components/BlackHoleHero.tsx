@@ -62,7 +62,7 @@ export function BlackHoleHero({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
-  const pull = useTransform(scrollYProgress, [0, 0.9], [0, 1], { clamp: true });
+  const pull = useTransform(scrollYProgress, [0, 0.55], [0, 1], { clamp: true });
 
   return (
     <section ref={sectionRef} className={className}>

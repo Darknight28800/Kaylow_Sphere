@@ -46,46 +46,44 @@ const steps: ProcessStep[] = [
 export default function HomePage() {
   return (
     <>
-      {/* Hero — pleine largeur, cadrage éditorial premium */}
-      <BlackHoleHero className="relative flex min-h-[94vh] flex-col overflow-hidden bg-navy">
+      {/* Hero — texte centré sous le header, trou noir pleine largeur en dessous */}
+      <BlackHoleHero className="relative flex flex-col overflow-hidden bg-navy">
         {/* Halo de fond parallaxé */}
         <ScrollParallax speed={0.28} className="pointer-events-none absolute inset-0 h-[150%]">
           <div aria-hidden="true" className="absolute inset-0 aura" />
         </ScrollParallax>
 
-        {/* Trou noir — à droite ; atténué sur mobile, où il passe sous le texte */}
-        <BlackHoleLayer className="pointer-events-none absolute inset-y-0 right-0 w-full opacity-50 sm:w-[62%] sm:opacity-100 lg:w-[56%]" />
-
-        {/* Voile dégradé, ancré à gauche */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-navy from-12% via-navy/55 via-40% to-transparent to-60%"
-        />
-
-        {/* Contenu principal */}
-        <div className="relative z-10 flex flex-1 items-center">
-          <div className="container-page w-full py-16 lg:py-20">
+        {/* Contenu principal : aspiré vers le trou noir au scroll */}
+        <div className="relative z-10">
+          <div className="container-page w-full pt-10 sm:pt-14 lg:pt-16">
             <GravityPull>
-              <Stagger gap={0.1} className="max-w-4xl">
+              <Stagger
+                gap={0.1}
+                className="mx-auto flex max-w-6xl flex-col items-center text-center"
+              >
                 <StaggerItem>
-                  <p className="eyebrow mb-8">
+                  <p className="eyebrow mb-7">
+                    <span
+                      className="h-px w-12 bg-gradient-to-r from-transparent to-accent"
+                      aria-hidden="true"
+                    />
+                    <span>{site.role}</span>
                     <span
                       className="h-px w-12 bg-gradient-to-r from-accent to-transparent"
                       aria-hidden="true"
                     />
-                    <span>{site.role}</span>
                   </p>
                 </StaggerItem>
                 <HeroTitle />
                 <StaggerItem>
-                  <p className="mt-9 max-w-xl text-lg leading-relaxed text-white/70">
+                  <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-white/70">
                     Je suis {site.legalName}, {site.role.toLowerCase()}. J&apos;accompagne
                     indépendants, artisans et petites structures dans la conception de leur site ou
                     de leur application — de la première maquette à la mise en production.
                   </p>
                 </StaggerItem>
                 <StaggerItem>
-                  <div className="mt-11 flex flex-wrap items-center gap-4">
+                  <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
                     <Link href="/contact" className="btn-primary">
                       Demander un devis
                       <Icon name="arrow-right" className="h-4 w-4" />
@@ -96,7 +94,7 @@ export default function HomePage() {
                   </div>
                 </StaggerItem>
                 <StaggerItem>
-                  <dl className="mt-16 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+                  <dl className="mt-12 flex flex-wrap justify-center gap-x-12 gap-y-6 border-t border-white/10 pt-7">
                     {proof.map(([term, desc], i) => (
                       <div
                         key={term}
@@ -105,7 +103,9 @@ export default function HomePage() {
                         <dt className="font-mono text-sm font-semibold uppercase tracking-wider text-accent">
                           {term}
                         </dt>
-                        <dd className="mt-1.5 max-w-[20ch] text-sm text-white/60">{desc}</dd>
+                        <dd className="mx-auto mt-1.5 max-w-[20ch] text-sm text-white/60">
+                          {desc}
+                        </dd>
                       </div>
                     ))}
                   </dl>
@@ -114,6 +114,9 @@ export default function HomePage() {
             </GravityPull>
           </div>
         </div>
+
+        {/* Trou noir — pleine largeur, sous le bloc texte (le haut, en fondu, passe derrière) */}
+        <BlackHoleLayer className="pointer-events-none relative -mt-16 h-[max(360px,min(40vw,80vh))] w-full sm:-mt-24" />
 
         {/* Disponibilité */}
         <div className="relative z-10 border-t border-white/[0.07]">

@@ -8,8 +8,12 @@ import type { MotionValue } from 'framer-motion';
  * - lancer de rayons courbés par la gravité (Schwarzschild simplifié) :
  *   l'arrière du disque d'accrétion apparaît au-dessus et au-dessous de
  *   l'ombre, et les étoiles du fond sont déformées autour.
- * - disque aux couleurs de la charte : cœur blanc-bleu, bleu, violet brand ;
- *   effet Doppler : le côté qui vient vers nous est plus lumineux et plus bleu.
+ * - disque horizontal aux couleurs du logo : cœur blanc-lavande, bleu
+ *   électrique, violet, indigo ; effet Doppler : le côté qui vient vers nous
+ *   est plus lumineux et plus bleu.
+ * - étoiles en orbite autour du trou noir (plus rapides près de l'horizon),
+ *   ciel du fond en lente rotation.
+ * - cadrage en largeur : le disque occupe toute la largeur du canvas.
  * - `pull` (0 → 1, piloté par le scroll) rapproche la caméra et accélère
  *   la rotation : le trou noir « aspire » la page.
  *
@@ -33,11 +37,12 @@ uniform float uPull;
 const float RIN = 2.6;
 const float ROUT = 10.0;
 
-// Charte : navy #050B2B, brand #5B3DF6, accent #22D3EE
-const vec3 C_HOT = vec3(0.86, 0.93, 1.0);
-const vec3 C_BLUE = vec3(0.16, 0.56, 0.97);
-const vec3 C_VIOLET = vec3(0.357, 0.239, 0.965);
-const vec3 C_DEEP = vec3(0.09, 0.08, 0.42);
+// Couleurs du logo Kaylow Sphere : bleu électrique, indigo, violet (pas de cyan)
+const vec3 C_HOT = vec3(0.9, 0.89, 1.0);       // reflet blanc-lavande
+const vec3 C_LIGHT = vec3(0.36, 0.55, 1.0);    // #5B8CFF bleu clair
+const vec3 C_BLUE = vec3(0.24, 0.42, 0.96);    // #3D6BF5 bleu électrique
+const vec3 C_VIOLET = vec3(0.357, 0.239, 0.965); // #5B3DF6 violet brand
+const vec3 C_DEEP = vec3(0.18, 0.17, 0.73);    // #2E2CB9 indigo
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -90,24 +95,54 @@ vec3 stars(vec3 d) {
   if (h > 0.93) {
     vec3 off = vec3(fract(h * 13.0), fract(h * 71.0), fract(h * 37.0)) - 0.5;
     float s = length(f - off * 0.5);
-    vec3 tint = mix(vec3(0.75, 0.85, 1.0), C_VIOLET + 0.35, fract(h * 7.0));
+    vec3 tint = mix(vec3(0.8, 0.82, 1.0), C_VIOLET + 0.35, fract(h * 7.0));
     c += tint * smoothstep(0.25, 0.0, s) * (h - 0.93) * 16.0;
   }
   return c;
 }
 
-void main() {
-  vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+// Étoiles en orbite autour du trou noir, dans le plan du disque (vu de
+// biais) : anneaux concentriques, rotation képlérienne (plus rapide près
+// de l'horizon). Chaque anneau tourne d'un bloc : pas de cisaillement.
+vec3 orbitStars(vec2 s, float t) {
+  const float FLAT = 0.38; // aplatissement du plan vu depuis la caméra
+  const float RW = 1.0 / 170.0;
+  vec2 q = vec2(s.x, s.y / FLAT);
+  float r = length(q);
+  if (r < 0.14) return vec3(0.0);
+  float ring = floor(r / RW);
+  float rc = (ring + 0.5) * RW;
+  float n = max(3.0, floor(6.2832 * rc / RW));
+  float omega = 0.12 * pow(0.2 / rc, 1.5);
+  float th = atan(q.y, q.x);
+  float fa = (th - t * omega) / 6.2832 * n;
+  float cell = mod(floor(fa), n);
+  float h = hash(vec2(ring, cell));
+  if (h < 0.8) return vec3(0.0);
+  vec2 o = vec2(fract(h * 13.1), fract(h * 71.7)) * 0.6 + 0.2;
+  vec2 dc = (vec2(fract(fa), r / RW - ring) - o) * vec2(6.2832 * rc / n, RW);
+  vec2 tdir = vec2(-sin(th), cos(th));
+  vec2 rdir = vec2(cos(th), sin(th));
+  vec2 dq = tdir * dc.x + rdir * dc.y;
+  float d = length(vec2(dq.x, dq.y * FLAT));
+  float size = RW * (0.12 + 0.16 * fract(h * 7.3));
+  float tw = 0.7 + 0.3 * sin(t * 2.0 + h * 40.0);
+  vec3 tint = mix(vec3(0.82, 0.84, 1.0), mix(C_LIGHT, C_VIOLET + 0.3, fract(h * 3.7)), 0.6);
+  return tint * smoothstep(size, 0.0, d) * (0.35 + (h - 0.8) * 5.0) * tw * smoothstep(0.14, 0.2, r);
+}
 
-  // Fondu circulaire : pas de bord de canvas visible
-  float mask = 1.0 - smoothstep(0.3, 0.5, length(uv));
+void main() {
+  // Cadrage « largeur » : le disque occupe toute la largeur du canvas
+  vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / max(uRes.x, uRes.y * 1.8);
+
+  // Fondu doux sur les bords du canvas
+  vec2 e = gl_FragCoord.xy / uRes;
+  float mask = smoothstep(0.0, 0.2, e.y) * (1.0 - smoothstep(0.8, 1.0, e.y))
+             * smoothstep(0.0, 0.04, e.x) * (1.0 - smoothstep(0.96, 1.0, e.x));
   if (mask <= 0.0) {
     gl_FragColor = vec4(0.0);
     return;
   }
-
-  float roll = -0.22;
-  uv = mat2(cos(roll), -sin(roll), sin(roll), cos(roll)) * uv;
 
   float dist = mix(17.0, 8.0, uPull);
   float elev = 0.17;
@@ -156,7 +191,7 @@ void main() {
         // Doppler : côté approchant plus lumineux et plus bleu
         vec3 vel = normalize(vec3(-ip.z, 0.0, ip.x));
         float dop = dot(vel, -normalize(v)) * sqrt(RIN / dr);
-        c = mix(c, C_BLUE + 0.25, clamp(dop, 0.0, 1.0) * 0.35);
+        c = mix(c, C_LIGHT, clamp(dop, 0.0, 1.0) * 0.4);
         c = mix(c, C_VIOLET, clamp(-dop, 0.0, 1.0) * 0.45);
         inten *= pow(1.0 + 0.55 * dop, 3.0);
 
@@ -177,7 +212,11 @@ void main() {
   if (captured) {
     alpha = 1.0;
   } else {
-    vec3 bg = stars(normalize(v));
+    // Le ciel tourne lentement autour de l'axe de visée
+    vec3 d = normalize(v);
+    float ra = uTime * 0.02;
+    d = d * cos(ra) + cross(fw, d) * sin(ra) + fw * dot(fw, d) * (1.0 - cos(ra));
+    vec3 bg = stars(d) + orbitStars(uv * dist / 17.0, uTime);
     col += (1.0 - alpha) * bg;
     alpha += (1.0 - alpha) * clamp(max(bg.r, max(bg.g, bg.b)), 0.0, 1.0);
   }
@@ -192,6 +231,8 @@ const DPR_CAP = 1.5;
 const Q_START = 0.8;
 const Q_MIN = 0.4;
 const SLOW_FRAME_MS = 22;
+/** Plafond de pixels rendus (le canvas fait toute la largeur de la page). */
+const MAX_PIXELS = 1_300_000;
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const sh = gl.createShader(type);
@@ -266,7 +307,8 @@ export default function BlackHole({ pull, className = '' }: BlackHoleProps) {
     let visible = true;
 
     const resize = () => {
-      const s = dpr * quality;
+      const area = Math.max(1, canvas.clientWidth * canvas.clientHeight);
+      const s = Math.min(dpr * quality, Math.sqrt(MAX_PIXELS / area));
       const w = Math.max(1, Math.round(canvas.clientWidth * s));
       const h = Math.max(1, Math.round(canvas.clientHeight * s));
       if (canvas.width !== w || canvas.height !== h) {

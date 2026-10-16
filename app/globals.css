@@ -109,7 +109,7 @@
     background: radial-gradient(
       420px circle at var(--mx, 50%) var(--my, -200px),
       rgba(123, 98, 248, 0.14),
-      rgba(34, 211, 238, 0.05) 40%,
+      rgba(91, 140, 255, 0.05) 40%,
       transparent 70%
     );
     opacity: 0;
@@ -184,7 +184,7 @@
   .aura {
     background-image:
       radial-gradient(48% 40% at 78% 8%, rgba(91, 61, 246, 0.28), transparent 70%),
-      radial-gradient(42% 38% at 6% 92%, rgba(34, 211, 238, 0.14), transparent 70%);
+      radial-gradient(42% 38% at 6% 92%, rgba(61, 107, 245, 0.16), transparent 70%);
   }
 
   /* Repli sans WebGL du trou noir (components/BlackHole.tsx) */
@@ -198,8 +198,8 @@
     border-radius: 9999px;
     background: radial-gradient(circle, #000 52%, transparent 56%);
     box-shadow:
-      0 0 0 2px rgba(214, 233, 255, 0.55),
-      0 0 40px 8px rgba(41, 143, 247, 0.45),
+      0 0 0 2px rgba(222, 220, 255, 0.55),
+      0 0 40px 8px rgba(61, 107, 245, 0.45),
       0 0 120px 30px rgba(91, 61, 246, 0.35);
   }
 }
@@ -329,7 +329,7 @@
   width: 100%;
   transform: scaleX(0);
   transform-origin: left;
-  background: linear-gradient(90deg, #22d3ee, #5b3df6);
+  background: linear-gradient(90deg, #5b8cff, #5b3df6);
   will-change: transform;
 }
 .intro__count {
@@ -337,7 +337,7 @@
   font-family: var(--font-jetbrains-mono), monospace;
   font-size: 0.8rem;
   letter-spacing: 0.15em;
-  color: #22d3ee;
+  color: #5b8cff;
   font-variant-numeric: tabular-nums;
 }
 
@@ -361,8 +361,8 @@
     border-color 0.15s ease;
 }
 .intro__skip:hover {
-  color: #22d3ee;
-  border-color: rgba(34, 211, 238, 0.5);
+  color: #5b8cff;
+  border-color: rgba(91, 140, 255, 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {

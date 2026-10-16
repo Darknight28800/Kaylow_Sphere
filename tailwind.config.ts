@@ -17,8 +17,8 @@ const config: Config = {
           400: '#7b62f8',
         },
         accent: {
-          DEFAULT: '#22D3EE', // Cyan électrique — accents, survols, icônes
-          600: '#0fb9d4',
+          DEFAULT: '#5B8CFF', // Bleu électrique du logo — accents, survols, icônes
+          600: '#3D6BF5',
         },
         neutraltxt: '#8B93A7', // Gris neutre — sous-titres, légendes (contraste AA sur navy)
         mist: '#F4F5F7', // Gris très clair — sections claires, cartes

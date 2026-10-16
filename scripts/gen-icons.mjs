@@ -60,7 +60,7 @@ const textOg = Buffer.from(`
     <rect width="${OG_W}" height="${OG_H}" fill="#050B2B"/>
     <rect width="${OG_W}" height="${OG_H}" fill="url(#halo)"/>
     <text x="560" y="300" font-family="Poppins, Arial, sans-serif" font-size="64" font-weight="700" fill="#FFFFFF">Kaylow Sphere</text>
-    <text x="560" y="360" font-family="Inter, Arial, sans-serif" font-size="30" fill="#22D3EE">Développeur web freelance fullstack</text>
+    <text x="560" y="360" font-family="Inter, Arial, sans-serif" font-size="30" fill="#5B8CFF">Développeur web freelance fullstack</text>
     <text x="560" y="418" font-family="Inter, Arial, sans-serif" font-size="26" fill="#9AA3B2">Le centre de gravité de votre projet web.</text>
   </svg>`);
 

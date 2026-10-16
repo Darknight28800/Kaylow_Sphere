@@ -2,7 +2,7 @@ import Image from 'next/image';
 import type { Project } from '@/lib/site';
 
 const HALO =
-  'radial-gradient(50% 50% at 50% 40%, rgba(91,61,246,0.28), transparent 70%), radial-gradient(40% 40% at 80% 90%, rgba(34,211,238,0.14), transparent 70%)';
+  'radial-gradient(50% 50% at 50% 40%, rgba(91,61,246,0.28), transparent 70%), radial-gradient(40% 40% at 80% 90%, rgba(61,107,245,0.16), transparent 70%)';
 
 /** Vignette pour les cartes de la liste portfolio et de l'accueil. */
 export function ProjectThumb({
