@@ -12,7 +12,9 @@ import { ProjectThumb } from '@/components/ProjectMedia';
 import { Section, SectionHeading } from '@/components/Section';
 import { projects, services, site } from '@/lib/site';
 
-const featured = projects.filter((p) => ['trouve-ton-artisan', 'gdf', 'tpak'].includes(p.slug));
+const featured = projects.filter((p) =>
+  ['trouve-ton-artisan', 'maintenance-ramonage-services', 'gdf'].includes(p.slug),
+);
 
 const proof: [string, string][] = [
   ['A → Z', 'Cadrage, design, développement et mise en ligne'],

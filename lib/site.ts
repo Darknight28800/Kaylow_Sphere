@@ -150,6 +150,30 @@ export const projects: Project[] = [
     // ],
   },
   {
+    slug: 'maintenance-ramonage-services',
+    name: 'Maintenance Ramonage Services',
+    tagline: "Site vitrine d'un artisan ramoneur, avec prise de rendez-vous en ligne.",
+    stack: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP'],
+    type: 'Site vitrine client',
+    status: 'en cours',
+    context:
+      'Kévin, artisan ramoneur en Eure-et-Loir, intervient sur les poêles à granulés, poêles à bois, inserts et cheminées. Les trois quarts de sa clientèle ont plus de 60 ans : le site devait être avant tout lisible et simple à utiliser.',
+    solution:
+      'Site Astro pré-généré en HTML statique (très peu de JavaScript), avec une petite API Node pour les formulaires : demandes de devis et rendez-vous sont transmis à FacturePro. Texte en grand, boutons larges, téléphone toujours visible, aucun pop-up.',
+    highlights: [
+      'Pensé pour une clientèle senior : lisibilité, contraste, grandes zones cliquables',
+      "Prise de rendez-vous en ligne pour le ramonage et l'entretien",
+      'Formulaire de devis relié à FacturePro',
+      "Zone d'intervention vérifiée par commune",
+    ],
+    images: [
+      {
+        src: '/portfolio/maintenance-ramonage-services/01.jpg',
+        alt: "Page d'accueil du site Maintenance Ramonage Services",
+      },
+    ],
+  },
+  {
     slug: 'tpak',
     name: 'Touche Pas Au Klaxon (TPAK)',
     tagline: 'Application de covoiturage.',
@@ -182,6 +206,12 @@ export const projects: Project[] = [
       'Suivi des encaissements et des impayés',
       'Tableau de bord financier',
       'Produit développé et maintenu en propre',
+    ],
+    images: [
+      {
+        src: '/portfolio/gdf/01.jpg',
+        alt: "Page d'accueil de FacturePro : « Vos devis et factures, gérés simplement »",
+      },
     ],
   },
   {
