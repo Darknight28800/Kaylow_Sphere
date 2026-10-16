@@ -55,11 +55,16 @@ export default function HomePage() {
 
         {/* Contenu principal : aspiré vers le trou noir au scroll */}
         <div className="relative z-10">
-          <div className="container-page w-full pt-10 sm:pt-14 lg:pt-16">
+          {/* Lumière d'une géante bleue lointaine, derrière le trou noir */}
+          <div
+            aria-hidden="true"
+            className="giant-light pointer-events-none absolute inset-x-0 -bottom-[30vh] top-0"
+          />
+          <div className="container-page relative w-full pt-10 sm:pt-14 lg:pt-16">
             <GravityPull>
               <Stagger
                 gap={0.1}
-                className="mx-auto flex max-w-6xl flex-col items-center text-center"
+                className="giant-lit mx-auto flex max-w-5xl flex-col items-center text-center"
               >
                 <StaggerItem>
                   <p className="eyebrow mb-7">

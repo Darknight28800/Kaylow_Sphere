@@ -17,8 +17,8 @@ import type { MotionValue } from 'framer-motion';
  * - `pull` (0 → 1, piloté par le scroll) rapproche la caméra et accélère
  *   la rotation : le trou noir « aspire » la page.
  *
- * Performance : résolution réduite et adaptative (baisse si les images
- * dépassent ~22 ms), rendu suspendu hors écran, onglet masqué et pendant
+ * Netteté : rendu à la résolution native de l'écran (jusqu'à la 4K).
+ * Performance : qualité adaptative (baisse si les images dépassent ~22 ms), rendu suspendu hors écran, onglet masqué et pendant
  * l'intro. Animations réduites : une seule image fixe.
  */
 
@@ -69,6 +69,18 @@ float fbm(vec2 p) {
   return v;
 }
 
+// Une octave de plus pour le disque : détail fin visible en haute résolution
+float fbm5(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  for (int i = 0; i < 5; i++) {
+    v += a * noise(p);
+    p = p * 2.03 + 17.1;
+    a *= 0.5;
+  }
+  return v;
+}
+
 // Texture du disque à rotation différentielle (képlérienne). Deux phases
 // décalées se relaient pour que le motif ne s'enroule pas à l'infini.
 float diskPattern(float r, float ang, float t) {
@@ -79,8 +91,8 @@ float diskPattern(float r, float ang, float t) {
   float w1 = 1.0 - abs(2.0 * ph1 - 1.0);
   float a1 = ang - omega * ph1 * 20.0;
   float a2 = ang - omega * ph2 * 20.0;
-  float n1 = fbm(vec2(cos(a1), sin(a1)) * r * 1.1 + vec2(r * 1.7, 3.0));
-  float n2 = fbm(vec2(cos(a2), sin(a2)) * r * 1.1 + vec2(r * 1.7, 41.0));
+  float n1 = fbm5(vec2(cos(a1), sin(a1)) * r * 1.5 + vec2(r * 2.2, 3.0));
+  float n2 = fbm5(vec2(cos(a2), sin(a2)) * r * 1.5 + vec2(r * 2.2, 41.0));
   return mix(n2, n1, w1);
 }
 
@@ -92,13 +104,31 @@ vec3 stars(vec3 d) {
   vec3 id = floor(g);
   vec3 f = fract(g) - 0.5;
   float h = fract(sin(dot(id, vec3(127.1, 311.7, 74.7))) * 43758.5453);
-  if (h > 0.93) {
+  if (h > 0.9825) {
     vec3 off = vec3(fract(h * 13.0), fract(h * 71.0), fract(h * 37.0)) - 0.5;
     float s = length(f - off * 0.5);
     vec3 tint = mix(vec3(0.8, 0.82, 1.0), C_VIOLET + 0.35, fract(h * 7.0));
-    c += tint * smoothstep(0.25, 0.0, s) * (h - 0.93) * 16.0;
+    c += tint * smoothstep(0.25, 0.0, s) * (0.35 + (h - 0.9825) * 60.0);
   }
   return c;
+}
+
+// Géante bleue lointaine, derrière le trou noir (en haut à droite). Placée
+// à sa position apparente (rayon non dévié) : la lentille la repousserait
+// sur l'anneau d'Einstein, au bord du cadre. Masquée par l'ombre et le disque.
+vec3 blueGiant(vec3 d, vec3 g, vec3 rt, vec3 up) {
+  float a = max(0.0, 1.0 - dot(d, g)); // ~ angle² / 2
+  float core = exp(-a / 3.0e-6);
+  float glare = exp(-sqrt(a) * 30.0);
+  float wide = exp(-sqrt(a) * 8.0);
+  // Aigrettes de diffraction (croix fine)
+  vec3 dd = d - g;
+  float sx = abs(dot(dd, rt));
+  float sy = abs(dot(dd, up));
+  float spikes = exp(-sx * 900.0) * exp(-sy * 22.0) + exp(-sy * 900.0) * exp(-sx * 22.0);
+  return vec3(0.88, 0.92, 1.0) * (core * 4.0 + spikes * 0.7)
+       + C_LIGHT * glare * 0.8
+       + C_BLUE * wide * 0.12;
 }
 
 // Étoiles en orbite autour du trou noir, dans le plan du disque (vu de
@@ -118,7 +148,7 @@ vec3 orbitStars(vec2 s, float t) {
   float fa = (th - t * omega) / 6.2832 * n;
   float cell = mod(floor(fa), n);
   float h = hash(vec2(ring, cell));
-  if (h < 0.8) return vec3(0.0);
+  if (h < 0.95) return vec3(0.0);
   vec2 o = vec2(fract(h * 13.1), fract(h * 71.7)) * 0.6 + 0.2;
   vec2 dc = (vec2(fract(fa), r / RW - ring) - o) * vec2(6.2832 * rc / n, RW);
   vec2 tdir = vec2(-sin(th), cos(th));
@@ -128,7 +158,7 @@ vec3 orbitStars(vec2 s, float t) {
   float size = RW * (0.12 + 0.16 * fract(h * 7.3));
   float tw = 0.7 + 0.3 * sin(t * 2.0 + h * 40.0);
   vec3 tint = mix(vec3(0.82, 0.84, 1.0), mix(C_LIGHT, C_VIOLET + 0.3, fract(h * 3.7)), 0.6);
-  return tint * smoothstep(size, 0.0, d) * (0.35 + (h - 0.8) * 5.0) * tw * smoothstep(0.14, 0.2, r);
+  return tint * smoothstep(size, 0.0, d) * (0.35 + (h - 0.95) * 20.0) * tw * smoothstep(0.14, 0.2, r);
 }
 
 void main() {
@@ -151,6 +181,7 @@ void main() {
   vec3 rt = normalize(cross(vec3(0.0, 1.0, 0.0), fw));
   vec3 up = cross(fw, rt);
   vec3 v = normalize(fw + (uv.x * rt + uv.y * up) * 1.25);
+  vec3 rd0 = v; // direction de visée avant déviation
   vec3 p = ro;
 
   vec3 hv = cross(p, v);
@@ -216,7 +247,8 @@ void main() {
     vec3 d = normalize(v);
     float ra = uTime * 0.02;
     d = d * cos(ra) + cross(fw, d) * sin(ra) + fw * dot(fw, d) * (1.0 - cos(ra));
-    vec3 bg = stars(d) + orbitStars(uv * dist / 17.0, uTime);
+    vec3 giantDir = normalize(fw + (0.21 * rt + 0.1 * up) * 1.25);
+    vec3 bg = stars(d) + orbitStars(uv * dist / 17.0, uTime) + blueGiant(rd0, giantDir, rt, up);
     col += (1.0 - alpha) * bg;
     alpha += (1.0 - alpha) * clamp(max(bg.r, max(bg.g, bg.b)), 0.0, 1.0);
   }
@@ -227,12 +259,13 @@ void main() {
 }
 `;
 
-const DPR_CAP = 1.5;
-const Q_START = 0.8;
-const Q_MIN = 0.4;
+const DPR_CAP = 2;
+const Q_START = 1;
+const Q_MIN = 0.5;
 const SLOW_FRAME_MS = 22;
-/** Plafond de pixels rendus (le canvas fait toute la largeur de la page). */
-const MAX_PIXELS = 1_300_000;
+/** Plafond de pixels rendus : résolution native de l'écran, jusqu'à la 4K
+ *  (3840 × 2160). La qualité adaptative redescend si le GPU ne suit pas. */
+const MAX_PIXELS = 8_300_000;
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const sh = gl.createShader(type);
