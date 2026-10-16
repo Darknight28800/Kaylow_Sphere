@@ -1,7 +1,67 @@
 # Kaylow Sphere — Récapitulatif & reprise sur un autre poste
 
-> Document de passation. Généré le 2026-09-02.
+> Document de passation. Généré le 2026-09-02, **mis à jour le 2026-10-16**.
 > À transmettre à Claude Code sur l'autre PC pour reprendre le travail.
+> Commencer par la section **0** (dernière session), le reste décrit le socle.
+
+---
+
+## 0. Dernière session (16/10/2026) — à lire en premier
+
+### Reprendre sur l'autre PC
+
+```bash
+git pull
+npm install        # des paquets ont été RETIRÉS (three, @react-three/*, postprocessing)
+rm -rf .next       # repartir d'un cache propre
+npm run dev        # http://localhost:3000
+```
+
+- Tout est commité et poussé sur `origin/main` (rien en attente localement).
+- Vérification avant commit : `npm run check` (types + lint + Prettier) puis `npm run build`.
+- **Après chaque déploiement** (push sur `main` → Hostinger redéploie tout seul) :
+  hPanel → carte « Cache » → **Vider le cache**, puis Ctrl+Shift+R. Sinon le CDN sert
+  l'ancien HTML → écran blanc.
+
+### Ce qui a été fait
+
+| Sujet | Où | Détail |
+|---|---|---|
+| **Trou noir du hero** | `components/BlackHole.tsx` | Shader WebGL maison (aucune lib 3D) : rayons courbés par la gravité, disque d'accrétion **horizontal**, effet Doppler, étoiles en orbite képlérienne, ciel en rotation lente. Rendu à la **résolution native** (jusqu'à la 4K), qualité adaptative si le GPU rame, pause hors écran / onglet masqué / pendant l'intro, image fixe si animations réduites, repli CSS sans WebGL. |
+| **Hero** | `app/page.tsx`, `components/BlackHoleHero.tsx`, `components/HeroTitle.tsx` | Textes et boutons **centrés sous le header**, trou noir **pleine largeur** en dessous. Au scroll, le bloc texte est **aspiré** vers le centre du trou noir (`GravityPull`). Titre réduit (max 4,25rem). |
+| **Halo « géante bleue »** | `app/globals.css` (`.giant-light`, `.giant-lit`) | Géante **invisible**, cachée derrière le trou noir : seule sa lumière éclaire légèrement le bloc texte (lueur + reflet). |
+| **Big Bang** | `components/BigBang.tsx` | Accueil : zone de scroll entre Portfolio et Méthode → éclair, onde de choc, éjection des étoiles, formation d'une **galaxie spirale**. Elle reste en fond jusqu'en bas ; remonter rejoue à l'envers. **Couleurs à ne pas toucher** (demande explicite). |
+| **Galaxie sur les autres pages** | `components/SiteGalaxy.tsx` (monté dans `app/layout.tsx`) | Toutes les pages sauf `/` : galaxie déjà formée en fond (`BigBang mode="galaxy"`). Pose `data-galaxy` sur `<html>` → les sections `navy` et les en-têtes de page deviennent transparents (`.section-navy`). L'accueil reste strictement inchangé. |
+| **Couleurs** | `tailwind.config.ts`, `app/globals.css` | **Plus de cyan** : `accent` = `#5B8CFF` (bleu électrique du logo), `brand` = `#5B3DF6` (violet). Seul le Big Bang garde son cyan (demande explicite). |
+| **Portfolio** | `lib/site.ts`, `public/portfolio/` | Cards de l'accueil : **TTA, Maintenance Ramonage Services (Kévin), FacturePro** (TPAK retiré de l'accueil, toujours sur `/portfolio`). Captures : `trouve-ton-artisan/01.jpg`, `maintenance-ramonage-services/01.jpg`, `gdf/01.jpg` (1600×1000). |
+| **Nettoyage** | — | Supprimés : `HeroBackground3D.tsx`, `HeroScene.tsx` et les paquets three / @react-three/* / postprocessing. |
+
+### Non vérifié / à faire ensuite
+
+- **Mobile non testé** depuis ces changements (fenêtre Chrome maximisée, CSP qui bloque
+  les iframes). À regarder sur un vrai téléphone : hero (trou noir sous le texte, aspiration),
+  Big Bang, galaxie des pages internes, **fluidité** (trou noir en résolution native).
+- **Lisibilité** : sur les pages très textuelles (mentions légales), le cœur de la galaxie passe
+  derrière le texte central. Atténuer la galaxie sur ces pages si ça gêne.
+- **`og-image.png` contient encore du cyan**. `scripts/gen-icons.mjs` est corrigé (bleu) mais
+  part de `assets/Logo-sphere.jpg`, qui semble être **l'ancien logo** : ne pas lancer
+  `npm run icons` sans d'abord pointer le script vers le nouveau logo
+  (`public/logo-sphere.png`), sinon les icônes actuelles seraient écrasées.
+- Site de Kévin (`C:\Dev\Kevin_ramoneur`) : encore en maquette (`"provisoire": true`).
+  Quand il sera en ligne (domaine prévu `ramonage-idf.fr`) → passer le projet en
+  `status: 'en ligne'` et ajouter `url` dans `lib/site.ts`. Vérifier que Kévin est d'accord
+  pour figurer au portfolio.
+
+### Pièges rencontrés
+
+- **Ne jamais lancer `npm run build` pendant que `npm run dev` tourne** (dossier `.next`
+  partagé) : le dev server se retrouve sans ses fichiers → page sans JavaScript, canvas vides.
+  Arrêter le dev, `rm -rf .next`, relancer.
+- **Lenis** (défilement fluide) restaure la position de scroll au rechargement : pour tester
+  le haut de page, `history.scrollRestoration = 'manual'` ou touche Début.
+- Pour sauter l'intro en test : `sessionStorage.setItem('sw-intro-played', '1')`.
+- Un `position: fixed` placé sous `app/template.tsx` (qui applique un `transform`) n'est plus
+  fixe : les canvas plein écran sont **portés dans `<body>`** (`createPortal`).
 
 ---
 
@@ -158,17 +218,17 @@ Rien d'autre à installer globalement.
    gracieuse tant que ce n'est pas fait — c'est normal).
 2. **Logo ARTNumérique définitif** → remplacer `public/partners/artnumerique.svg`
    (voir `public/partners/README.md`).
-3. **Captures d'écran des projets** → déposer dans `public/portfolio/<slug>/` puis
-   renseigner `images[]` du projet dans `lib/site.ts` (exemple commenté en place ;
-   voir `public/portfolio/README.md`). Slugs : `trouve-ton-artisan`, `tpak`, `gdf`, `nexus`.
+3. **Captures d'écran des projets** → faites pour TTA, Maintenance Ramonage Services et
+   FacturePro (16/10). Restent `tpak` et `nexus` : déposer dans `public/portfolio/<slug>/`
+   puis renseigner `images[]` dans `lib/site.ts` (voir `public/portfolio/README.md`).
 4. **URL publiques des projets en ligne** → `lib/site.ts` → `project.url`.
 5. **Liens profils Malt / Codeur.com** → `lib/site.ts` → `site.profiles`.
 6. **Poursuite du travail design / motion** avec l'utilisateur (itératif).
 7. Page **CGV** si devis / paiements en ligne (Charte §4).
 8. Éventuel **outil d'audience sans cookie** (Plausible / Matomo) — à décider.
-9. **Déploiement Hostinger** : `npm ci && npm run build && npm run start` sur l'offre
-   Node.js, variables d'env côté hPanel, `CORS`/domaine sur `https://kaylowsphere.com`.
-   (Pas d'export statique possible à cause de la route `/api/contact`.)
+9. **Déploiement Hostinger** : en place — intégration Git de Hostinger, chaque push sur
+   `main` redéploie (Hostinger lance lui-même le build). **Vider le cache Hostinger après
+   chaque déploiement** (voir section 0).
 
 ---
 
@@ -177,7 +237,7 @@ Rien d'autre à installer globalement.
 ```
 app/
 ├─ layout.tsx           Métadonnées globales, polices, script d'intro inline,
-│                       montage de IntroLoader / ParticleField / CardBeam, #app-shell
+│                       montage de IntroLoader / ScrollProgress / SiteGalaxy, #app-shell
 ├─ template.tsx         Transition d'entrée de page (framer-motion)
 ├─ globals.css          Design system : .glass*, .btn*, .eyebrow, .aura, jet de lumière,
 │                       CSS de l'intro (fond noir #03040c)
@@ -187,9 +247,11 @@ app/
 ├─ sitemap.ts robots.ts
 components/
 ├─ IntroLoader.tsx      Intro hyper-espace (canvas, phases dans `PHASE`)
-├─ HeroSphere.tsx       Sphère animée du hero
-├─ ParticleField.tsx    Particules interactives
-├─ CardBeam.tsx         Jet de lumière global synchronisé
+├─ BlackHole.tsx        Trou noir WebGL du hero (shader GLSL)
+├─ BlackHoleHero.tsx    Hero : BlackHoleHero / BlackHoleLayer / GravityPull (aspiration)
+├─ BigBang.tsx          Big Bang au scroll + galaxie (mode `galaxy` pour les pages internes)
+├─ SiteGalaxy.tsx       Galaxie en fond hors accueil (data-galaxy sur <html>)
+├─ animations/          SmoothScroll (Lenis), ScrollParallax (GSAP) — voir son README
 ├─ Reveal.tsx           Révélation bidirectionnelle au scroll
 ├─ Stagger.tsx          Cascade + hover sur les grilles
 ├─ Header.tsx Footer.tsx Logo.tsx Icon.tsx Section.tsx CtaBand.tsx
