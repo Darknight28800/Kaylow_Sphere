@@ -96,8 +96,8 @@ export default function HomePage() {
                       Demander un devis
                       <Icon name="arrow-right" className="h-4 w-4" />
                     </Link>
-                    <Link href="/services" className="btn-outline">
-                      Voir les services
+                    <Link href="/audit-gratuit" className="btn-outline">
+                      Audit gratuit de mon site
                     </Link>
                   </div>
                 </StaggerItem>

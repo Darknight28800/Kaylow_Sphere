@@ -249,6 +249,8 @@ export const nav: NavItem[] = [
   { label: 'Services', to: '/services' },
   { label: 'Tarifs', to: '/tarifs' },
   { label: 'Portfolio', to: '/portfolio' },
+  { label: 'Audit gratuit', to: '/audit-gratuit' },
+  { label: 'Blog', to: '/blog' },
   { label: 'À propos', to: '/a-propos' },
   { label: 'Contact', to: '/contact' },
 ];

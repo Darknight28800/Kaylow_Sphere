@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Logo from './Logo';
 import Icon from './Icon';
+import { cities } from '@/lib/local';
 import { nav, partner, site } from '@/lib/site';
 
 const colLabel = 'font-mono text-xs uppercase tracking-[0.2em] text-white/60';
@@ -65,6 +66,20 @@ export default function Footer() {
               <li className="inline-flex items-center gap-2 text-white/60">
                 <Icon name="map-pin" className="h-4 w-4" />
                 {site.location}
+              </li>
+              <li className="text-xs leading-relaxed text-white/50">
+                Création de site internet à{' '}
+                {cities.map((c, i) => (
+                  <span key={c.slug}>
+                    <Link
+                      href={`/creation-site-internet/${c.slug}`}
+                      className="transition-colors hover:text-accent"
+                    >
+                      {c.name}
+                    </Link>
+                    {i < cities.length - 1 ? ', ' : ''}
+                  </span>
+                ))}
               </li>
             </ul>
           </div>

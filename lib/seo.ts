@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cities } from './local';
 import { services, site } from './site';
 
 const BASE_URL = site.url;
@@ -57,6 +58,7 @@ export function structuredData() {
         slogan: site.baseline,
         url: BASE_URL,
         email: site.email,
+        ...(site.phoneHref ? { telephone: site.phoneHref } : {}),
         logo: `${BASE_URL}/icon-512.png`,
         image: `${BASE_URL}/og-image.png`,
         founder: { '@id': id('founder') },
@@ -66,6 +68,7 @@ export function structuredData() {
           addressCountry: 'FR',
         },
         areaServed: [
+          ...cities.map((c) => ({ '@type': 'City', name: c.name })),
           { '@type': 'AdministrativeArea', name: 'Eure-et-Loir' },
           { '@type': 'AdministrativeArea', name: 'Centre-Val de Loire' },
           { '@type': 'Country', name: 'France' },
