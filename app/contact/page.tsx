@@ -23,7 +23,7 @@ export default function ContactPage() {
       />
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-start">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-start [&>*]:min-w-0">
           <div>
             <div className="space-y-4 text-sm">
               <a

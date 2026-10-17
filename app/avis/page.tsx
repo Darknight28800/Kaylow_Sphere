@@ -22,7 +22,7 @@ export default function AvisPage() {
       />
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-start">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-start [&>*]:min-w-0">
           <div className="space-y-5 text-sm leading-relaxed text-white/65">
             <p>
               Votre retour aide d&apos;autres artisans, commerçants et associations à se faire une

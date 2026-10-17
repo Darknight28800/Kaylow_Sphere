@@ -146,7 +146,7 @@ export default function ReceiptPrinter({
       </div>
 
       {/* Ticket — glisse hors de la fente (le haut est masqué sous l'imprimante) */}
-      <div className="relative -mt-4 overflow-hidden px-6 pb-10">
+      <div className="relative -mt-4 overflow-hidden px-3 pb-10 sm:px-6">
         {receipt && phase !== 'sending' && (
           <motion.div
             initial={reduce ? { opacity: 0 } : { y: '-100%' }}
@@ -239,7 +239,7 @@ function ReceiptPaper({
             className={`ticket-holo ${stamped && !reduce ? 'ticket-holo--sweep' : ''}`}
           />
 
-          <div className="px-7 pb-6 pt-7">
+          <div className="px-5 pb-6 pt-7 sm:px-7">
             {/* En-tête */}
             <div className="flex items-center gap-3">
               <Image src="/logo-sphere.png" alt="" width={34} height={34} />
@@ -264,11 +264,11 @@ function ReceiptPaper({
                 <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-ink/50">
                   Référence
                 </p>
-                <p className="mt-1 font-mono text-[26px] font-medium leading-none tracking-[0.08em] text-navy">
+                <p className="mt-1 whitespace-nowrap font-mono text-[22px] font-medium leading-none tracking-[0.06em] text-navy sm:text-[26px] sm:tracking-[0.08em]">
                   {receipt.ref}
                 </p>
               </div>
-              <div className="text-right font-mono text-[10px] leading-snug text-ink/70">
+              <div className="shrink-0 whitespace-nowrap text-right font-mono text-[10px] leading-snug text-ink/70">
                 <p>{date}</p>
                 <p>{time}</p>
               </div>
@@ -297,7 +297,7 @@ function ReceiptPaper({
           </div>
 
           {/* Talon détachable : perforation + encoches */}
-          <div className="ticket-stub relative h-[168px] px-7 pt-6">
+          <div className="ticket-stub relative h-[168px] px-5 pt-6 sm:px-7">
             <span aria-hidden="true" className="ticket-perforation" />
             <Barcode seed={receipt.ref} />
             <div className="mt-2 flex items-center justify-between font-mono text-[9.5px] uppercase tracking-[0.22em] text-ink/60">
