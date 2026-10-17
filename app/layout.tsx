@@ -50,7 +50,7 @@ const jetbrainsMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Développeur web fullstack`,
+    default: `${site.name} — Création de site internet à Chartres et en Eure-et-Loir`,
     template: `%s — ${site.name}`,
   },
   description: `${site.baseline} Sites vitrines, applications web sur mesure et maintenance par ${site.legalName}, développeur web fullstack en ${site.location}.`,
