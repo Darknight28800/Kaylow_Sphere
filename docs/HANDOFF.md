@@ -65,8 +65,8 @@ délai de livraison affiché, bouton « retour en haut ».
   JSON-LD), `/blog` avec 5 articles (`lib/blog.ts`, liens internes `[texte](/chemin)` rendus
   par `components/RichText.tsx`). Menu : + « Audit gratuit » et « Blog » ; bouton secondaire du
   hero → audit gratuit ; villes dans le pied de page ; téléphone et villes dans le JSON-LD.
-- **Hors du site** : kit marketing dans **`C:\Dev\KaylowSphere-Marketing`** (dépôt git local,
-  pas encore sur GitHub) : positionnement, fiche Google, prospection, outil d'audit
+- **Hors du site** : kit marketing dans **`C:\Dev\KaylowSphere-Marketing`** (dépôt GitHub **privé** `Darknight28800/KaylowSphere-Marketing` ; sur l'autre PC :
+  `git clone https://github.com/Darknight28800/KaylowSphere-Marketing.git C:\Dev\KaylowSphere-Marketing`) : positionnement, fiche Google, prospection, outil d'audit
   automatique (`04-audit-gratuit/audit.mjs`, rapport HTML aux couleurs Kaylow Sphere), CRM,
   LinkedIn, annuaires, **plan 90 jours** (point de départ).
 - Refusé volontairement : faux témoignages (interdit), volumes de contenu « remplissage »,
