@@ -1,7 +1,18 @@
 import type { ReactElement } from 'react';
 
 interface IconProps {
-  name: 'window' | 'code' | 'shield' | 'arrow-right' | 'mail' | 'map-pin' | 'check' | 'external';
+  name:
+    | 'window'
+    | 'code'
+    | 'shield'
+    | 'arrow-right'
+    | 'mail'
+    | 'map-pin'
+    | 'check'
+    | 'external'
+    | 'phone'
+    | 'star'
+    | 'users';
   className?: string;
 }
 
@@ -44,6 +55,20 @@ const paths: Record<IconProps['name'], ReactElement> = {
     </>
   ),
   check: <path d="m5 12 4.5 4.5L19 7" />,
+  phone: (
+    <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" />
+  ),
+  star: (
+    <path d="m12 3.5 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8L12 3.5Z" />
+  ),
+  users: (
+    <>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+      <path d="M16 4.5a3.5 3.5 0 0 1 0 7" />
+      <path d="M18.5 14.5A6.5 6.5 0 0 1 21.5 20" />
+    </>
+  ),
   external: (
     <>
       <path d="M14 4h6v6" />

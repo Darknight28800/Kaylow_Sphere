@@ -62,6 +62,7 @@ export default function ContactForm() {
           name: data.get('name'),
           email: data.get('email'),
           projectType: data.get('projectType'),
+          ref: draft.ref,
           message: data.get('message'),
         }),
       });

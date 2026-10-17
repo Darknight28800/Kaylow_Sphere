@@ -35,6 +35,17 @@ export default function ContactPage() {
                 </span>
                 {site.email}
               </a>
+              {site.phone && (
+                <a
+                  href={`tel:${site.phoneHref}`}
+                  className="flex w-fit items-center gap-3 text-white/75 hover:text-accent"
+                >
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
+                    <Icon name="phone" className="h-5 w-5" />
+                  </span>
+                  {site.phone}
+                </a>
+              )}
               <p className="flex items-center gap-3 text-white/75">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent">
                   <Icon name="map-pin" className="h-5 w-5" />

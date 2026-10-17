@@ -43,6 +43,23 @@ export default function PrivacyPage() {
           {site.contactRetention}, puis supprimés.
         </p>
 
+        <h3>Avis clients (page « Laisser un avis »)</h3>
+        <ul>
+          <li>Nom, adresse e-mail, structure (facultative)</li>
+          <li>Note et texte de l&apos;avis</li>
+        </ul>
+        <p>
+          <strong>Finalité :</strong> publier, après relecture, les avis des clients sur ce site.
+          Seuls le prénom, l&apos;initiale du nom, la structure, la note et le texte sont publiés ;
+          l&apos;adresse e-mail ne l&apos;est jamais.
+          <br />
+          <strong>Base légale :</strong> votre consentement (case à cocher), retirable à tout moment
+          sur simple demande par e-mail.
+          <br />
+          <strong>Durée de conservation :</strong> tant que l&apos;avis est publié ; les avis non
+          publiés sont supprimés sous 1 an.
+        </p>
+
         <h2>3. Destinataires</h2>
         <p>
           Les données sont adressées uniquement à {site.legalName}. Elles transitent par

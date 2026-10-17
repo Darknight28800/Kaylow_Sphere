@@ -23,6 +23,12 @@ const schema = z.object({
     .trim()
     .min(10, 'Message trop court')
     .max(5000),
+  // Référence du ticket affiché au visiteur (ex. KS-7F3K), reprise dans l'e-mail
+  ref: z
+    .string()
+    .regex(/^KS-[A-Z0-9]{4}$/)
+    .optional()
+    .catch(undefined),
   company: z.string().max(0).optional(), // honeypot : doit rester vide
 });
 

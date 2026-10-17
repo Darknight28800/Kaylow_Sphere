@@ -10,7 +10,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Services',
   description:
-    "Sites vitrines, applications web sur mesure et maintenance. Chaque projet fait l'objet d'un devis sur mesure, sans grille tarifaire.",
+    'Sites vitrines, applications web sur mesure et maintenance en Eure-et-Loir. Tarifs clairs dès 500 €, devis gratuit pour chaque projet.',
   path: '/services',
 });
 
@@ -20,7 +20,7 @@ export default function ServicesPage() {
       <PageHeader
         eyebrow="Services"
         title="Sites, applications et suivi technique"
-        intro="Je présente mes services sans grille tarifaire : chaque projet est différent, chaque devis l'est aussi. Vous m'exposez votre besoin, je vous réponds avec une proposition claire."
+        intro="Chaque projet est différent : vous m'exposez votre besoin, je vous réponds avec une proposition claire. Les prix de départ sont sur la page Tarifs."
       />
 
       <Section>
@@ -78,6 +78,13 @@ export default function ServicesPage() {
           <Link href="/contact" className="btn-primary justify-self-start lg:justify-self-end">
             Décrire mon projet
             <Icon name="arrow-right" className="h-4 w-4" />
+          </Link>
+          <Link
+            href="/tarifs"
+            className="link-arrow justify-self-start lg:col-span-2 lg:justify-self-end"
+          >
+            Voir les tarifs
+            <Icon name="arrow-right" className="h-3.5 w-3.5" />
           </Link>
         </div>
       </Section>

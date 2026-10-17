@@ -10,6 +10,13 @@ export const site = {
   // Domaine officiel (anciennement sphereweb-dev.com, avant ça sphere-web.com).
   url: 'https://kaylowsphere.com',
   email: 'david.antoina@kaylowsphere.com',
+  /**
+   * Téléphone affiché (pied de page, page Contact). Laisser vide pour le masquer.
+   * `phone` = forme lisible (ex. '06 12 34 56 78'), `phoneHref` = forme internationale
+   * pour le lien d'appel (ex. '+33612345678').
+   */
+  phone: '06 58 16 86 89',
+  phoneHref: '+33658168689',
   location: 'Eure-et-Loir (28)',
   status: 'Micro-entrepreneur',
   siret: '10673178900017',
@@ -240,7 +247,271 @@ export const nav: NavItem[] = [
   // `to`    = URL de la page — NE PAS toucher sauf si le dossier de `app/` est renommé.
   { label: 'Accueil', to: '/' },
   { label: 'Services', to: '/services' },
+  { label: 'Tarifs', to: '/tarifs' },
   { label: 'Portfolio', to: '/portfolio' },
   { label: 'À propos', to: '/a-propos' },
   { label: 'Contact', to: '/contact' },
 ];
+
+/* ------------------------------------------------------------------ */
+/* Tarifs (page /tarifs)                                               */
+/* ------------------------------------------------------------------ */
+
+export interface Offer {
+  key: string;
+  name: string;
+  /** Montant affiché (bas de fourchette). `null` = sur devis. */
+  price: number | null;
+  /** Haut de fourchette : affiche « 500 – 900 € ». */
+  priceMax?: number;
+  /** Affiche « à partir de » devant le prix (sans haut de fourchette). */
+  from?: boolean;
+  /** Suffixe du prix (ex. « / mois »). */
+  per?: string;
+  pitch: string;
+  includes: string[];
+  delay?: string;
+  highlight?: boolean;
+}
+
+/** Créations de sites — artisans, commerçants, indépendants. */
+export const offers: Offer[] = [
+  {
+    key: 'essentiel',
+    name: 'Essentiel',
+    price: 500,
+    priceMax: 900,
+    pitch: 'Une page claire pour être trouvé sur Google et contacté en un clic.',
+    includes: [
+      "Site d'une page : présentation, prestations, zone d'intervention, horaires",
+      "Adapté au mobile, bouton d'appel direct",
+      'Formulaire de contact',
+      'Référencement local de base + aide à la création de votre fiche Google',
+      'Mentions légales et conformité RGPD',
+      'Mise en ligne et 2 séries de retouches',
+    ],
+    delay: 'Environ 1 semaine',
+  },
+  {
+    key: 'vitrine',
+    name: 'Vitrine',
+    price: 1000,
+    priceMax: 1900,
+    pitch: "Le site complet d'une petite entreprise, pensé pour vous ramener des clients.",
+    includes: [
+      "Jusqu'à 5 pages, design sur mesure à vos couleurs",
+      'Galerie de réalisations ou de photos',
+      'Formulaire de demande de devis',
+      'Référencement local renforcé : une page par prestation, communes desservies',
+      '1 h de prise en main pour gérer votre site',
+      'Mise en ligne et 3 séries de retouches',
+    ],
+    delay: '2 à 3 semaines',
+    highlight: true,
+  },
+  {
+    key: 'vitrine-pro',
+    name: 'Vitrine Pro',
+    price: 2000,
+    priceMax: 3500,
+    pitch: 'Pour se démarquer : un site premium, animé, qui travaille pour vous.',
+    includes: [
+      "Jusqu'à 10 pages, design et animations premium",
+      'Actualités ou blog',
+      'Prise de rendez-vous en ligne ou devis détaillé',
+      'Section avis clients et carte de votre zone',
+      'Optimisation poussée de la vitesse',
+      '1 mois de suivi inclus après la mise en ligne',
+    ],
+    delay: '3 à 5 semaines',
+  },
+  {
+    key: 'sur-mesure',
+    name: 'Application sur mesure',
+    price: 3000,
+    from: true,
+    pitch: "Un outil métier qu'aucun logiciel du marché ne couvre.",
+    includes: [
+      'Espace client, réservation, gestion interne…',
+      'Cadrage du besoin et maquettes',
+      'Première version utile rapidement, puis évolutions',
+      'Mise en production et accompagnement',
+    ],
+  },
+];
+
+/** Tarif solidaire — associations loi 1901. */
+export const assoOffers: Offer[] = [
+  {
+    key: 'asso-essentielle',
+    name: 'Asso Essentielle',
+    price: 350,
+    priceMax: 600,
+    pitch: "Présenter l'association et recevoir adhésions et dons en ligne.",
+    includes: [
+      "Site d'une page : présentation, activités, agenda",
+      "Boutons d'adhésion et de dons en ligne (HelloAsso)",
+      'Formulaire de contact',
+      'Mentions légales et RGPD',
+      'Mise en ligne et 2 séries de retouches',
+    ],
+    delay: 'Environ 1 semaine',
+  },
+  {
+    key: 'asso-complete',
+    name: 'Asso Complète',
+    price: 700,
+    priceMax: 1200,
+    pitch: "Faire vivre l'association en ligne et donner envie de la rejoindre.",
+    includes: [
+      "Jusqu'à 5 pages : actualités, agenda, galerie photos",
+      "Adhésions, dons et billetterie d'événements (HelloAsso)",
+      'Page partenaires et soutiens',
+      '1 h de prise en main pour les bénévoles',
+      'Mise en ligne et 3 séries de retouches',
+    ],
+    delay: '2 à 3 semaines',
+    highlight: true,
+  },
+];
+
+/** Suivi après la mise en ligne et prestations ponctuelles. */
+export const extras: Offer[] = [
+  {
+    key: 'maintenance',
+    name: 'Suivi Sérénité',
+    price: 50,
+    per: '/ mois',
+    pitch: 'Votre site surveillé, à jour et sauvegardé, sans y penser.',
+    includes: [
+      'Hébergement et nom de domaine gérés pour vous',
+      'Surveillance de la disponibilité',
+      'Mises à jour de sécurité et sauvegardes',
+      '1 h de modifications par mois',
+      'Associations : 30 € / mois',
+    ],
+  },
+  {
+    key: 'refonte',
+    name: 'Refonte',
+    price: 800,
+    priceMax: 2500,
+    pitch: 'Votre site actuel entièrement repensé : plus moderne, plus rapide, adapté au mobile.',
+    includes: [
+      'Reprise de vos contenus',
+      'Nouveau design',
+      'Redirections pour garder votre référencement',
+      'Prix selon le nombre de pages du site existant',
+    ],
+  },
+  {
+    key: 'optimisation',
+    name: 'Optimisation',
+    price: 150,
+    priceMax: 600,
+    pitch: "Vitesse, référencement, erreurs : votre site existant remis d'aplomb.",
+    includes: ['Audit et rapport clair', 'Corrections prioritaires', 'Vitesse et SEO de base'],
+  },
+  {
+    key: 'a-la-demande',
+    name: 'À la demande',
+    price: 35,
+    per: '/ heure',
+    pitch: 'Une modification ponctuelle, sans abonnement.',
+    includes: ['Textes, photos, nouvelle section', 'Facturé au temps réel passé'],
+  },
+];
+
+/** Ce qui place un projet en bas ou en haut de sa fourchette. */
+export const priceFactors: { factor: string; low: string; high: string }[] = [
+  { factor: 'Nombre de pages', low: 'Une page ou quelques pages', high: '10 pages et plus' },
+  {
+    factor: 'Design',
+    low: 'Mise en page soignée à vos couleurs',
+    high: 'Design entièrement sur mesure, animations',
+  },
+  {
+    factor: 'Textes et photos',
+    low: 'Vous fournissez vos textes et photos',
+    high: 'Je rédige les textes, je sélectionne et retouche les visuels',
+  },
+  {
+    factor: 'Fonctionnalités',
+    low: 'Formulaire de contact, bouton d’appel',
+    high: 'Rendez-vous en ligne, paiement, espace membres, multilingue',
+  },
+  {
+    factor: 'Référencement',
+    low: 'Bases : titres, descriptions, fiche Google',
+    high: 'Une page par prestation et par commune desservie',
+  },
+  {
+    factor: 'Existant',
+    low: 'Site créé de zéro',
+    high: 'Reprise d’un ancien site : contenus, redirections',
+  },
+  { factor: 'Délai', low: 'Planning standard', high: 'Mise en ligne urgente' },
+];
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export const pricingFaq: FaqItem[] = [
+  {
+    q: 'Pourquoi une fourchette de prix ?',
+    a: 'Deux sites « vitrine » peuvent demander un travail très différent (nombre de pages, textes à rédiger, fonctionnalités…). La fourchette vous donne un ordre de grandeur honnête ; après un premier échange gratuit, je vous envoie un devis fixe qui ne bouge plus sans votre accord écrit.',
+  },
+  {
+    q: "Qu'est-ce qui n'est pas compris dans le prix ?",
+    a: "Le nom de domaine et l'hébergement, souscrits à votre nom pour que le site vous appartienne : comptez quelques euros par mois, je vous aide à choisir. Les photos professionnelles et la rédaction de textes longs peuvent être ajoutées en option.",
+  },
+  {
+    q: 'Puis-je payer en plusieurs fois ?',
+    a: 'Oui, en 2 ou 3 fois sans frais : un acompte au démarrage, le solde à la mise en ligne ou étalé sur les mois suivants.',
+  },
+  {
+    q: 'Pourquoi les prix sont-ils sans TVA ?',
+    a: 'Je suis micro-entrepreneur : TVA non applicable (article 293 B du CGI). Le prix affiché est donc le prix que vous payez.',
+  },
+  {
+    q: "Je n'ai ni textes ni photos, comment faire ?",
+    a: 'Je vous envoie une liste de questions simples pour rédiger ensemble vos textes, et je peux utiliser des photos libres de droits en attendant les vôtres.',
+  },
+  {
+    q: "Le site m'appartient-il ?",
+    a: 'Oui. Le nom de domaine est à votre nom et le site vous est entièrement remis à la livraison. Vous restez libre de changer de prestataire.',
+  },
+  {
+    q: 'Comment fonctionnent les adhésions et les dons pour les associations ?',
+    a: "J'intègre HelloAsso, une plateforme française gratuite pour les associations : aucun frais ni commission sur les paiements, elle se finance par les contributions volontaires des donateurs. Les fonds arrivent directement sur le compte de l'association.",
+  },
+  {
+    q: 'Mon association peut-elle faire financer son site ?',
+    a: "Certaines aides au fonctionnement des associations (FDVA, collectivités locales) peuvent couvrir une partie d'un projet. Je vous fournis un devis détaillé à joindre à votre dossier ; l'attribution reste à la décision du financeur.",
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Avis clients                                                        */
+/* ------------------------------------------------------------------ */
+
+export interface Testimonial {
+  /** Nom affiché, ex. « Camille D. » */
+  name: string;
+  /** Entreprise, association ou métier (facultatif). */
+  role?: string;
+  /** Note sur 5. */
+  rating: 1 | 2 | 3 | 4 | 5;
+  text: string;
+  /** Mois de l'avis, ex. « octobre 2026 ». */
+  date?: string;
+}
+
+/**
+ * Avis publiés. Les avis déposés sur /avis arrivent par e-mail, avec un bloc
+ * prêt à coller ici : n'ajouter que ceux que vous choisissez de publier.
+ * Tant que la liste est vide, aucune section « Avis » ne s'affiche.
+ */
+export const testimonials: Testimonial[] = [];

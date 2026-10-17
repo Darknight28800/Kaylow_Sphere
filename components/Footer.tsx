@@ -51,6 +51,17 @@ export default function Footer() {
                   {site.email}
                 </a>
               </li>
+              {site.phone && (
+                <li>
+                  <a
+                    href={`tel:${site.phoneHref}`}
+                    className="inline-flex items-center gap-2 text-white/60 transition-colors hover:text-accent"
+                  >
+                    <Icon name="phone" className="h-4 w-4" />
+                    {site.phone}
+                  </a>
+                </li>
+              )}
               <li className="inline-flex items-center gap-2 text-white/60">
                 <Icon name="map-pin" className="h-4 w-4" />
                 {site.location}
@@ -93,6 +104,9 @@ export default function Footer() {
               Création - Développement - Innovation
             </p>
             <div className="flex gap-6">
+              <Link href="/avis" className="transition-colors hover:text-white/70">
+                Laisser un avis
+              </Link>
               <Link href="/mentions-legales" className="transition-colors hover:text-white/70">
                 Mentions légales
               </Link>

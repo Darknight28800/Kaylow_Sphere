@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Icon from '@/components/Icon';
 import CtaBand from '@/components/CtaBand';
+import Testimonials from '@/components/Testimonials';
 import Reveal from '@/components/Reveal';
 import { Stagger, StaggerItem } from '@/components/Stagger';
 import ScrollParallax from '@/components/animations/ScrollParallax';
@@ -147,7 +148,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Services"
             title="Ce que je peux faire pour vous"
-            intro="Trois façons de travailler ensemble, sans grille tarifaire : chaque projet fait l'objet d'un devis sur mesure."
+            intro="Trois façons de travailler ensemble, avec des tarifs clairs dès 500 € et un devis gratuit pour chaque projet."
           />
         </Reveal>
         <Stagger className="mt-16 grid gap-6 md:grid-cols-3">
@@ -234,6 +235,8 @@ export default function HomePage() {
           <ProcessSteps steps={steps} />
         </div>
       </Section>
+
+      <Testimonials />
 
       <CtaBand />
     </>
