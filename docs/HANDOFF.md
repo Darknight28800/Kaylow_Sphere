@@ -57,6 +57,21 @@ coder. Fait : antoine-koe.fr/tarifs → Tarifs, avis, FAQ, téléphone réalisé
 pages par métier (ex. « site internet pour artisan / ramoneur ») pour le référencement local,
 délai de livraison affiché, bouton « retour en haut ».
 
+### Acquisition clients (17/10, fin de journée)
+
+- **Sur le site** : `/audit-gratuit` (offre d'appel, formulaire → `/api/contact` avec le type
+  « Audit gratuit » ; promesse : rapport sous 48 h ouvrées), pages locales
+  `/creation-site-internet` + Chartres, Châteaudun, Bonneval, Voves (`lib/local.ts`, FAQ en
+  JSON-LD), `/blog` avec 5 articles (`lib/blog.ts`, liens internes `[texte](/chemin)` rendus
+  par `components/RichText.tsx`). Menu : + « Audit gratuit » et « Blog » ; bouton secondaire du
+  hero → audit gratuit ; villes dans le pied de page ; téléphone et villes dans le JSON-LD.
+- **Hors du site** : kit marketing dans **`C:\Dev\KaylowSphere-Marketing`** (dépôt git local,
+  pas encore sur GitHub) : positionnement, fiche Google, prospection, outil d'audit
+  automatique (`04-audit-gratuit/audit.mjs`, rapport HTML aux couleurs Kaylow Sphere), CRM,
+  LinkedIn, annuaires, **plan 90 jours** (point de départ).
+- Refusé volontairement : faux témoignages (interdit), volumes de contenu « remplissage »,
+  SaaS d'automatisation (prématuré).
+
 ### Questionnaires clients (PDF remplissables, ajout du 17/10)
 
 - `docs/questionnaires/` : un PDF par formule (Essentiel, Vitrine, Vitrine Pro, sur mesure,
