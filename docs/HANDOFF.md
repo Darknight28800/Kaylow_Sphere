@@ -1,12 +1,12 @@
 # Kaylow Sphere — Récapitulatif & reprise sur un autre poste
 
-> Document de passation. Généré le 2026-09-02, **mis à jour le 2026-10-16**.
+> Document de passation. Généré le 2026-09-02, **mis à jour le 2026-10-17**.
 > À transmettre à Claude Code sur l'autre PC pour reprendre le travail.
 > Commencer par la section **0** (dernière session), le reste décrit le socle.
 
 ---
 
-## 0. Dernière session (16/10/2026) — à lire en premier
+## 0. Dernières sessions (16 et 17/10/2026) — à lire en premier
 
 ### Reprendre sur l'autre PC
 
@@ -36,20 +36,49 @@ npm run dev        # http://localhost:3000
 | **Portfolio** | `lib/site.ts`, `public/portfolio/` | Cards de l'accueil : **TTA, Maintenance Ramonage Services (Kévin), FacturePro** (TPAK retiré de l'accueil, toujours sur `/portfolio`). Captures : `trouve-ton-artisan/01.jpg`, `maintenance-ramonage-services/01.jpg`, `gdf/01.jpg` (1600×1000). |
 | **Nettoyage** | — | Supprimés : `HeroBackground3D.tsx`, `HeroScene.tsx` et les paquets three / @react-three/* / postprocessing. |
 
+### Session du 17/10
+
+| Sujet | Où | Détail |
+|---|---|---|
+| **Page Tarifs** | `app/tarifs/page.tsx`, données dans `lib/site.ts` (`offers`, `assoOffers`, `extras`, `priceFactors`, `pricingFaq`) | Fourchettes : Essentiel 500–900 €, Vitrine 1 000–1 900 €, Vitrine Pro 2 000–3 500 €, sur mesure dès 3 000 €, Asso 350–600 € / 700–1 200 €, Refonte 800–2 500 €, Optimisation 150–600 €, Suivi Sérénité **50 €/mois** (30 € associations), à la demande 35 €/h. Tableau « Ce qui fait varier le prix », FAQ. Engagements affichés et validés : prix nets (TVA non applicable), paiement en 2 ou 3 fois sans frais, devis fixe, domaine au nom du client. Montants formatés par `OfferCard` (espace insécable à partir de 1 000). |
+| **Avis clients** | `app/avis/page.tsx`, `components/ReviewForm.tsx`, `app/api/avis/route.ts`, `lib/mailer.ts` (`sendReviewEmail`), `components/Testimonials.tsx` | L'avis arrive **par e-mail pour modération**, avec un bloc prêt à coller dans `testimonials` (`lib/site.ts`). Section « Avis » affichée seulement si la liste n'est pas vide (accueil, tarifs, avis). Aucun avis publié pour l'instant. Lien « Laisser un avis » dans le pied de page. |
+| **Téléphone** | `lib/site.ts` (`phone`, `phoneHref`) | 06 58 16 86 89, dans le pied de page et sur Contact. Pas de réseaux sociaux (choix de l'utilisateur, rien à publier pour l'instant). |
+| **Ticket de contact premium** | `components/ReceiptPrinter.tsx`, `app/globals.css` (`.printer-*`, `.ticket-*`) | Imprimante métal sombre, ticket papier grainé, bande holographique, talon détachable, tampon « Demande reçue ». La référence `KS-XXXX` est envoyée à l'API et figure dans **le sujet de l'e-mail** de contact. |
+| **Cartes opaques** | `app/globals.css` (`.glass`, `.glass-panel`) | Fond bleu nuit à 88 % sur tout le site, pour rester lisible devant la galaxie. |
+| **Centrage mobile** | `components/CtaBand.tsx`, `components/Footer.tsx`, `app/contact/page.tsx`, `app/avis/page.tsx` | Bandeau Contact et pied de page centrés sur mobile ; grille Contact/Avis en `min-w-0` (le ticket débordait à droite). Vérifié en 360 et 390 px. |
+
+**Documents (Claude Docs, hors dépôt)** :
+- [Questionnaire client — création de site](https://claude.ai/code/artifact/4b3001e4-b2c7-4a63-86a3-a3732ff9fa72) (version éditable de toutes les questions)
+- [Footer et mentions légales selon le type de site](https://claude.ai/code/artifact/e86bba4a-93e9-4e95-8258-907cd8974c9d) (mémo juridique pour les sites clients, sources service-public / CNIL)
+
+**Veille concurrentielle (en cours)** : l'utilisateur envoie des sites de développeurs web un par un
+pour y piocher des idées ; analyser en lecture seule, proposer, puis attendre sa validation avant de
+coder. Fait : antoine-koe.fr/tarifs → Tarifs, avis, FAQ, téléphone réalisés. Idées encore ouvertes :
+pages par métier (ex. « site internet pour artisan / ramoneur ») pour le référencement local,
+délai de livraison affiché, bouton « retour en haut ».
+
 ### Questionnaires clients (PDF remplissables, ajout du 17/10)
 
 - `docs/questionnaires/` : un PDF par formule (Essentiel, Vitrine, Vitrine Pro, sur mesure,
   associations, refonte, suivi), à envoyer aux clients ; ils répondent dans les champs et
-  renvoient le fichier par e-mail.
+  renvoient le fichier par e-mail. Remplissage vérifié par programme ; **pas encore testé dans
+  Adobe Reader, Aperçu (Mac) ni sur téléphone** : faire un essai complet avant le premier envoi.
 - Questions dans `scripts/questionnaires/questions.py`, mise en page dans `generate.py`.
   Régénérer : `python -m pip install reportlab fonttools brotli` (une fois) puis
   `python scripts/questionnaires/generate.py`.
 
 ### Non vérifié / à faire ensuite
 
-- **Mobile non testé** depuis ces changements (fenêtre Chrome maximisée, CSP qui bloque
-  les iframes). À regarder sur un vrai téléphone : hero (trou noir sous le texte, aspiration),
-  Big Bang, galaxie des pages internes, **fluidité** (trou noir en résolution native).
+- **Médiateur de la consommation** : obligatoire dès qu'on travaille pour des particuliers
+  (pas pour les clients professionnels). L'utilisateur n'en a pas encore : s'il adhère à un
+  médiateur, ajouter son nom et son site aux mentions légales (et sur les devis). Proposé aussi :
+  une question « Avez-vous un médiateur ? » dans les questionnaires (pas encore faite).
+- **Tester en production** après déploiement : un vrai message depuis Contact (référence dans le
+  sujet) et un vrai avis depuis /avis (e-mail avec le bloc à coller). Seuls des envois
+  interceptés ont été testés en local.
+- **Mobile** : Contact, ticket et pied de page vérifiés en 360/390 px (navigateur automatisé).
+  Reste à voir sur un vrai téléphone : hero (trou noir, aspiration), Big Bang, galaxie,
+  **fluidité** (trou noir en résolution native).
 - **Lisibilité** : sur les pages très textuelles (mentions légales), le cœur de la galaxie passe
   derrière le texte central. Atténuer la galaxie sur ces pages si ça gêne.
 - **`og-image.png` contient encore du cyan**. `scripts/gen-icons.mjs` est corrigé (bleu) mais
@@ -69,6 +98,11 @@ npm run dev        # http://localhost:3000
 - **Lenis** (défilement fluide) restaure la position de scroll au rechargement : pour tester
   le haut de page, `history.scrollRestoration = 'manual'` ou touche Début.
 - Pour sauter l'intro en test : `sessionStorage.setItem('sw-intro-played', '1')`.
+- Tests mobiles : la fenêtre Chrome ne se redimensionne pas et la CSP bloque l'aperçu en
+  iframe → utiliser Playwright avec un viewport mobile (il est installé dans
+  `C:\Dev\Kevin_ramoneur`, utilisable en lecture via `createRequire`).
+- Ne jamais tester les formulaires avec un vrai envoi : intercepter `/api/contact` ou
+  `/api/avis` (sinon un vrai e-mail part).
 - Un `position: fixed` placé sous `app/template.tsx` (qui applique un `transform`) n'est plus
   fixe : les canvas plein écran sont **portés dans `<body>`** (`createPortal`).
 
