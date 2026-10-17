@@ -36,6 +36,15 @@ npm run dev        # http://localhost:3000
 | **Portfolio** | `lib/site.ts`, `public/portfolio/` | Cards de l'accueil : **TTA, Maintenance Ramonage Services (Kévin), FacturePro** (TPAK retiré de l'accueil, toujours sur `/portfolio`). Captures : `trouve-ton-artisan/01.jpg`, `maintenance-ramonage-services/01.jpg`, `gdf/01.jpg` (1600×1000). |
 | **Nettoyage** | — | Supprimés : `HeroBackground3D.tsx`, `HeroScene.tsx` et les paquets three / @react-three/* / postprocessing. |
 
+### Questionnaires clients (PDF remplissables, ajout du 17/10)
+
+- `docs/questionnaires/` : un PDF par formule (Essentiel, Vitrine, Vitrine Pro, sur mesure,
+  associations, refonte, suivi), à envoyer aux clients ; ils répondent dans les champs et
+  renvoient le fichier par e-mail.
+- Questions dans `scripts/questionnaires/questions.py`, mise en page dans `generate.py`.
+  Régénérer : `python -m pip install reportlab fonttools brotli` (une fois) puis
+  `python scripts/questionnaires/generate.py`.
+
 ### Non vérifié / à faire ensuite
 
 - **Mobile non testé** depuis ces changements (fenêtre Chrome maximisée, CSP qui bloque
