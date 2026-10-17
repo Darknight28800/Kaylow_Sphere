@@ -12,10 +12,10 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10">
       <div className="container-page py-14">
-        <div className="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="grid gap-10 text-center md:grid-cols-[1.5fr_1fr_1fr] md:text-left">
           <div>
             <Logo />
-            <p className="mt-5 max-w-sm text-sm text-white/60">{site.baseline}</p>
+            <p className="mx-auto mt-5 max-w-sm text-sm text-white/60 md:mx-0">{site.baseline}</p>
             <p className="mt-5 font-mono text-xs leading-relaxed text-white/60">
               {site.legalName} — {site.role}
               <br />
@@ -99,11 +99,11 @@ export default function Footer() {
             copie, même partielle, de ce site (contenus, code, design) est interdite sans
             autorisation écrite.
           </p>
-          <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col items-center gap-3 pt-1 text-center sm:flex-row sm:justify-between sm:text-left">
             <p className="uppercase tracking-[0.15em] text-white/60">
               Création - Développement - Innovation
             </p>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
               <Link href="/avis" className="transition-colors hover:text-white/70">
                 Laisser un avis
               </Link>
