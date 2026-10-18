@@ -27,7 +27,7 @@ export const posts: Post[] = [
     slug: 'prix-site-internet-artisan-2026',
     title: 'Combien coûte un site internet pour un artisan en 2026 ?',
     description:
-      'Prix d’un site internet pour artisan ou petite entreprise en 2026 : fourchettes du marché, ce qui fait varier le prix, coûts annuels à prévoir et pièges à éviter.',
+      'Prix d’un site internet pour artisan ou petite entreprise en 2026 : repères du marché, ce qui fait varier le prix, coûts annuels à prévoir et pièges à éviter.',
     date: '2026-10-17',
     readingMinutes: 6,
     category: 'Prix et budget',
@@ -37,7 +37,7 @@ export const posts: Post[] = [
       {
         h2: 'Les prix du marché en 2026',
         paragraphs: [
-          'Selon le baromètre 2026 de La Fabrique du Net, établi à partir de plus de 1 300 projets réels, le prix médian d’un site vitrine réalisé par une agence tourne autour de 3 500 à 3 800 €, la plupart des projets se situant entre 2 000 et 8 000 €.',
+          'Selon le baromètre 2026 de La Fabrique du Net, établi à partir de plus de 1 300 projets réels, un site vitrine réalisé par une agence représente le plus souvent un budget de plusieurs milliers d’euros, avec de grands écarts selon l’ampleur du projet.',
           'Un développeur freelance est en général moins cher qu’une agence pour un résultat comparable : il n’a pas de commerciaux ni de locaux à financer, et vous parlez directement à la personne qui construit votre site.',
         ],
       },
@@ -68,9 +68,9 @@ export const posts: Post[] = [
         ],
       },
       {
-        h2: 'Mes tarifs, pour vous donner un repère',
+        h2: 'Mes tarifs',
         paragraphs: [
-          'Pour les artisans, commerçants et associations d’Eure-et-Loir, je propose des formules de 500 à 900 € pour un site d’une page, et de 1 000 à 1 900 € pour un site vitrine complet, avec un paiement possible en 2 ou 3 fois. Le détail est sur la page [Tarifs](/tarifs).',
+          'Pour les artisans, commerçants et associations d’Eure-et-Loir, je propose des formules adaptées à chaque taille de projet, du site d’une page au site vitrine complet, avec un paiement possible en 2 ou 3 fois. Toutes les formules et leurs prix sont sur la page [Tarifs](/tarifs).',
           'Vous avez déjà un site ? Commencez par un [audit gratuit](/audit-gratuit) : vous saurez ce qui mérite d’être amélioré avant de dépenser quoi que ce soit.',
         ],
       },
@@ -214,7 +214,7 @@ export const posts: Post[] = [
         h2: 'Et le budget ?',
         paragraphs: [
           'Certaines aides au fonctionnement des associations (FDVA, collectivités locales) peuvent couvrir une partie d’un projet : un devis détaillé est alors utile pour constituer le dossier. L’attribution reste à la décision du financeur.',
-          'Je propose un [tarif solidaire pour les associations](/tarifs#associations), à partir de 350 €, avec HelloAsso intégré.',
+          'Je propose un [tarif solidaire pour les associations](/tarifs#associations), avec HelloAsso intégré.',
         ],
       },
     ],

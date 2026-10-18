@@ -148,7 +148,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Services"
             title="Ce que je peux faire pour vous"
-            intro="Trois façons de travailler ensemble, avec des tarifs clairs dès 500 € et un devis gratuit pour chaque projet."
+            intro="Trois façons de travailler ensemble, avec des tarifs clairs et un devis gratuit pour chaque projet."
           />
         </Reveal>
         <Stagger className="mt-16 grid gap-6 md:grid-cols-3">

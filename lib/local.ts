@@ -25,7 +25,7 @@ export interface City {
 const commonFaq = (at: string): FaqItem[] => [
   {
     q: `Combien coûte un site internet ${at} ?`,
-    a: 'Le prix dépend du nombre de pages et des fonctionnalités : à partir de 500 € pour un site d’une page, 1 000 à 1 900 € pour un site vitrine complet. Le devis est gratuit et fixe une fois validé ; le paiement peut se faire en 2 ou 3 fois.',
+    a: 'Le prix dépend du nombre de pages et des fonctionnalités. Toutes les formules sont détaillées sur la page Tarifs. Le devis est gratuit et fixe une fois validé ; le paiement peut se faire en 2 ou 3 fois.',
   },
   {
     q: 'En combien de temps mon site peut-il être en ligne ?',
@@ -40,7 +40,7 @@ export const cities: City[] = [
     at: 'à Chartres',
     seoTitle: 'Création de site internet à Chartres',
     description:
-      'Développeur web freelance près de Chartres : création de site internet pour artisans, commerçants, indépendants et associations de Chartres métropole. Devis gratuit, dès 500 €.',
+      'Développeur web freelance près de Chartres : création de site internet pour artisans, commerçants, indépendants et associations de Chartres métropole. Devis gratuit.',
     intro:
       'Préfecture d’Eure-et-Loir, Chartres concentre une grande partie des commerces, artisans et services du département. Vos clients comparent sur Google avant d’appeler : un site clair et rapide vous fait choisir plutôt qu’un concurrent.',
     context: [
@@ -69,7 +69,7 @@ export const cities: City[] = [
     at: 'à Châteaudun',
     seoTitle: 'Création de site internet à Châteaudun',
     description:
-      'Création de site internet à Châteaudun et dans le Dunois : sites vitrines pour artisans, commerçants et associations, par un développeur web local. Devis gratuit, dès 500 €.',
+      'Création de site internet à Châteaudun et dans le Dunois : sites vitrines pour artisans, commerçants et associations, par un développeur web local. Devis gratuit.',
     intro:
       'Sous-préfecture au bord du Loir, Châteaudun vit de ses commerces, de ses artisans et d’un tissu associatif actif. Beaucoup d’entreprises du Dunois n’ont encore qu’une page Facebook ou un site vieillissant : c’est une vraie occasion de se démarquer.',
     context: [
@@ -98,7 +98,7 @@ export const cities: City[] = [
     at: 'à Bonneval',
     seoTitle: 'Création de site internet à Bonneval',
     description:
-      'Développeur web freelance à Bonneval (28) : création de site internet pour artisans, commerçants et associations entre Chartres et Châteaudun. Devis gratuit, dès 500 €.',
+      'Développeur web freelance à Bonneval (28) : création de site internet pour artisans, commerçants et associations entre Chartres et Châteaudun. Devis gratuit.',
     intro:
       'Entre Chartres et Châteaudun, Bonneval compte de nombreux artisans et commerces de proximité dont la clientèle dépasse la commune. Un site bien référencé vous rend visible dans tout le secteur, pas seulement auprès de ceux qui vous connaissent déjà.',
     context: [
@@ -127,7 +127,7 @@ export const cities: City[] = [
     at: 'à Voves',
     seoTitle: 'Création de site internet à Voves',
     description:
-      'Création de site internet à Voves et en Beauce : sites vitrines simples et efficaces pour artisans, commerçants, entreprises agricoles et associations. Devis gratuit, dès 500 €.',
+      'Création de site internet à Voves et en Beauce : sites vitrines simples et efficaces pour artisans, commerçants, entreprises agricoles et associations. Devis gratuit.',
     intro:
       'Au cœur de la Beauce, Voves et ses communes voisines comptent artisans, commerces et entreprises agricoles qui travaillent sur un large secteur. Un site vous fait connaître au-delà du bouche-à-oreille, sans y passer vos soirées.',
     context: [

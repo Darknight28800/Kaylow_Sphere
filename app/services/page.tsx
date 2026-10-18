@@ -10,7 +10,7 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata = pageMetadata({
   title: 'Services',
   description:
-    'Sites vitrines, applications web sur mesure et maintenance en Eure-et-Loir. Tarifs clairs dès 500 €, devis gratuit pour chaque projet.',
+    'Sites vitrines, applications web sur mesure et maintenance en Eure-et-Loir. Tarifs clairs, devis gratuit pour chaque projet.',
   path: '/services',
 });
 

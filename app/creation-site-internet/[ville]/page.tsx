@@ -7,9 +7,8 @@ import Icon from '@/components/Icon';
 import PageHeader from '@/components/PageHeader';
 import Reveal from '@/components/Reveal';
 import { Section, SectionHeading } from '@/components/Section';
-import { Stagger, StaggerItem } from '@/components/Stagger';
 import { cities } from '@/lib/local';
-import { offers, site } from '@/lib/site';
+import { site } from '@/lib/site';
 import { pageMetadata } from '@/lib/seo';
 
 export function generateStaticParams() {
@@ -37,15 +36,12 @@ export async function generateMetadata({
   });
 }
 
-const euro = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-
 export default async function CityPage({ params }: { params: Promise<{ ville: string }> }) {
   const { ville } = await params;
   const city = cities.find((c) => c.slug === ville);
   if (!city) notFound();
 
   const others = cities.filter((c) => c.slug !== city.slug);
-  const starter = offers.filter((o) => o.price !== null && o.priceMax);
 
   const faqLd = {
     '@context': 'https://schema.org',
@@ -129,25 +125,14 @@ export default async function CityPage({ params }: { params: Promise<{ ville: st
             <SectionHeading
               eyebrow="Formules"
               title="Des tarifs clairs, pensés pour les petites structures"
-              intro="Prix nets (TVA non applicable), devis gratuit, paiement en 2 ou 3 fois sans frais."
+              intro="Prix nets (TVA non applicable), devis gratuit, paiement en 2 ou 3 fois sans frais. Toutes les formules sont détaillées sur la page Tarifs."
             />
-            <Link href="/tarifs" className="link-arrow">
-              Tous les tarifs
-              <Icon name="arrow-right" className="h-3.5 w-3.5" />
+            <Link href="/tarifs" className="btn-primary">
+              Voir les tarifs
+              <Icon name="arrow-right" className="h-4 w-4" />
             </Link>
           </div>
         </Reveal>
-        <Stagger className="mt-12 grid gap-6 md:grid-cols-3">
-          {starter.map((o) => (
-            <StaggerItem key={o.key} as="article" hover className="glass-panel h-full">
-              <h3 className="text-lg">{o.name}</h3>
-              <p className="mt-3 font-heading text-2xl font-bold text-white">
-                {euro(o.price as number)} – {euro(o.priceMax as number)} €
-              </p>
-              <p className="mt-3 text-sm text-white/65">{o.pitch}</p>
-            </StaggerItem>
-          ))}
-        </Stagger>
       </Section>
 
       <Section>
