@@ -1,10 +1,23 @@
 # Kaylow Sphere — Récapitulatif & reprise sur un autre poste
 
-> Document de passation. Généré le 2026-09-02, **mis à jour le 2026-10-17**.
+> Document de passation. Généré le 2026-09-02, **mis à jour le 2026-10-18**.
 > À transmettre à Claude Code sur l'autre PC pour reprendre le travail.
 > Commencer par la section **0** (dernière session), le reste décrit le socle.
 
 ---
+
+## 0 bis. Session du 18/10/2026
+
+| Sujet | Où | Détail |
+|---|---|---|
+| **Prix uniquement sur /tarifs** | `app/page.tsx`, `app/services/page.tsx`, `lib/local.ts`, `app/creation-site-internet/[ville]/page.tsx`, `lib/blog.ts` | Demande explicite : **aucun montant hors de la page Tarifs** (renvoi « Voir les tarifs » à la place). Seule exception : les amendes de l'article « mentions légales » (sanctions, pas des prix). Ne pas réintroduire de prix ailleurs. |
+| **Pages par métier** | `lib/trades.ts`, `app/site-internet/` | `/site-internet` + 4 pages : artisan-batiment, ramoneur-chauffagiste (exemple : site de Kévin), commercant, association. Texte propre à chaque métier, FAQ en JSON-LD, liens dans le pied de page, le sitemap et le hub local. Sans prix. |
+| **Retour en haut** | `components/BackToTop.tsx` (dans `app/layout.tsx`) | Apparaît après 1,5 écran, remonte via Lenis. |
+| **Lisibilité galaxie** | `components/SiteGalaxy.tsx` | Voile `bg-navy/75` sur mentions légales, confidentialité et articles de blog. |
+| **Image de partage** | `public/og-image.png`, `scripts/gen-icons.mjs` | Régénérée avec le nouveau logo (`public/logo-sphere.png`). `node scripts/gen-icons.mjs --og-only` = image OG seule. **Favicons encore à l'ancien logo « S »** : à régénérer seulement si l'utilisateur valide. |
+| **Tests prod** | — | Envois réels Contact (réf. `KS-TEST`) et Avis OK (HTTP 200) ; contrôle de réception dans le webmail Hostinger à faire par l'utilisateur. |
+
+Délai de livraison : déjà affiché sur chaque formule de /tarifs (idée de veille close).
 
 ## 0. Dernières sessions (16 et 17/10/2026) — à lire en premier
 

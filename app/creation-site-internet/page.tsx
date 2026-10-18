@@ -54,7 +54,11 @@ export default function LocalHubPage() {
         </Stagger>
         <p className="mt-10 max-w-2xl text-sm leading-relaxed text-white/60">
           Votre commune n&apos;est pas dans la liste ? J&apos;interviens dans toute
-          l&apos;Eure-et-Loir, et à distance partout en France.
+          l&apos;Eure-et-Loir, et à distance partout en France. Voir aussi les{' '}
+          <Link href="/site-internet" className="link-accent">
+            sites par métier
+          </Link>
+          .
         </p>
       </Section>
 

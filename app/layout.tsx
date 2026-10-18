@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import IntroLoader from '@/components/IntroLoader';
+import BackToTop from '@/components/BackToTop';
 import ScrollProgress from '@/components/ScrollProgress';
 import SiteGalaxy from '@/components/SiteGalaxy';
 import Spotlight from '@/components/Spotlight';
@@ -92,11 +93,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScroll>
           <div id="app-shell" className="flex min-h-screen flex-col">
             <Header />
-            <main id="contenu" className="flex-1">
+            <main id="contenu" tabIndex={-1} className="flex-1 outline-none">
               {children}
             </main>
             <Footer />
           </div>
+          <BackToTop />
         </SmoothScroll>
       </body>
     </html>

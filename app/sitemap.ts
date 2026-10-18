@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { posts } from '@/lib/blog';
 import { cities } from '@/lib/local';
 import { projects, site } from '@/lib/site';
+import { trades } from '@/lib/trades';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -19,6 +20,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    { url: `${site.url}/site-internet`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
+    ...trades.map((t) => ({
+      url: `${site.url}/site-internet/${t.slug}`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
     { url: `${site.url}/blog`, lastModified, changeFrequency: 'weekly', priority: 0.7 },
     ...posts.map((p) => ({
       url: `${site.url}/blog/${p.slug}`,

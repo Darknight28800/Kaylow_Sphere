@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Logo from './Logo';
 import Icon from './Icon';
 import { cities } from '@/lib/local';
+import { trades } from '@/lib/trades';
 import { nav, partner, site } from '@/lib/site';
 
 const colLabel = 'font-mono text-xs uppercase tracking-[0.2em] text-white/60';
@@ -78,6 +79,20 @@ export default function Footer() {
                       {c.name}
                     </Link>
                     {i < cities.length - 1 ? ', ' : ''}
+                  </span>
+                ))}
+              </li>
+              <li className="text-xs leading-relaxed text-white/50">
+                Site internet pour{' '}
+                {trades.map((t, i) => (
+                  <span key={t.slug}>
+                    <Link
+                      href={`/site-internet/${t.slug}`}
+                      className="transition-colors hover:text-accent"
+                    >
+                      {t.name.toLowerCase()}
+                    </Link>
+                    {i < trades.length - 1 ? ', ' : ''}
                   </span>
                 ))}
               </li>
