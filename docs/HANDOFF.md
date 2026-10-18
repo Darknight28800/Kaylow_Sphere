@@ -2,7 +2,7 @@
 
 > Document de passation. Généré le 2026-09-02, **mis à jour le 2026-10-18**.
 > À transmettre à Claude Code sur l'autre PC pour reprendre le travail.
-> Commencer par la section **0** (dernière session), le reste décrit le socle.
+> Commencer par la section **0 bis** (dernière session) puis **0**, le reste décrit le socle.
 
 ---
 
@@ -142,13 +142,14 @@ Site vitrine officiel de **Kaylow Sphere**, la marque de **David Antoina**, dév
 freelance fullstack (micro-entreprise, Eure-et-Loir · 28).
 Baseline : « Kaylow Sphere, le centre de gravité de votre projet web. »
 
-- **Dépôt** : https://github.com/Darknight28800/SphereWeb.git (branche `main`)
-- **Domaine cible** : `kaylowsphere.com`
-- **E-mail contact** : `david.antoina@kaylowsphere.com` (boîte Hostinger)
-- **Hébergement prévu** : Hostinger, offre mutualisée **Business avec application Node.js**
-  (hPanel → Site web → Avancé → Node.js). `next.config.mjs` est en `output: 'standalone'`.
-- **Charte de référence** : `docs/Charte_SphereWeb.docx` (v2.0, Août 2026).
-  Elle prévoyait React + Vite ; le projet est finalement en **Next.js** (décision de l'utilisateur).
+- **Dépôt** : https://github.com/Darknight28800/Kaylow_Sphere.git (branche `main`).
+  Ancien nom `SphereWeb.git` : GitHub redirige, mais mettre à jour le remote local :
+  `git remote set-url origin https://github.com/Darknight28800/Kaylow_Sphere.git`
+- **En ligne** : https://kaylowsphere.com (Hostinger, application web Node.js reliée à GitHub)
+- **E-mail** : `david.antoina@kaylowsphere.com` (boîte Hostinger, webmail Hostinger) ·
+  **Téléphone** : 06 58 16 86 89
+- **Charte d'origine** : `docs/Charte_SphereWeb.docx` (v2.0, août 2026, ancien nom ;
+  prévoyait React + Vite, le projet est en **Next.js** par décision de l'utilisateur).
 
 ---
 
@@ -156,150 +157,114 @@ Baseline : « Kaylow Sphere, le centre de gravité de votre projet web. »
 
 | Domaine | Choix |
 |---|---|
-| Framework | **Next.js 15** (App Router) + **React 19** + **TypeScript** |
-| Style | **Tailwind CSS 3.4** (tokens dans `tailwind.config.ts`) |
-| Polices | `next/font/google` — Poppins (titres), Inter (texte), JetBrains Mono (mono / libellés) |
-| Animation | **framer-motion** (révélations au scroll, cascades, transitions de page) + `<canvas>` maison (intro, particules, jet de lumière) |
-| Formulaire contact | Route Handler `app/api/contact/route.ts` → **nodemailer** → SMTP Hostinger. Validation **zod**, honeypot, rate-limit en mémoire |
-| Images | **sharp** (dev) pour générer le jeu d'icônes + image OG |
-| SEO | Metadata API, `app/sitemap.ts`, `app/robots.ts` |
+| Framework | **Next.js 15** (App Router) + **React 19** + **TypeScript**, `output: 'standalone'` |
+| Style | **Tailwind CSS 3.4** (tokens dans `tailwind.config.ts`), design system dans `app/globals.css` |
+| Polices | **Auto-hébergées** : `next/font/local`, fichiers dans `app/fonts/` (Inter, Poppins, JetBrains Mono, licence OFL). Plus de `next/font/google` : un téléchargement raté au build faisait échouer le déploiement. |
+| Animation | **framer-motion** (révélations, cascades, transitions de page), **Lenis** + GSAP (défilement fluide), **WebGL maison** sans bibliothèque 3D (`BlackHole.tsx`, `BigBang.tsx`), canvas 2D (intro) |
+| Formulaires | Route Handlers `app/api/contact` et `app/api/avis` → **nodemailer** → SMTP Hostinger. Validation **zod**, honeypot, contrôle d'origine, limites par IP + plafond global (`lib/http.ts`, `lib/rate-limit.ts`) |
+| Sécurité | En-têtes dans `next.config.mjs` : CSP (`frame-src 'none'`), HSTS, COOP, nosniff… |
+| SEO | Metadata API (`lib/seo.ts`), JSON-LD (activité locale + FAQ), `app/sitemap.ts`, `app/robots.ts`, Google Search Console validée |
+| Images | **sharp** (dev) : favicons + `og-image.png` via `scripts/gen-icons.mjs` |
+| Qualité | Prettier (`.prettierrc.json`) + ESLint ; `npm run check` |
 
 ---
 
-## 3. Installation sur le nouveau poste
+## 3. Installation sur un poste
 
 ### Prérequis
-- **Node.js ≥ 20** (le poste actuel tourne en v24.20, npm 11). Vérifier : `node -v`
-- **Git**
-- Un éditeur (VS Code conseillé)
+- **Node.js ≥ 20** (Hostinger construit en Node 20 ; poste principal en v24). Vérifier : `node -v`
+- **Git**, VS Code conseillé.
 
 ### Étapes
 
 ```bash
-# 1. Récupérer le code
-git clone https://github.com/Darknight28800/SphereWeb.git
-cd SphereWeb
-# (ou, si déjà cloné : git pull)
-
-# 2. Installer les dépendances (lit package.json — rien à installer à la main)
+git clone https://github.com/Darknight28800/Kaylow_Sphere.git SphereWeb
+cd SphereWeb                  # (ou, si déjà cloné : git pull)
 npm install
-
-# 3. Configurer l'e-mail du formulaire de contact
-cp .env.example .env.local
-#   puis éditer .env.local avec le vrai mot de passe SMTP de la boîte Hostinger
-
-# 4. Lancer le serveur de dev
-npm run dev            # http://localhost:3000
+cp .env.example .env.local    # puis y mettre le vrai mot de passe SMTP (voir §8)
+npm run dev                   # http://localhost:3000
 ```
 
-### Scripts disponibles
+### Scripts
 
 | Commande | Effet |
 |---|---|
 | `npm run dev` | Serveur de développement (port 3000) |
-| `npm run build` | Build de production (`.next/`) |
-| `npm run start` | Sert le build |
-| `npm run lint` | ESLint (`next lint`) |
-| `npm run icons` | Régénère `public/` (favicons + `og-image.png`) depuis `assets/Logo-sphere.jpg` via sharp |
+| `npm run build` / `npm run start` | Build de production / le servir |
+| `npm run check` | Types + lint + Prettier : **à lancer avant chaque commit** |
+| `npm run format` | Formate tout le dépôt avec Prettier |
+| `npm run icons` | Régénère favicons + `og-image.png` depuis **`public/logo-sphere.png`** (nouveau logo). `node scripts/gen-icons.mjs --og-only` = image OG seule. `assets/Logo-sphere.jpg` est l'**ancien** logo : ne plus l'utiliser. Les favicons actuels montrent encore l'ancien « S » : ne les régénérer qu'avec l'accord de l'utilisateur. |
 
-### ⚠️ Piège connu (dev + build)
-Ne **jamais** lancer `npm run build` pendant que `npm run dev` tourne : les deux
-partagent le dossier `.next/` et le build échoue (`PageNotFoundError /_error`).
-Arrêter le dev (Ctrl+C) avant de builder. En cas de souci : `rm -rf .next` puis rebuild.
+### Pièges connus
+- Ne **jamais** lancer `npm run build` pendant que `npm run dev` tourne (dossier `.next/`
+  partagé). Arrêter le dev, `rm -rf .next`, relancer.
+- Poste Windows : Norton ralentit fortement `dev` et `build` (repli WASM de SWC) et peut
+  verrouiller brièvement des fichiers de `.git` (relancer la commande). Les mesures
+  Lighthouse locales sont très bruitées : comparer sur le site en ligne.
+- `.env.local` : `SMTP_TLS_INSECURE=true` contourne l'inspection TLS de Norton en dev.
+  **Jamais en production.**
 
-### Dépendances (déjà dans package.json, installées par `npm install`)
-
-**Runtime** : `next`, `react`, `react-dom`, `framer-motion`, `nodemailer`, `zod`
+### Dépendances
+**Runtime** : `next`, `react`, `react-dom`, `framer-motion`, `gsap`, `lenis`, `nodemailer`, `zod`.
 **Dev** : `typescript`, `tailwindcss`, `postcss`, `autoprefixer`, `eslint`,
-`eslint-config-next`, `sharp`, `@types/*`
-
-Rien d'autre à installer globalement.
-
----
-
-## 4. Ce qui a été fait (30/08 → 02/09)
-
-### Socle (30/08 – 01/09)
-- Initialisation du projet Next.js 15 / App Router / TS / Tailwind.
-- Arborescence complète : Accueil, Services, Portfolio (+ page détail projet en SSG),
-  À propos, Contact, Mentions légales, Confidentialité, 404.
-- Contenu éditorial centralisé dans **`lib/site.ts`** (source unique : textes, services,
-  projets, coordonnées, partenaire).
-- Formulaire de contact : route API + nodemailer + zod + honeypot + rate-limit.
-- SEO : `lib/seo.ts` (metadata par page), `app/sitemap.ts`, `app/robots.ts`.
-- Passage de la cible d'hébergement à **Hostinger** + domaine **kaylowsphere.com**
-  + `output: 'standalone'`.
-
-### Marque / contenu légal
-- Logo réel de l'utilisateur (`assets/Logo-sphere.jpg`, PNG transparent) intégré.
-- Jeu d'icônes + image Open Graph générés (`scripts/gen-icons.mjs`, `npm run icons`).
-- Mentions légales : **SIRET 10673178900017**, TVA franchise en base (art. 293 B CGI),
-  siège Eure-et-Loir, adresse postale « sur demande ».
-- Confidentialité : conservation des messages **3 ans**, **aucun cookie ni analytics**
-  → pas de bandeau de consentement.
-- Pied de page : bloc **« En partenariat avec ARTNumérique »** (logo placeholder
-  `public/partners/artnumerique.svg` à remplacer) + 2ᵉ e-mail contact
-  `renaud.vaillant@artnumérique.fr`.
-
-### Direction visuelle « liquid glass »
-- Refonte pour se démarquer du site de référence (artnumérique.fr) : **panneaux verre
-  dépoli** (`.glass`, `.glass-panel`, `.glass-sheen`), halos diffus (`.aura`), palette
-  fond **`#050B2B`** (aligné sur le portfolio de l'utilisateur), **voix monospace**
-  (nav, libellés de section indexés `01/02/03`, méta, libellés de boutons).
-- Suppression de la trame « blueprint » de fond.
-- Sections claires bannies → tout en verre sombre.
-
-### Animations
-- **Intro cinématique « hyper-espace »** (`components/IntroLoader.tsx`) au 1ᵉʳ chargement
-  de session (`sessionStorage['sw-intro-played']`, cache noir inline dans `layout.tsx`
-  avant hydratation). Séquence en 6 phases (~12,5 s) : croisière 2,8 s / décélération 2 s
-  / arrêt sphère 3 s (barre « Bienvenue au cœur du web » + compteur %) / ré-accélération 2 s
-  / hyper-espace retour 1,3 s / révélation. Bouton « Passer l'intro », coupé si
-  `prefers-reduced-motion`. Rendu `<canvas>` + rAF. **Durées ajustables** dans l'objet
-  `PHASE` en tête du composant.
-- **Sphère du hero** (`components/HeroSphere.tsx`) : grand format, rotation 35 s,
-  battement zoom/dézoom + halo pulsé synchronisé (cycle 6 s). Visible aussi sur mobile.
-- **Champ de particules** (`components/ParticleField.tsx`) : ~64 étoiles qui dérivent sur
-  toute la page (canvas fixe, `pointer-events: none`), repoussées par le curseur
-  (`REPEL_RADIUS` = 100 px).
-- **Motion design framer-motion** :
-  - `components/Reveal.tsx` — fondu ascendant **bidirectionnel** (apparaît en scrollant
-    vers le bas, disparaît en remontant). Amplitude volontairement subtile (10 px).
-  - `components/Stagger.tsx` — `Stagger` + `StaggerItem` : cascade sur les grilles de
-    cartes + léger soulèvement au survol (`whileHover`).
-  - `app/template.tsx` — transition d'entrée de page à chaque navigation.
-- **Jet de lumière global** (`components/CardBeam.tsx`) : un unique faisceau diagonal
-  balaye l'écran de gauche à droite (~10 s), pause 6 s, en coordonnées viewport →
-  visible **uniquement sur les panneaux** (`.glass-panel`, `.beam-target`). S'estompe
-  au survol d'une carte, revient à la sortie.
+`eslint-config-next`, `eslint-config-prettier`, `prettier`, `sharp`, `@types/*`.
+Retirés : `three`, `@react-three/*`, `postprocessing`, `@anthropic-ai/sdk` (démo IA supprimée).
 
 ---
 
-## 5. État actuel
+## 4. Historique résumé
 
-- ✅ `npm run build` OK, `npm run lint` OK (0 erreur), 16 routes générées.
-- ✅ Tout est commité et poussé sur `origin/main` (dernier commit : `e7cbe86`).
-- 🔧 Serveur de dev en cours d'itération sur le design / les animations avec l'utilisateur.
+- **30/08 → 02/09** : socle Next.js, pages principales, contenu centralisé dans
+  `lib/site.ts`, formulaire de contact, SEO de base, direction « liquid glass ».
+- **11/09** : renommage SphereWeb → **Kaylow Sphere**, mise en ligne sur kaylowsphere.com.
+- **15/10** : audit Lighthouse et allègement des animations (particules, jet de lumière et
+  bordures LED supprimés), intro raccourcie à ~5 s, sécurité (IP fiable, plafonds globaux,
+  CSP/HSTS), Prettier, ticket de confirmation (imprimante) sur Contact, **démo IA
+  supprimée** (`/demo` redirige vers l'accueil), e-mail du partenaire retiré du pied de page,
+  polices auto-hébergées, **SMTP de production réparé** (voir §8).
+- **16-17/10** : trou noir WebGL, Big Bang, galaxie, Tarifs, Avis, téléphone, Audit gratuit,
+  pages locales, blog, questionnaires PDF (détail en section 0).
+- **18/10** : prix uniquement sur /tarifs, pages par métier, retour en haut, voile de
+  lecture, nouvelle image de partage (section 0 bis).
+
+### Repères de comportement
+- **Intro « hyper-espace »** (`components/IntroLoader.tsx`) : ~5 s, une fois par session
+  (`sessionStorage['sw-intro-played']`) ; la page apparaît dès que la sphère disparaît.
+  Durées dans l'objet `PHASE`. Coupée si `prefers-reduced-motion`.
+- **`Reveal` / `Stagger`** : apparition **unique** au scroll (fondu + montée + léger flou),
+  plus de disparition en remontant.
+- **Pied de page** : logo et lien ARTNumérique conservés, **sans l'e-mail du partenaire**
+  (demande de l'utilisateur).
+- **Prix** : **uniquement sur /tarifs** (demande de l'utilisateur). Ailleurs, renvoyer vers
+  la page Tarifs.
 
 ---
 
-## 6. Ce qu'il reste à faire (par ordre de priorité)
+## 5. Déploiement et production
 
-1. **Identifiants SMTP Hostinger** dans `.env.local` (le formulaire renvoie une erreur
-   gracieuse tant que ce n'est pas fait — c'est normal).
-2. **Logo ARTNumérique définitif** → remplacer `public/partners/artnumerique.svg`
-   (voir `public/partners/README.md`).
-3. **Captures d'écran des projets** → faites pour TTA, Maintenance Ramonage Services et
-   FacturePro (16/10). Restent `tpak` et `nexus` : déposer dans `public/portfolio/<slug>/`
-   puis renseigner `images[]` dans `lib/site.ts` (voir `public/portfolio/README.md`).
-4. **URL publiques des projets en ligne** → `lib/site.ts` → `project.url`.
-5. **Liens profils Malt / Codeur.com** → `lib/site.ts` → `site.profiles`.
-6. **Poursuite du travail design / motion** avec l'utilisateur (itératif).
-7. Page **CGV** si devis / paiements en ligne (Charte §4).
-8. Éventuel **outil d'audience sans cookie** (Plausible / Matomo) — à décider.
-9. **Déploiement Hostinger** : en place — intégration Git de Hostinger, chaque push sur
-   `main` redéploie (Hostinger lance lui-même le build). **Vider le cache Hostinger après
-   chaque déploiement** (voir section 0).
+- **Automatique** : un `git push` sur `main` déclenche le build Hostinger (~1 min), visible
+  dans hPanel → Sites web → kaylowsphere.com → **Déploiements** (journal de build).
+- **Après chaque déploiement** : hPanel → carte « Cache » → **Vider le cache**, puis
+  Ctrl+Shift+R (sinon le CDN peut servir l'ancien HTML).
+- Un build qui échoue laisse l'ancienne version en ligne : toujours lire le journal.
+- Le journal de build affiche une ligne `[env] SMTP_HOST=OK …` : contrôle de présence des
+  variables (noms seulement, jamais les valeurs).
+- En cas d'échec d'envoi, l'API répond 502 avec un `code` : `smtp_config` (variable
+  manquante), `smtp_auth` (mot de passe refusé), `smtp_connect`, `smtp_envelope`, `smtp_other`.
+
+---
+
+## 6. Ce qu'il reste à faire
+
+1. **Portfolio** : captures de `tpak` et `nexus` (dans `public/portfolio/<slug>/`, puis
+   `images[]` dans `lib/site.ts`) ; URL publiques des projets en ligne (`project.url`).
+2. **Liens Malt / Codeur.com** → `site.profiles` dans `lib/site.ts`.
+3. **Favicons** à l'ancien logo « S » : à régénérer si l'utilisateur valide (§3).
+4. **Médiateur de la consommation** (si clients particuliers), voir section 0.
+5. Page **CGV** si devis ou paiements en ligne (Charte §4).
+6. Éventuel **outil d'audience sans cookie** (Plausible / Matomo), à décider.
+7. Vérifier sur un **vrai téléphone** : trou noir, Big Bang, galaxie, fluidité.
+8. Google Search Console : renvoyer le sitemap après ajout de pages.
 
 ---
 
@@ -307,41 +272,49 @@ Rien d'autre à installer globalement.
 
 ```
 app/
-├─ layout.tsx           Métadonnées globales, polices, script d'intro inline,
-│                       montage de IntroLoader / ScrollProgress / SiteGalaxy, #app-shell
-├─ template.tsx         Transition d'entrée de page (framer-motion)
-├─ globals.css          Design system : .glass*, .btn*, .eyebrow, .aura, jet de lumière,
-│                       CSS de l'intro (fond noir #03040c)
-├─ page.tsx             Accueil
-├─ services/ portfolio/ [slug]/ a-propos/ contact/ mentions-legales/ confidentialite/
-├─ api/contact/route.ts API du formulaire
-├─ sitemap.ts robots.ts
+├─ layout.tsx            Métadonnées, polices locales, JSON-LD, intro, ScrollProgress,
+│                        SiteGalaxy, Spotlight, SmoothScroll, BackToTop, #app-shell
+├─ template.tsx          Transition d'entrée de page (applique un transform : voir pièges §0)
+├─ globals.css           Design system (.glass*, .btn*, .eyebrow, géante bleue, ticket…)
+├─ fonts/                Polices woff2 auto-hébergées (+ README licences)
+├─ page.tsx              Accueil (trou noir, Big Bang, galaxie)
+├─ services/ tarifs/ portfolio/[slug]/ a-propos/ contact/ avis/ audit-gratuit/
+├─ creation-site-internet/[ville]/   Pages locales (données : lib/local.ts)
+├─ site-internet/[metier]/           Pages par métier (données : lib/trades.ts)
+├─ blog/[slug]/                      Articles (données : lib/blog.ts)
+├─ mentions-legales/ confidentialite/ not-found.tsx
+├─ api/contact/ api/avis/            Envoi des formulaires
+└─ sitemap.ts robots.ts
 components/
-├─ IntroLoader.tsx      Intro hyper-espace (canvas, phases dans `PHASE`)
-├─ BlackHole.tsx        Trou noir WebGL du hero (shader GLSL)
-├─ BlackHoleHero.tsx    Hero : BlackHoleHero / BlackHoleLayer / GravityPull (aspiration)
-├─ BigBang.tsx          Big Bang au scroll + galaxie (mode `galaxy` pour les pages internes)
-├─ SiteGalaxy.tsx       Galaxie en fond hors accueil (data-galaxy sur <html>)
-├─ animations/          SmoothScroll (Lenis), ScrollParallax (GSAP) — voir son README
-├─ Reveal.tsx           Révélation bidirectionnelle au scroll
-├─ Stagger.tsx          Cascade + hover sur les grilles
-├─ Header.tsx Footer.tsx Logo.tsx Icon.tsx Section.tsx CtaBand.tsx
-├─ ContactForm.tsx      Formulaire (client)
-├─ ProjectMedia.tsx     Vignettes / galerie projet (+ placeholder)
-└─ LegalDoc.tsx         Gabarit des pages légales
+├─ IntroLoader.tsx                   Intro hyper-espace (~5 s)
+├─ BlackHole.tsx BlackHoleHero.tsx   Trou noir WebGL du hero + aspiration du texte
+├─ BigBang.tsx SiteGalaxy.tsx        Big Bang (accueil) / galaxie de fond (autres pages,
+│                                    voile de lecture sur légal et articles)
+├─ ContactForm.tsx ReceiptPrinter.tsx AuditForm.tsx ReviewForm.tsx
+├─ OfferCard.tsx Testimonials.tsx Faq.tsx RichText.tsx ProjectMedia.tsx
+├─ Header.tsx Footer.tsx PageHeader.tsx Section.tsx CtaBand.tsx LegalDoc.tsx
+├─ Reveal.tsx Stagger.tsx ScrollProgress.tsx Spotlight.tsx BackToTop.tsx ProcessSteps.tsx
+└─ animations/           SmoothScroll (Lenis), ScrollParallax, useGsapScope (+ README)
 lib/
-├─ site.ts              CONTENU — source unique (textes, services, projets, partenaire)
-├─ seo.ts               Fabrique de metadata par page
-└─ mailer.ts            Envoi d'e-mail (nodemailer)
-scripts/gen-icons.mjs   Génération des icônes (npm run icons)
-public/                 favicons, og-image, manifest, partners/, portfolio/
-assets/                 Sources de marque (logo, favicon.ico)
-docs/                   Charte + ce document
+├─ site.ts               CONTENU : source unique (textes, services, offres, projets, avis)
+├─ local.ts trades.ts blog.ts   Pages locales / métiers / articles
+├─ seo.ts                Metadata par page + JSON-LD
+├─ mailer.ts             E-mails (contact, avis)
+└─ http.ts rate-limit.ts IP client, contrôle d'origine, limites anti-abus
+scripts/                 gen-icons.mjs, questionnaires/ (PDF clients)
+public/                  favicons, og-image, logo-sphere.png, portfolio/, partners/
+docs/                    Charte (ancien nom), ce document, questionnaires PDF
 ```
 
 ---
 
-## 8. Variables d'environnement (`.env.local`)
+## 8. Variables d'environnement
+
+**Production** : hPanel → Sites web → kaylowsphere.com → **Variables d'environnement**
+(import d'un fichier `.env` possible). Elles sont lues **au moment du build** puis
+intégrées au code serveur (`env` dans `next.config.mjs`, jamais dans le JavaScript envoyé
+au navigateur) : **après toute modification, redéployer**.
+**Développement** : `.env.local` (ignoré par git, ne jamais le committer).
 
 | Variable | Valeur |
 |---|---|
@@ -349,8 +322,8 @@ docs/                   Charte + ce document
 | `SMTP_PORT` | `465` |
 | `SMTP_SECURE` | `true` |
 | `SMTP_USER` | `david.antoina@kaylowsphere.com` |
-| `SMTP_PASS` | *(mot de passe de la boîte mail — à renseigner)* |
-| `MAIL_FROM` | `"Kaylow Sphere <david.antoina@kaylowsphere.com>"` |
+| `SMTP_PASS` | mot de passe de la boîte mail (réinitialisable dans hPanel → E-mails) |
+| `MAIL_FROM` | `Kaylow Sphere <david.antoina@kaylowsphere.com>` |
 | `MAIL_TO` | `david.antoina@kaylowsphere.com` |
-
-`.env.local` est ignoré par git (ne jamais committer les identifiants).
+| `TRUSTED_PROXY_COUNT` | facultatif, **1 par défaut** (mesuré sur Hostinger : la dernière adresse de `X-Forwarded-For` est la bonne). Diagnostic : ligne « Chaîne XFF » des e-mails de contact. |
+| `SMTP_TLS_INSECURE` | **dev uniquement** (antivirus local), jamais en production |
