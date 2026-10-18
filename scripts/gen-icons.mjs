@@ -1,9 +1,13 @@
 // Génère le jeu d'icônes et l'image Open Graph à partir du logo source.
-// Usage : node scripts/gen-icons.mjs
+// Usage : node scripts/gen-icons.mjs            (icônes + image Open Graph)
+//         node scripts/gen-icons.mjs --og-only  (image Open Graph seule)
 import sharp from 'sharp';
 import { mkdir } from 'node:fs/promises';
 
-const SRC = 'assets/Logo-sphere.jpg'; // PNG transparent 1024×1024
+// Logo actuel (planète à anneaux, PNG transparent 1024×1024).
+// assets/Logo-sphere.jpg est l'ANCIEN logo : ne plus l'utiliser.
+const SRC = 'public/logo-sphere.png';
+const OG_ONLY = process.argv.includes('--og-only');
 const OUT = 'public';
 const NAVY = { r: 5, g: 11, b: 43, alpha: 1 }; // #050B2B
 
@@ -39,7 +43,7 @@ const iconTargets = [
   ['icon-512.png', 512],
 ];
 
-for (const [name, size] of iconTargets) {
+for (const [name, size] of OG_ONLY ? [] : iconTargets) {
   const buf = await iconOnNavy(size, Math.round(size * (size <= 32 ? 0.08 : 0.16)));
   await sharp(buf).toFile(`${OUT}/${name}`);
   console.log(`✓ ${name} (${size}×${size})`);
@@ -48,7 +52,7 @@ for (const [name, size] of iconTargets) {
 // Image Open Graph : 1200×630, fond navy + halo + logo + wordmark + baseline.
 const OG_W = 1200;
 const OG_H = 630;
-const logoOg = await sharp(SRC).resize(360, 360, { fit: 'contain' }).toBuffer();
+const logoOg = await sharp(SRC).resize(400, 400, { fit: 'contain' }).toBuffer();
 const textOg = Buffer.from(`
   <svg width="${OG_W}" height="${OG_H}" xmlns="http://www.w3.org/2000/svg">
     <defs>
@@ -67,7 +71,7 @@ const textOg = Buffer.from(`
 await sharp({ create: { width: OG_W, height: OG_H, channels: 4, background: NAVY } })
   .composite([
     { input: textOg, top: 0, left: 0 },
-    { input: logoOg, top: 135, left: 120 },
+    { input: logoOg, top: 115, left: 110 },
   ])
   .png()
   .toFile(`${OUT}/og-image.png`);
