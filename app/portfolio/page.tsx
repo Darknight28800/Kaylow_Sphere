@@ -10,7 +10,7 @@ import { pageMetadata } from '@/lib/seo';
 
 export const metadata = pageMetadata({
   title: 'Portfolio',
-  description: `Réalisations ${site.name} : Trouve Ton Artisan, TPAK, GDF et Nexus. Projets clients et produits développés en propre.`,
+  description: `Réalisations ${site.name} : Maintenance Ramonage Services, FacturePro, Nexus, Trouve Ton Artisan. Projets clients et produits développés en propre.`,
   path: '/portfolio',
 });
 

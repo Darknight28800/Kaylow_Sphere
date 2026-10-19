@@ -110,6 +110,9 @@ export interface ProjectImage {
   /** Chemin depuis /public — déposer les fichiers dans public/portfolio/<slug>/. */
   src: string;
   alt: string;
+  /** Dimensions réelles, à renseigner pour un visuel vertical (affiché en entier, sans recadrage). */
+  width?: number;
+  height?: number;
 }
 
 export interface Project {
@@ -226,14 +229,29 @@ export const projects: Project[] = [
   {
     slug: 'nexus',
     name: 'Nexus',
-    tagline: 'Application personnelle en cours de développement.',
-    stack: ['React', 'Node.js'],
-    type: 'Projet personnel',
+    tagline:
+      'Application mobile d’histoires originales à lire et à écouter, avec un studio de création IA.',
+    stack: ['React Native', 'Expo', 'Node.js', 'MongoDB'],
+    type: 'Application mobile + studio IA',
     status: 'en cours',
     context:
-      'Projet personnel en cours de conception. Les détails seront publiés au fil de son avancement.',
-    solution: 'Développement en cours.',
-    highlights: ['En développement actif'],
+      'Proposer des séries d’histoires originales (science-fiction, fantasy, romance, thriller…) à lire et à écouter sur mobile, sur le modèle d’Audible : de vrais chapitres, une narration audio et des illustrations. Derrière l’application, un studio permet de créer ces histoires avec l’aide de l’IA.',
+    solution:
+      'Monorepo TypeScript : application mobile React Native / Expo, API Node.js / Express avec MongoDB, tableau de bord d’administration en React, et file de traitements IA (BullMQ, Redis) qui génère textes, images et voix pour chaque chapitre.',
+    highlights: [
+      'Lecteur d’histoires : texte, narration audio et illustrations',
+      'Favoris, historique et reprise de lecture',
+      'Monétisation par pièces et contenus premium',
+      'Studio IA : bible de série, personnages, storyboard, voix et sous-titres',
+    ],
+    images: [
+      {
+        src: '/portfolio/nexus/01.jpg',
+        width: 941,
+        height: 1672,
+        alt: 'Visuel de Nexus : logo et écran d’accueil de l’application sur téléphone',
+      },
+    ],
   },
 ];
 

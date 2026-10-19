@@ -9,12 +9,13 @@ import HeroTitle from '@/components/HeroTitle';
 import { BlackHoleHero, BlackHoleLayer, GravityPull } from '@/components/BlackHoleHero';
 import BigBang from '@/components/BigBang';
 import ProcessSteps, { type ProcessStep } from '@/components/ProcessSteps';
-import { ProjectThumb } from '@/components/ProjectMedia';
+import { ProjectThumb, isPortrait } from '@/components/ProjectMedia';
 import { Section, SectionHeading } from '@/components/Section';
 import { projects, services, site } from '@/lib/site';
 
-const featured = projects.filter((p) =>
-  ['trouve-ton-artisan', 'maintenance-ramonage-services', 'gdf'].includes(p.slug),
+// Cartes de l'accueil, dans l'ordre d'affichage.
+const featured = ['maintenance-ramonage-services', 'gdf', 'nexus'].flatMap((slug) =>
+  projects.filter((p) => p.slug === slug),
 );
 
 const proof: [string, string][] = [
@@ -188,29 +189,37 @@ export default function HomePage() {
             </Link>
           </div>
         </Reveal>
-        <Stagger className="mt-16 grid gap-6 md:grid-cols-3">
-          {featured.map((p) => (
-            <StaggerItem key={p.slug} hover className="h-full">
-              <Link
-                href={`/portfolio/${p.slug}`}
-                className="glass-panel group flex h-full flex-col"
+        {/* Deux cartes à gauche, la carte au visuel vertical sur toute la hauteur à droite */}
+        <Stagger className="mt-16 grid gap-6 md:grid-cols-[1.15fr_1fr]">
+          {featured.map((p) => {
+            const tall = isPortrait(p.images?.[0]);
+            return (
+              <StaggerItem
+                key={p.slug}
+                hover
+                className={`h-full ${tall ? 'md:col-start-2 md:row-span-2 md:row-start-1' : ''}`}
               >
-                <ProjectThumb project={p} className="mb-5" />
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg transition-colors group-hover:text-accent">{p.name}</h3>
-                  {p.status && (
-                    <span className="shrink-0 rounded-md border border-white/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/55">
-                      {p.status}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-2 text-sm text-white/65">{p.tagline}</p>
-                <p className="mt-auto pt-4 font-mono text-xs text-neutraltxt">
-                  {p.stack.join(' · ')}
-                </p>
-              </Link>
-            </StaggerItem>
-          ))}
+                <Link
+                  href={`/portfolio/${p.slug}`}
+                  className="glass-panel group flex h-full flex-col"
+                >
+                  <ProjectThumb project={p} tall={tall} className="mb-5" />
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="text-lg transition-colors group-hover:text-accent">{p.name}</h3>
+                    {p.status && (
+                      <span className="shrink-0 rounded-md border border-white/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/55">
+                        {p.status}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-sm text-white/65">{p.tagline}</p>
+                  <p className="mt-auto pt-4 font-mono text-xs text-neutraltxt">
+                    {p.stack.join(' · ')}
+                  </p>
+                </Link>
+              </StaggerItem>
+            );
+          })}
         </Stagger>
         <div className="mt-10 sm:hidden">
           <Link href="/portfolio" className="btn-outline w-full">
