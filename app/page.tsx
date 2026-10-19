@@ -199,13 +199,18 @@ export default function HomePage() {
                 hover
                 className={`h-full ${tall ? 'md:col-start-2 md:row-span-2 md:row-start-1' : ''}`}
               >
-                <Link
-                  href={`/portfolio/${p.slug}`}
-                  className="glass-panel group flex h-full flex-col"
-                >
+                {/* Carte entière cliquable (lien étiré sur le titre) ; « Voir le site » passe au-dessus */}
+                <div className="glass-panel group relative flex h-full flex-col">
                   <ProjectThumb project={p} tall={tall} className="mb-5" />
                   <div className="flex items-center justify-between gap-3">
-                    <h3 className="text-lg transition-colors group-hover:text-accent">{p.name}</h3>
+                    <h3 className="text-lg transition-colors group-hover:text-accent">
+                      <Link
+                        href={`/portfolio/${p.slug}`}
+                        className="after:absolute after:inset-0 after:rounded-[inherit] after:content-['']"
+                      >
+                        {p.name}
+                      </Link>
+                    </h3>
                     {p.status && (
                       <span className="shrink-0 rounded-md border border-white/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/55">
                         {p.status}
@@ -216,7 +221,18 @@ export default function HomePage() {
                   <p className="mt-auto pt-4 font-mono text-xs text-neutraltxt">
                     {p.stack.join(' · ')}
                   </p>
-                </Link>
+                  {p.url && (
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link-arrow relative z-10 mt-4 self-start"
+                    >
+                      Voir le site
+                      <Icon name="external" className="h-3.5 w-3.5" />
+                    </a>
+                  )}
+                </div>
               </StaggerItem>
             );
           })}

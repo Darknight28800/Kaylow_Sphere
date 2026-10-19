@@ -163,6 +163,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'maintenance-ramonage-services',
+    url: 'https://site-production-fdaa.up.railway.app/',
     name: 'Maintenance Ramonage Services',
     tagline: "Site vitrine d'un artisan ramoneur, avec prise de rendez-vous en ligne.",
     stack: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP'],
@@ -203,6 +204,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'gdf',
+    url: 'https://facturepro.kaylowsphere.com/',
     name: 'FacturePro',
     tagline:
       'SaaS gestion de devis et de facturation et de gestion financière pour freelances, PME et Grande Entreprise.',

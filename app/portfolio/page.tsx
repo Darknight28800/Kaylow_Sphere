@@ -27,14 +27,19 @@ export default function PortfolioPage() {
         <Stagger className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((p) => (
             <StaggerItem key={p.slug} hover className="h-full">
-              <Link
-                href={`/portfolio/${p.slug}`}
-                className="glass-panel group flex h-full flex-col"
-              >
+              {/* Carte entière cliquable (lien étiré sur le titre) ; « Voir le site » passe au-dessus */}
+              <div className="glass-panel group relative flex h-full flex-col">
                 <ProjectThumb project={p} className="mb-5" />
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h2 className="text-xl transition-colors group-hover:text-accent">{p.name}</h2>
+                    <h2 className="text-xl transition-colors group-hover:text-accent">
+                      <Link
+                        href={`/portfolio/${p.slug}`}
+                        className="after:absolute after:inset-0 after:rounded-[inherit] after:content-['']"
+                      >
+                        {p.name}
+                      </Link>
+                    </h2>
                     <p className="mt-1 font-mono text-xs uppercase tracking-wider text-white/60">
                       {p.type}
                     </p>
@@ -49,11 +54,24 @@ export default function PortfolioPage() {
                 <p className="mt-auto pt-5 font-mono text-xs text-neutraltxt">
                   {p.stack.join(' · ')}
                 </p>
-                <span className="link-arrow mt-4">
-                  Détail du projet
-                  <Icon name="arrow-right" className="h-3.5 w-3.5" />
-                </span>
-              </Link>
+                <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
+                  <span className="link-arrow">
+                    Détail du projet
+                    <Icon name="arrow-right" className="h-3.5 w-3.5" />
+                  </span>
+                  {p.url && (
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link-arrow relative z-10"
+                    >
+                      Voir le site
+                      <Icon name="external" className="h-3.5 w-3.5" />
+                    </a>
+                  )}
+                </div>
+              </div>
             </StaggerItem>
           ))}
         </Stagger>
