@@ -2,7 +2,23 @@
 
 > Document de passation. Généré le 2026-09-02, **mis à jour le 2026-10-18**.
 > À transmettre à Claude Code sur l'autre PC pour reprendre le travail.
-> Commencer par la section **0 bis** (dernière session) puis **0**, le reste décrit le socle.
+> Commencer par la section **0 ter** (dernière session), puis **0 bis** et **0**, le reste décrit le socle.
+
+---
+
+## 0 ter. Session du 19/10/2026 — À EXÉCUTER EN PREMIER sur l'autre PC
+
+Correctif de sécurité Hostinger (PR #1, `hostinger[bot]`) fusionné : `next` 15.5.24 → **15.5.28**, `sharp` 0.35.4 → **0.35.5** (`package.json` + `package-lock.json`, commits `2b99a2f` et `d9d75d6`). Les `node_modules` de l'autre PC sont donc périmés :
+
+```bash
+git pull
+npm install        # installe next 15.5.28 et sharp 0.35.5
+rm -rf .next       # cache propre
+npm run check && npm run build   # doit passer
+```
+
+- Vérifier ensuite : `grep '"version"' node_modules/next/package.json` → 15.5.28.
+- À l'avenir, ne pas fusionner une PR `hostinger[bot]` directement sur GitHub : elle ne met pas à jour le lockfile. La fusionner en local, `npm install`, vérifier, puis pousser `package-lock.json`.
 
 ---
 
