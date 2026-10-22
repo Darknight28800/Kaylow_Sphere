@@ -175,15 +175,17 @@ export default function HomePage() {
       </Section>
 
       {/* Réalisations phares */}
-      <Section tone="panel" className="border-y border-white/10">
+      {/* Fond blanc, cartes bleu nuit opaques (section-white, globals.css) */}
+      <Section tone="clear" className="section-white text-ink">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
               eyebrow="Portfolio"
               title="Quelques réalisations"
               intro="Des projets clients et des produits que je développe et maintiens moi-même."
+              tone="mist"
             />
-            <Link href="/portfolio" className="link-arrow hidden sm:inline-flex">
+            <Link href="/portfolio" className="link-arrow hidden text-brand sm:inline-flex">
               Tout le portfolio
               <Icon name="arrow-right" className="h-3.5 w-3.5" />
             </Link>

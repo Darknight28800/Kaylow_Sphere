@@ -635,3 +635,28 @@
     transition: opacity 0.4s ease;
   }
 }
+
+/* Section claire (accueil, « Quelques réalisations ») : cartes bleu nuit opaques,
+   sinon le blanc transparaît à travers le verre */
+.section-white {
+  /* Blanc, puis fondu vers le bleu nuit de la zone Big Bang qui suit (#050b2b = navy) */
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #ffffff 50%,
+    #e4e9fb 64%,
+    #8e9bd6 78%,
+    #2a3474 90%,
+    #050b2b 100%
+  );
+}
+.section-white .glass-panel {
+  background-color: #090e2e;
+  box-shadow: 0 24px 50px -24px rgba(5, 11, 43, 0.45);
+}
+.section-white .glass-panel:hover {
+  background-color: #0e153c;
+}
+.section-white .btn-outline {
+  background-color: #090e2e;
+}
