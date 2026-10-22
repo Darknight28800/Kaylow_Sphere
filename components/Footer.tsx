@@ -114,10 +114,10 @@ export default function Footer() {
               <Image
                 src={partner.logo}
                 alt={partner.name}
-                width={306}
+                width={612}
                 height={160}
                 unoptimized
-                className="h-16 w-auto sm:h-[4.5rem]"
+                className="h-12 w-auto sm:h-14"
               />
             </a>
           </div>

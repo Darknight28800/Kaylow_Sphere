@@ -37,7 +37,7 @@ export const site = {
 export const partner = {
   name: 'ARTNumérique',
   url: 'https://www.xn--artnumrique-gbb.fr',
-  logo: '/partners/artnumerique.png',
+  logo: '/partners/artn.png',
   contactName: 'Renaud Vaillant',
   // Affichage en unicode, href en punycode pour la compatibilité des clients mail.
   email: 'renaud.vaillant@artnumérique.fr',
