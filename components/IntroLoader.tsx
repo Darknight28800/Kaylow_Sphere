@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import Image from 'next/image';
 
 const KEY = 'sw-intro-played';
 
-/* Durées des phases en millisecondes — ajustables librement (total ≈ 5 s).
+/* Durées des phases en millisecondes — ajustables librement (total 6 s).
    La page est révélée dès que la sphère a disparu (fin de l'accélération). */
 const PHASE = {
   cruise: 1_100, // 1. en hyper-espace
   decelerate: 1_200, // 2. décélération — la sphère se rapproche
-  hold: 1_600, // 3. sphère au centre + barre
+  hold: 2_500, // 3. sphère au centre : l'anneau se dessine, le nom s'écrit
   accelerate: 1_200, // 4. ré-accélération — la sphère zoome et s'efface
 } as const;
 
@@ -31,8 +31,33 @@ const SPEED = 0.7; // vitesse de croisière (unités de profondeur / s)
 const REVEAL_MS = 600; // durée d'apparition de la page
 const SPHERE_ZOOM = 55; // facteur d'agrandissement de la sphère pendant l'accélération
 
+const RING_R = 47; // rayon de l'anneau (viewBox 100 × 100)
+const RING_LEN = 2 * Math.PI * RING_R;
+const RING_CLOSE = 0.8; // part de la phase « hold » au bout de laquelle l'anneau est fermé
+
+/* Nom écrit sous la sphère : une couleur par lettre, du bleu électrique au violet du logo */
+const NAME = 'KAYLOW SPHERE';
+const GRADIENT: [number, number, number][] = [
+  [91, 140, 255], // #5B8CFF
+  [123, 98, 248], // #7B62F8
+  [91, 61, 246], // #5B3DF6
+];
+const letterColor = (t: number) => {
+  const seg = Math.min(GRADIENT.length - 2, Math.floor(t * (GRADIENT.length - 1)));
+  const k = t * (GRADIENT.length - 1) - seg;
+  const a = GRADIENT[seg];
+  const b = GRADIENT[seg + 1];
+  return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(', ')})`;
+};
+const LETTERS = Array.from(NAME).map((ch, i) => ({
+  ch,
+  color: letterColor(i / (NAME.length - 1)),
+  delay: i * 85,
+}));
+
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 const easeIn = (t: number) => t * t * t;
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const clamp01 = (t: number) => Math.min(1, Math.max(0, t));
 
 export default function IntroLoader() {
@@ -42,8 +67,9 @@ export default function IntroLoader() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sphereRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
-  const countRef = useRef<HTMLParagraphElement>(null);
+  const ringRef = useRef<SVGCircleElement>(null);
+  const cometRef = useRef<SVGCircleElement>(null);
+  const [ringClosed, setRingClosed] = useState(false);
   const doneRef = useRef(false);
   const hudOnRef = useRef(false);
   const revealFnRef = useRef<() => void>(() => {});
@@ -131,6 +157,7 @@ export default function IntroLoader() {
     let last = start;
     let raf = 0;
     let hudShown = false;
+    let closed = false;
 
     const currentPhase = (t: number): Phase | 'reveal' => {
       for (const p of SEQ) if (t < BOUND[p][1]) return p;
@@ -170,8 +197,19 @@ export default function IntroLoader() {
           hudShown = true;
           setHudOn(true);
         }
-        if (barRef.current) barRef.current.style.transform = `scaleX(${p.toFixed(3)})`;
-        if (countRef.current) countRef.current.textContent = `${Math.round(clamp01(p) * 100)} %`;
+        /* L'anneau se dessine autour de la sphère, une comète en tête */
+        const r = easeInOut(clamp01(p / RING_CLOSE));
+        if (ringRef.current) ringRef.current.style.strokeDashoffset = String(RING_LEN * (1 - r));
+        if (cometRef.current) {
+          const a = -Math.PI / 2 + r * 2 * Math.PI;
+          cometRef.current.setAttribute('cx', (50 + RING_R * Math.cos(a)).toFixed(2));
+          cometRef.current.setAttribute('cy', (50 + RING_R * Math.sin(a)).toFixed(2));
+          cometRef.current.style.opacity = r >= 0.999 ? '0' : '1';
+        }
+        if (!closed && r >= 0.999) {
+          closed = true;
+          setRingClosed(true);
+        }
       } else if (phase === 'accelerate') {
         const p = (t - BOUND.accelerate[0]) / PHASE.accelerate;
         speed = SPEED * 1.2 * easeIn(p);
@@ -242,6 +280,32 @@ export default function IntroLoader() {
       <canvas ref={canvasRef} className="intro__canvas" />
 
       <div ref={sphereRef} className="intro__sphere-wrap">
+        {/* Anneau d'orbite : se dessine pendant la pause, éclat à la fermeture */}
+        <svg
+          className={`intro__ring ${ringClosed ? 'intro__ring--closed' : ''}`}
+          viewBox="0 0 100 100"
+        >
+          <defs>
+            <linearGradient id="intro-ring-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#5B8CFF" />
+              <stop offset="50%" stopColor="#7B62F8" />
+              <stop offset="100%" stopColor="#5B3DF6" />
+            </linearGradient>
+          </defs>
+          <circle className="intro__ring-track" cx="50" cy="50" r={RING_R} />
+          <circle
+            ref={ringRef}
+            className="intro__ring-line"
+            cx="50"
+            cy="50"
+            r={RING_R}
+            stroke="url(#intro-ring-grad)"
+            strokeDasharray={RING_LEN}
+            strokeDashoffset={RING_LEN}
+            transform="rotate(-90 50 50)"
+          />
+          <circle ref={cometRef} className="intro__ring-comet" cx="50" cy={50 - RING_R} r="1.4" />
+        </svg>
         <div className="intro__sphere-spin">
           <Image
             src="/logo-sphere.png"
@@ -255,13 +319,23 @@ export default function IntroLoader() {
       </div>
 
       <div className={`intro__hud ${hudOn ? 'intro__hud--on' : ''}`}>
-        <p className="intro__hud-label">Bienvenue au cœur du web</p>
-        <div className="intro__bar">
-          <div ref={barRef} className="intro__bar-fill" />
-        </div>
-        <p ref={countRef} className="intro__count">
-          0&nbsp;%
+        {/* Nom de marque : chaque lettre s'allume l'une après l'autre */}
+        <p className="intro__name">
+          {LETTERS.map(({ ch, color, delay }, i) =>
+            ch === ' ' ? (
+              <span key={i} className="intro__name-space" />
+            ) : (
+              <span
+                key={i}
+                className="intro__letter"
+                style={{ color, '--glow': color, animationDelay: `${delay}ms` } as CSSProperties}
+              >
+                {ch}
+              </span>
+            ),
+          )}
         </p>
+        <p className="intro__tagline">Création · Développement · Innovation</p>
       </div>
 
       <button type="button" className="intro__skip" onClick={() => revealFnRef.current()}>
