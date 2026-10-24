@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Icon from '@/components/Icon';
 import CtaBand from '@/components/CtaBand';
+import ContactForm from '@/components/ContactForm';
 import Testimonials from '@/components/Testimonials';
 import Reveal from '@/components/Reveal';
 import { Stagger, StaggerItem } from '@/components/Stagger';
@@ -12,6 +13,11 @@ import ProcessSteps, { type ProcessStep } from '@/components/ProcessSteps';
 import { ProjectThumb, isPortrait } from '@/components/ProjectMedia';
 import { Section, SectionHeading } from '@/components/Section';
 import { projects, services, site } from '@/lib/site';
+import type { Metadata } from 'next';
+
+// URL canonique de l'accueil : sans elle, Google voyait www.kaylowsphere.com et kaylowsphere.com comme deux pages
+// en double (Search Console, 24/10/2026). Le titre et la description restent ceux du layout.
+export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 // Cartes de l'accueil, dans l'ordre d'affichage.
 const featured = ['maintenance-ramonage-services', 'gdf', 'nexus'].flatMap((slug) =>
@@ -264,6 +270,20 @@ export default function HomePage() {
       </Section>
 
       <Testimonials />
+
+      {/* Formulaire directement sur l'accueil : un visiteur pressé peut écrire sans changer de page */}
+      <Section tone="clear" id="contact-rapide">
+        <Reveal>
+          <SectionHeading
+            eyebrow="Contact"
+            title="Parlons de votre projet"
+            intro="Quelques lignes suffisent : je vous réponds sous 48 h ouvrées avec un premier avis."
+          />
+        </Reveal>
+        <div className="mx-auto mt-12 max-w-2xl">
+          <ContactForm />
+        </div>
+      </Section>
 
       <CtaBand />
     </>

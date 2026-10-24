@@ -65,7 +65,16 @@ const nextConfig = {
   env: serverEnv,
   // La démo IA a été retirée : les anciens liens renvoient vers l'accueil.
   async redirects() {
-    return [{ source: '/demo', destination: '/', permanent: true }];
+    return [
+      { source: '/demo', destination: '/', permanent: true },
+      // Une seule adresse pour Google : www.kaylowsphere.com renvoie vers kaylowsphere.com (page en double sinon).
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.kaylowsphere.com' }],
+        destination: 'https://kaylowsphere.com/:path*',
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [

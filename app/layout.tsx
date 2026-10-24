@@ -51,7 +51,8 @@ const jetbrainsMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Création de site internet à Chartres et en Eure-et-Loir`,
+    // 30 a 60 caracteres, ville de l'activite comprise (audit SEO local du 24/10/2026).
+    default: `Création site internet Bonneval et Chartres — ${site.name}`,
     template: `%s — ${site.name}`,
   },
   description: `${site.baseline} Sites vitrines, applications web sur mesure et maintenance par ${site.legalName}, développeur web fullstack en ${site.location}.`,
