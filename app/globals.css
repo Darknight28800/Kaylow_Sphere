@@ -24,6 +24,16 @@
     @apply bg-navy font-sans text-white/80 antialiased;
   }
 
+  /* Listes déroulantes : sans cela, Chrome/Windows ouvre la liste sur fond blanc
+     avec le texte blanc hérité du champ — seules les options survolées restent lisibles. */
+  select {
+    color-scheme: dark;
+  }
+  select option {
+    background-color: #0a1238;
+    color: #fff;
+  }
+
   h1,
   h2,
   h3,
