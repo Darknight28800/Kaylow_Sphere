@@ -33,7 +33,6 @@ export default function HeroTitle() {
           <span className="bg-gradient-to-r from-accent via-brand-400 to-brand bg-clip-text text-transparent">
             projet web
           </span>
-          .
         </motion.span>
       </span>
     </motion.h1>
