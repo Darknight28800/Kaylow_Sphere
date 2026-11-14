@@ -31,6 +31,7 @@ function PortraitFill({
         src={image.src}
         alt={image.alt}
         fill
+        quality={90}
         priority={priority}
         sizes={sizes}
         className="object-contain"
@@ -47,10 +48,13 @@ export function ProjectThumb({
   project,
   className = '',
   tall = false,
+  sizes = '(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 440px',
 }: {
   project: Project;
   className?: string;
   tall?: boolean;
+  /** Largeur affichée réelle : trop petite, le navigateur charge une image floue. */
+  sizes?: string;
 }) {
   const cover = project.images?.[0];
   const portrait = isPortrait(cover);
@@ -60,14 +64,15 @@ export function ProjectThumb({
       className={`relative w-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] ${shape} ${className}`}
     >
       {cover && portrait ? (
-        <PortraitFill image={cover} sizes="(max-width: 768px) 100vw, 560px" />
+        <PortraitFill image={cover} sizes={sizes} />
       ) : cover ? (
         <Image
           src={cover.src}
           alt={cover.alt}
           fill
-          sizes="(max-width: 768px) 100vw, 400px"
-          className="object-cover"
+          quality={90}
+          sizes={sizes}
+          className="object-cover object-top"
         />
       ) : (
         <div
@@ -134,8 +139,9 @@ export function ProjectGallery({ project }: { project: Project }) {
             alt={first.alt}
             fill
             priority
-            sizes="(max-width: 1024px) 100vw, 900px"
-            className="object-cover"
+            quality={90}
+            sizes="(max-width: 1024px) 100vw, 1200px"
+            className="object-cover object-top"
           />
         </div>
       )}
@@ -150,7 +156,8 @@ export function ProjectGallery({ project }: { project: Project }) {
                 src={img.src}
                 alt={img.alt}
                 fill
-                sizes="(max-width: 640px) 100vw, 450px"
+                quality={90}
+                sizes="(max-width: 640px) 100vw, 600px"
                 className="object-cover"
               />
             </div>

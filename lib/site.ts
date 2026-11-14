@@ -143,7 +143,7 @@ export const projects: Project[] = [
     tagline: "Plateforme d'annuaire d'artisans.",
     stack: ['React', 'Node.js', 'Express'],
     type: 'Plateforme / annuaire',
-    status: 'en ligne',
+    status: 'en cours',
     context:
       "Mettre en relation des particuliers et des artisans d'une région à travers un annuaire consultable et filtrable par métier et par secteur.",
     solution:
@@ -163,12 +163,12 @@ export const projects: Project[] = [
   },
   {
     slug: 'maintenance-ramonage-services',
-    url: 'https://site-production-fdaa.up.railway.app/',
+    url: 'https://www.ramonage-idf.fr/',
     name: 'Maintenance Ramonage Services',
     tagline: "Site vitrine d'un artisan ramoneur, avec prise de rendez-vous en ligne.",
     stack: ['Astro', 'TypeScript', 'Tailwind CSS', 'GSAP'],
     type: 'Site vitrine client',
-    status: 'en cours',
+    status: 'en ligne',
     context:
       'Kévin, artisan ramoneur en Eure-et-Loir, intervient sur les poêles à granulés, poêles à bois, inserts et cheminées. Les trois quarts de sa clientèle ont plus de 60 ans : le site devait être avant tout lisible et simple à utiliser.',
     solution:
@@ -210,7 +210,7 @@ export const projects: Project[] = [
       'SaaS gestion de devis et de facturation et de gestion financière pour freelances, PME et Grande Entreprise.',
     stack: ['TypeScript', 'Express', 'Sequelize'],
     type: 'SaaS de facturation',
-    status: 'produit personnel',
+    status: 'en ligne',
     context:
       'Outil personnel devenu produit : aider les freelances à gérer devis, factures et suivi financier au même endroit, sans tableur.',
     solution:

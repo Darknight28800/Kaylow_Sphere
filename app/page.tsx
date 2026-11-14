@@ -209,7 +209,12 @@ export default function HomePage() {
               >
                 {/* Carte entière cliquable (lien étiré sur le titre) ; « Voir le site » passe au-dessus */}
                 <div className="glass-panel group relative flex h-full flex-col">
-                  <ProjectThumb project={p} tall={tall} className="mb-5" />
+                  <ProjectThumb
+                    project={p}
+                    tall={tall}
+                    sizes="(max-width: 768px) 100vw, 860px"
+                    className="mb-5"
+                  />
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="text-lg transition-colors group-hover:text-accent">
                       <Link
